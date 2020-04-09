@@ -1,56 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
+import {useQuery} from '@apollo/react-hooks';
+import {GET_STUDIES} from '../queries';
+import ProjectCard from './ProjectCard';
 
 function Projects(){
+    const {loading, data, error} = useQuery(GET_STUDIES);
    return (
        <ProjectWrapper>
            <ProjectsTittle> Current Projects </ProjectsTittle>
            <Cards>
-           <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Digestive study</h5>
-                    <p class="card-text">Inflamation</p>
-                    <p>Phase 1</p>
-                    <a href="#" class=" btn-card">View study</a>
-                </div>
-           </div>
-
-           <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Digestive study</h5>
-                    <p class="card-text">Inflamation</p>
-                    <p>Phase 1</p>
-                    <a href="#" class=" btn-card">View study</a>
-                </div>
-           </div>
-
-           <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Digestive study</h5>
-                    <p class="card-text">Inflamation</p>
-                    <p>Phase 1</p>
-                    <a href="#" class=" btn-card">View study</a>
-                </div>
-           </div>
-           
-           <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Digestive study</h5>
-                    <p class="card-text">Inflamation</p>
-                    <p>Phase 1</p>
-                    <a href="#" class=" btn-card">View study</a>
-                </div>
-           </div>
-           
-           <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Digestive study</h5>
-                    <p class="card-text">Inflamation</p>
-                    <p>Phase 1</p>
-                    <a href="#" class=" btn-card">View study</a>
-                </div>
-           </div>
+                {loading ? <p>Loading...</p>: 
+                data.studies.map(study =>
+                    <ProjectCard
+                        key={study.id}
+                        name={study.name}
+                        area={study.area}
+                        phase={study.phase}/>)}
            </Cards>
 
        </ProjectWrapper>
