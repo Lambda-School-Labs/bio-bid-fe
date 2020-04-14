@@ -4,10 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import {ApolloClient} from 'apollo-boost';
-import {ApolloProvider} from '@apollo/react-hooks';
+import {ApolloProvider} from 'react-apollo';
+import ApolloClient from 'apollo-boost';
 
-const client = new ApolloClient({uri: 'http://ec2-34-195-186-223.compute-1.amazonaws.com/'});
+const client = new ApolloClient({uri: 'http://ec2-34-195-186-223.compute-1.amazonaws.com/'})
 
 ReactDOM.render(
   <React.StrictMode>

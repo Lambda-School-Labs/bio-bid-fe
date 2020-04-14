@@ -1,7 +1,12 @@
 import React from "react";
 import MaterialTable from "material-table";
 
+import {useQuery} from '@apollo/react-hooks';
+import {GET_STUDIES} from '../queries';
+
 export default function Table() {
+  const {loading, data, error} = useQuery(GET_STUDIES);
+  console.log(data);
   const [state, setState] = React.useState({
     columns: [
         { title: "BIDS", field: "bids" },
@@ -18,143 +23,7 @@ export default function Table() {
         lookup: { }
       }
     ],
-    data: [
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-      {
-        name: "Second study",
-        Therapeutic: "Inflammation",
-        protocol: "ABZ-123",
-        Phase: "I",
-        Serverlist: 1,
-        modify: "April 19 ,2019",
-        actions: ""
-      },
-    ]
+  
   });
 
   return (
