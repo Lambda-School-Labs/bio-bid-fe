@@ -3,6 +3,10 @@ import MaterialTable from "material-table";
 import axios from 'axios';
 
 export default function Table() {
+  const setStudies = (result) => {
+    const {studies} = result.data;
+    setState({...state, data: [...studies]})
+  }
   useEffect(() => {
     axios({
       url: 'http://ec2-34-195-186-223.compute-1.amazonaws.com/',
@@ -25,12 +29,8 @@ export default function Table() {
       setStudies(res.data);
     })
     .catch(error => console.log(error));
-  }, [])
+  }, [setStudies])
 
-  const setStudies = (result) => {
-    const {studies} = result.data;
-    setState({...state, data: [...studies]})
-  }
   const [state, setState] = useState({
     columns: [
         { title: "BIDS", field: "bids" },
@@ -49,7 +49,7 @@ export default function Table() {
     ],
     data: []
   });
-console.log(state)
+
   return (
     <MaterialTable
        title="Current Projects"
