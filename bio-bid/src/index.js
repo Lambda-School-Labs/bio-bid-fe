@@ -10,11 +10,9 @@ import ApolloClient from 'apollo-boost';
 const client = new ApolloClient({uri: 'http://ec2-34-195-186-223.compute-1.amazonaws.com/'})
 
 ReactDOM.render(
-  <React.StrictMode>
     <ApolloProvider client={client}>
       <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+    </ApolloProvider>,
   document.getElementById('root')
 );
 
