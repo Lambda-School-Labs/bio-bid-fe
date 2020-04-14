@@ -1,36 +1,9 @@
 import React,{useEffect, useState} from "react";
 import MaterialTable from "material-table";
 import axios from 'axios';
+import { GET_STUDIES } from "../queries";
 
 export default function Table() {
-  const setStudies = (result) => {
-    const {studies} = result.data;
-    setState({...state, data: [...studies]})
-  }
-  useEffect(() => {
-    axios({
-      url: 'http://ec2-34-195-186-223.compute-1.amazonaws.com/',
-      method: 'post',
-      data: {
-        query: `
-          query {
-            studies {
-              id
-              name
-              area
-              phase
-            }
-          }
-        `
-      }
-    })
-    .then(res =>
-    {
-      setStudies(res.data);
-    })
-    .catch(error => console.log(error));
-  }, [setStudies])
-
   const [state, setState] = useState({
     columns: [
         { title: "BIDS", field: "bids" },
@@ -49,6 +22,19 @@ export default function Table() {
     ],
     data: []
   });
+
+  const setStudies = (result) => {
+    const {studies} = result.data;
+    setState({...state, data: [...studies]})
+  }
+  useEffect(() => {
+    axios.post('http://ec2-34-195-186-223.compute-1.amazonaws.com/', {query: GET_STUDIES})
+    .then(res =>
+    {
+      setStudies(res.data);
+    })
+    .catch(error => console.log(error));
+  }, [setStudies])
 
   return (
     <MaterialTable
