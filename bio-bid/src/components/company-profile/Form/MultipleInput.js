@@ -86,6 +86,14 @@ const DropDown = styled.div`
 `;
 
 export default (props) => {
+    /*
+        open - State to determine if the dropdown for the input should be open or not
+        preview - An array of the selected and inserted data of an input
+        custom - If the user types in their own custom data, it is being controlled
+            with this state
+        filter - All of the suggestions passed in from the parent component from the db
+            are stored in here when the component renders
+    */
     const [ open, setOpen ] = useState(false);
     const [ preview, setPreview ] = useState([]);
     const [ custom, setCustom ] = useState('');
@@ -137,14 +145,14 @@ export default (props) => {
     // Send preview data to parent component
     useEffect(() => {
         handleMultiUpdate(props.name, preview);
-    }, [ preview ])
+    }, [ props.name, preview ])
 
     useEffect(() => {
         if(props.preview){
             const previewMapped = props.preview.map(item => item.name);
             setPreview(previewMapped);
         }
-    }, [])
+    }, []);
 
     return (
         <InputWrapper onSubmit={handleSubmit}>

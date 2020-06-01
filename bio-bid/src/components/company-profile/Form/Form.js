@@ -9,7 +9,7 @@ import WarningCard from './WarningCard';
 import MultipleInput from './MultipleInput';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Body, LinkedIn, Button, Form, Error } from './styles';
+import { Body, LinkedIn, Button, Form, HeaderError, SucceessMessage } from './styles';
 
 import scienceAsset from '../../../images/science-asset.svg';
 import defaultLogo from '../../../images/default-company-logo.png';
@@ -23,7 +23,9 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default (props) => {
+    // id will only be available if props.edit === true
     const { id } = useParams();
+
     const classes = useStyles();
     const history = useHistory();
 
@@ -32,12 +34,22 @@ export default (props) => {
         importWarning - Boolean state for warning type when attempting to import
         linkedInError - Boolean state based on if the linkedInUrl in the `linkedin` input field is valid
         appError - Stores any errors that exist in the Form component
+        headerError - Boolean state for whether an error should be displayed or not
+        headerErrorText - Stores the value of the error
+        headerSuccess- Boolean state for when changes are saved successfully
+        logo - The current logo image pulled in from LinkedIn/default
+        regions, therapeutics, services, specialties - State to keep track of the mapped 
+            data from the database for these properties
+        newId - When creating a new company profile, this is the new id is stored here
+        addLoading - State to determine if the mutation to add/update a company is loading
     */
     const [ open, setOpen ] = useState(false);
     const [ importWarning, setImportWarning ] = useState(false);
     const [ linkedInError, setLinkedInError] = useState(false);
     const [ appError, setAppError] = useState(null);
-    const [ headerError, setHeaderError ] = useState(null);
+    const [ headerError, setHeaderError ] = useState(false);
+    const [ headerErrorText, setHeaderErrorText ] = useState('');
+    const [ headerSuccess, setHeaderSuccess ] = useState(false);
     const [ logo, setLogo ] = useState(defaultLogo);
     const [ regions, setRegions ] = useState(null);
     const [ therapeutics, setTherapeutics ] = useState(null);
@@ -59,7 +71,10 @@ export default (props) => {
                 addCompany({ variables: {name: formData.name, imgURL: formData.imgURL} })
             
     */
-    const { loading: companyLoading, error: companyError, data: companyData } = useQuery(GET_COMPANY_BY_ID, { variables: { id } });
+    const { loading: companyLoading, error: companyError, data: companyData } = useQuery(GET_COMPANY_BY_ID, { 
+        variables: { id },
+        skip: props.edit === false
+    });
     const { error: regionsError, data: regionsData } = useQuery(GET_REGIONS);
     const { error: therapeuticsError, data: therapeuticsData } = useQuery(GET_THERAPEUTICS);
     const { error: servicesError, data: servicesData} = useQuery(GET_SERVICES);
@@ -130,52 +145,80 @@ export default (props) => {
         })
     }
 
+    /*
+        Submit event handler
+        - Handles sending the formData to backend for adding a new company
+        - Handles sending the formData to the backend for edits
+        - Checks to make sure that the name field isn't null or empty
+        - Handles loading state to display a spinner while mutations run
+    */
     const handleSubmit = async(e) => {
         e.preventDefault();
         if(props.edit){
             if(!formData.name){
-                setHeaderError('Missing required field: Company Name');
+                setHeaderError(true);
+                setHeaderErrorText('Missing required field: Company Name');
                 window.scrollTo(0, 0);
             }else{
-                setHeaderError(null);
+                setHeaderError(false);
+                setHeaderErrorText('');
                 setAddLoading(true);
-                await editCompany({ variables: {
-                    id: id,
-                    name: formData.name,
-                    logoURL: formData.logoURL,
-                    website: formData.website,
-                    linkedin: formData.linkedin,
-                    overview: formData.overview,
-                    headquarters: formData.headquarters,
-                    companySize: formData.companySize === '' ? null : formData.companySize,
-                    regions: formData.regionsCovered,
-                    therapeutics: formData.therapeuticAreas,
-                    services: formData.services,
-                    specialties: formData.specialties
-                }});
-                setAddLoading(false);
+                try{
+                    await editCompany({ variables: {
+                        id: id,
+                        name: formData.name,
+                        logoURL: formData.logoURL,
+                        website: formData.website,
+                        linkedin: formData.linkedin,
+                        overview: formData.overview,
+                        headquarters: formData.headquarters,
+                        companySize: formData.companySize === '' ? null : formData.companySize,
+                        regions: formData.regionsCovered,
+                        therapeutics: formData.therapeuticAreas,
+                        services: formData.services,
+                        specialties: formData.specialties
+                    }});
+                    setAddLoading(false);
+                    setHeaderSuccess(true);
+                }
+                catch(error){
+                    console.log(error);
+                    setAddLoading(false);
+                    setHeaderError(true);
+                    setHeaderErrorText('The company name already exists');
+                }
             }
         }else{
             if(!formData.name){
-                setHeaderError('Missing required field: Company Name');
+                setHeaderError(true);
+                setHeaderErrorText('Missing required field: Company Name');
                 window.scrollTo(0, 0);
             }else{
-                setHeaderError(null);
+                setHeaderError(false);
+                setHeaderErrorText('');
                 setAddLoading(true);
-                await addCompany({ variables: {
-                    name: formData.name,
-                    logoURL: formData.logoURL,
-                    website: formData.website,
-                    linkedin: formData.linkedin,
-                    overview: formData.overview,
-                    headquarters: formData.headquarters,
-                    companySize: formData.companySize === '' ? null : formData.companySize,
-                    regions: formData.regionsCovered,
-                    therapeutics: formData.therapeuticAreas,
-                    services: formData.services,
-                    specialties: formData.specialties
-                }});
-                setAddLoading(false);
+                try{
+                    await addCompany({ variables: {
+                        name: formData.name,
+                        logoURL: formData.logoURL,
+                        website: formData.website,
+                        linkedin: formData.linkedin,
+                        overview: formData.overview,
+                        headquarters: formData.headquarters,
+                        companySize: formData.companySize === '' ? null : formData.companySize,
+                        regions: formData.regionsCovered,
+                        therapeutics: formData.therapeuticAreas,
+                        services: formData.services,
+                        specialties: formData.specialties
+                    }});
+                    setAddLoading(false);
+                }
+                catch(error){
+                    console.log(error);
+                    setAddLoading(false);
+                    setHeaderError(true);
+                    setHeaderErrorText('The company name already exists');
+                }
             }
         }        
     }
@@ -219,7 +262,8 @@ export default (props) => {
     useEffect(() => {
         if(props.edit){
             if(companyData){
-                setHeaderError(null);
+                setHeaderErrorText('');
+                setHeaderError(false);
                 const regionsMapped = companyData.company.regions.map(region => ({ name: region.name }));
                 const therapeuticsMapped = companyData.company.therapeutics.map(therapeutic => ({ name: therapeutic.name }));
                 const servicesMapped = companyData.company.services.map(service => ({ name: service.name }));
@@ -239,10 +283,11 @@ export default (props) => {
                 })
             }
             if(companyError){
-                setHeaderError('Error fetching previous company data');
+                setHeaderError(true);
+                setHeaderErrorText('Error fetching previous company data');
             }
         }
-    }, [ companyData, companyError ])
+    }, [ props.edit, companyData, companyError ])
 
     /*
         Updating suggestive data
@@ -253,7 +298,6 @@ export default (props) => {
     */
     useEffect(() => {
         if(regionsData){
-            setHeaderError(false);
             const mappedData = regionsData.regions.map(region => ({ name: region.name }))
             setRegions(mappedData);
         }
@@ -286,11 +330,15 @@ export default (props) => {
         }
     }, [ regionsData, regionsError, therapeuticsData, therapeuticsError, servicesData, servicesError, specialtiesData, specialtiesError ]);
 
+    /*
+        Filling in logo url
+        - If there is a logo url stored in the database, overwrite the default logo
+    */
     useEffect(() => {
         if(formData.logoURL){
             setLogo(formData.logoURL);
         }
-    }, [ logo ])
+    }, [ formData.logoURL ]);
 
     /*
         Re-direct on successful submission
@@ -300,16 +348,23 @@ export default (props) => {
         if(!props.edit && newId && !addLoading){
             history.push(`/service-providers/${newId}`)
         }
-    }, [ props.edit, newId, addLoading ])
+    }, [ props.edit, newId, addLoading, history ])
+
+    useEffect(() => {
+        if(headerSuccess === true){
+            setTimeout(() => {
+                setHeaderSuccess(false);
+            }, 3000)
+        }
+    }, [ headerSuccess ]);
 
     return (
-        <Body error={headerError}>
+        <Body>
             <Backdrop className={classes.backdrop} open={open}>
                 {importWarning ? (
                     <WarningCard close={handleWarningClose} warning='import'/>
                 ) : (
-                    <WarningCard close={handleWarningClose} warning='cancel' action={handleReDirect}/>
-
+                    <WarningCard close={handleWarningClose} warning='cancel' action={handleReDirect} data-testid='warning-card'/>
                 )}
             </Backdrop>
             <Backdrop className={classes.backdrop} open={companyLoading}>
@@ -318,9 +373,12 @@ export default (props) => {
             <Backdrop className={classes.backdrop} open={addLoading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <Error display={headerError}>
-                <p>{headerError}</p>
-            </Error>
+            <HeaderError display={headerError ? 1 : 0} data-testid='header-error'>
+                <p>{headerErrorText}</p>
+            </HeaderError>
+            <SucceessMessage display={headerSuccess ? 1 : 0} data-testid='header-success'>
+                <p>Changes were successfully saved</p>
+            </SucceessMessage>
             <div className='body'>
                 <div className='header-wrapper'>
                     {props.edit ? (
@@ -343,7 +401,7 @@ export default (props) => {
                     <div className='top-row'>
                         <div className='side-bar'>
                             <img src={logo} alt='company'/>
-                            <Button noMargin onClick={handleSubmit}>
+                            <Button noMargin onClick={handleSubmit} id='submit-test'>
                                 {props.edit ? (
                                     <p>Save changes</p>
                                 ) : (
@@ -358,6 +416,7 @@ export default (props) => {
                                     name='name'
                                     value={formData.name}
                                     onChange={handleUpdate}
+                                    data-testid='name'
                                 />
                             </div>
                             <div className='input-container'>

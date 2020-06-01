@@ -1,17 +1,8 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline, feel free to add your own flare to it.
+# Bio-Bid
 
-🚫 The numbers 1️⃣ through 5️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
+You can find the deployed project at bio-bid.herokuapp.com.
 
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
-# 1️⃣ Bio-Bid
-
-1️⃣ You can find the deployed project at bio-bid.herokuapp.com.
-
-## 4️⃣ Contributors
-
-🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
-
+## Contributors
 [Alston Garrett](https://github.com/Neytoro) 
 | [Andrea Harris](https://github.com/aharris1012) 
 | [Joshua Agins](https://github.com/jagins) 
@@ -36,11 +27,11 @@
 
 ## Project Overview
 
-1️⃣ [Trello Board](https://trello.com/b/lO90hEuU/labs-22-bio-bid)
+[Trello Board](https://trello.com/b/lO90hEuU/labs-22-bio-bid)
 
-1️⃣ [Product Canvas](https://www.notion.so/Bio-Bid-Dashboard-a9a7a54106e34ec9adc20ee33268c0b7)
+[Product Canvas](https://www.notion.so/Bio-Bid-Dashboard-a9a7a54106e34ec9adc20ee33268c0b7)
 
-1️⃣ [UX Design files](https://www.figma.com/file/o45cmaotaVWtBtlRblcMei/Bio-Bid%2C-Emmanuelle-%26-James?node-id=409%3A5265)
+[UX Design files](https://www.figma.com/file/o45cmaotaVWtBtlRblcMei/Bio-Bid%2C-Emmanuelle-%26-James?node-id=409%3A5265)
 
 # Description
 
@@ -55,35 +46,40 @@ Connecting clinical trial sponsors to the right services providers for their nee
 - Staff Log in - is able to update the dashboard and flag "potential" services.
 - Reviews for service providers.
 - Ability to search for specific service providers.
+- Ability to add/edit company profile pages
 
-## 1️⃣ Tech Stack
+## Tech Stack
 
 ### Front end built using:
 
-#### _Front end framework goes here_
-
-🚫 Why did you choose this framework?
+#### React.js
 
 This framework was chosen as it's the framework we feel the most comfortable and flexible using.
 
-- React (Framework)
+Dependencies:
+  - Apollo-Boost
+  - Bootstrap
+  - Dotenv
+  - Graphql
+  - jquery
+  - js-search
+  - Material-Table
+  - Moment
+  - React-Apollo
+  - React-Router-Dom
   - Reactstrap
-  - React Router
-  - Protected Routes
-
-🚫List the rest of the front end features and libraries in the same format as the framework above.
-
-- Apollo Client
-- OAuth (Authorization)
-- Axios/AxiosWithAuth (API Calls)
+  - Styled-Components
+  - Styled-Icons
+  - Typescript
 
 #### Front end deployed to `Heroku.com`
 
-#### [Back end](https://github.com/Lambda-School-Labs/bio-bid-fe/) built using: Node
+#### [Back end](https://github.com/Lambda-School-Labs/bio-bid-fe/) built using:
 
-#### 🚫 back end framework goes here
+#### Node.js
 
 - Apollo/GraphQL
+- Prisma
 - PostGres
 - Jest & Babel (Testing)
 
@@ -103,26 +99,13 @@ Water's like me. It's laaazy ... Boy, it always looks for the easiest way to do
 
 This is the way you take out your flustrations. Get away from those little Christmas tree things we used to make in school. Isn't it fantastic that you can change your mind and create all these happy things? Everything's not great in life, but we can still find beauty in it.
 
-# 3️⃣ Environment Variables
+# Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables. There should be a .env file containing the following:
 
-🚫These are just examples, replace them with the specifics for your app
+    *  REACT_APP_SERVER_ENDPOINT - this is your local url to your locally deployed server. (http://localhost:5000/)
 
-    *  REACT_APP_apiKey - this is your Google API key, which can be generated in the Google Cloud Console
-    *  REACT_APP_authDomain - when you set up your Firebase project, this information will be in the dashboard
-    *  REACT_APP_databaseURL - in the Firebase dashboard
-    *  REACT_APP_projectID - in the Firebase dashboard
-    *  REACT_APP_storageBucket - in the Firebase dashboard
-    *  REACT_APP_messagingSenderId - in the Firebase dashboard
-    *  REACT_APP_stripe_API - this is your public Stripe API key, generated in the Stripe dashboard
-    *  REACT_APP_backendURL - optional for your local development server
-    *  REACT_APP_clientid - this is the Stripe_connect clientID, generated in Stripe_connect settings
-    *  REACT_APP_stripe_plan - this is the ID for a second Stripe subscription plan, generated under Stripe products
-
-# 5️⃣ Content Licenses
-
-🚫For all content - images, icons, etc, use this table to document permission of use. Remove the two placeholders and add you content to this table
+# Content Licenses
 
 | Image Filename | Source / Creator | License                                                                      |
 | -------------- | ---------------- | ---------------------------------------------------------------------------- |
@@ -133,7 +116,7 @@ In order for the app to function correctly, the user must set up their own envir
 
 🚫Document what you used for testing and why
 
-# 4️⃣ Installation Instructions
+# Installation Instructions
 
 🚫explain how to install the required dependencies to get this project up and running with yarn and NPM
 

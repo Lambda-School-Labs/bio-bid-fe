@@ -22,7 +22,7 @@ import { ReactComponent as DashCollapseIcon } from '../../images/dash-collapse.s
 function OpenDash(props) {
 
     // True to collapse the side bar, false to open it. This variable is managed by the Dash Sidebar control icons, DashCollapseIcon and DashExpandIcon.
-    const [collapsed, setCollapsed] = useState(true);
+    const [ collapsed ] = useState(true);
 
     return(
         <div id='sidebar-open-wrapper' className={ ( props.dashOpen ? 'sidebar-open' : 'sidebar-closed' ) }>

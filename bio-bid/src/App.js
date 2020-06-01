@@ -4,21 +4,22 @@ import { Route } from 'react-router-dom';
 // Component Imports
 import Bids from './components/bids';
 import Form from './components/company-profile/Form/Form';
-import Companypage from '../src/components/company-profiles-page/companyPage';
+import Companypage from './components/company-profiles-page/companyPage';
+import List from './components/company-profile/List/List';
 
 function App() {
   return (
-    <div>
+    <div className='App'>
       <Route path="/bids">
         <Bids />
       </Route>
-
-      <Route path="/service-providers"></Route>
-      <Route path="/service-providers/:id">
-        {' '}
+      <Route exact path="/service-providers">
+        <List/>
+      </Route>
+      <Route exact path="/service-providers/:id">
         <Companypage />
       </Route>
-      <Route path="/service-providers/add">
+      <Route exact path="/service-providers/add">
         <Form edit={false} />
       </Route>
       <Route path="/service-providers/edit/:id">

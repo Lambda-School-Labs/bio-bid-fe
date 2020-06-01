@@ -22,7 +22,7 @@ export default props => {
         return (
             <Card>
                 <h1>Warning</h1>
-                <p className='message'>Are you wish to cancel? All changes will be lost.</p>
+                <p className='message'>Are you sure you wish to cancel? All changes will be lost.</p>
                 <div className='btn-container'>
                     <Button onClick={props.action}>
                         <p>I'm sure</p>

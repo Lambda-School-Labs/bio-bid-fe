@@ -7,9 +7,10 @@ export const Body= styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
     .body{
         margin: 0 auto;
-        margin-top: ${props => props.error ? '0px' : '50px'};
+        margin-top: 30px;
         width: 90%;
         .header-wrapper{
             margin-top: 50px;
@@ -35,17 +36,33 @@ export const Body= styled.div`
     }
 `;
 
-export const Error = styled.div`
+export const HeaderError = styled.div`
+    display: ${props => props.display ? 'flex' : 'none'};
+    position: absolute;
     height: 50px;
     width: 100%;
-    display: ${props => props.display ? 'flex' : 'none'};
     justify-content: center;
     align-items: center;
-    background-color: red;
+    background-color: ${theme.colors.torchRead};
     p{
-        font: ${theme.fontStyling.header3};
-        color: ${theme.colors.alabaster};
+        font: ${theme.fontStyling.text};
         margin: 0;
+        color: ${theme.colors.alabaster};
+    }
+`;
+
+export const SucceessMessage = styled.div`
+    display: ${props => props.display ? 'flex' : 'none'};
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: ${theme.colors.laPalma};
+    p{
+        font: ${theme.fontStyling.text};
+        margin: 0;
+        color: ${theme.colors.alabaster};
     }
 `;
 

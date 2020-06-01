@@ -19,6 +19,7 @@ export const GET_STUDIES = gql`
 export const GET_COMPANIES = gql`
   {
     companies {
+      id
       name
       logoURL
       website
