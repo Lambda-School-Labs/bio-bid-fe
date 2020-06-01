@@ -3,11 +3,14 @@ import { Card, CardBody, CardTitle, CardText, CardImg, CardLink, CardDeck, Butto
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import theme from '../../theme';
 
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import { GET_COMPANY_BY_ID } from '../../queries/index';
+
 import { DELETE_COMPANY } from '../../mutations/index';
+
 import { specifiedScalarTypes } from 'graphql';
 
 export default (props) => {
@@ -126,7 +129,7 @@ export default (props) => {
             <CardBody>
               <CardTitle>
                 {' '}
-                <h1 style={{ color: '#0050b3', fontSize: '1.9rem' }}>Future Company Rating ... </h1>
+                <h1 style={{ color: '#096DD9', fontSize: '1.9rem' }}>Future Company Rating ... </h1>
               </CardTitle>
             </CardBody>
           </Card>
@@ -169,7 +172,7 @@ const Container = styled.header`
   }
   h3 {
     font-size: 1rem;
-    color: #0050b3;
+    color: ${theme.colors.scienceBlue};
     font-weight: bold;
     font-family: Lato;
   }
