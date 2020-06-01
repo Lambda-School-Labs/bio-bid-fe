@@ -9,9 +9,9 @@ export default ({company}) => {
     return (
         <CompanyCard>
             {company.logoURL ? (
-               <img src={company.logoURL} alt='default logo'/> 
+               <img src={company.logoURL} alt={company.name}/> 
             ) : (
-                <img src={defaultLogo} alt={company.name}/>
+                <img src={defaultLogo} alt='default logo'/>
             )}
             <div className='content'>
                 <div className='text'>
