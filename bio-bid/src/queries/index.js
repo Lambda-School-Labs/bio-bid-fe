@@ -1,5 +1,23 @@
 import { gql } from 'apollo-boost';
 
+export const GET_CLAIMS = gql`
+  {
+    pendingClaims {
+      id
+      user
+      email
+      name
+      company {
+        id
+        name
+        maintainer
+      }
+      pending
+      approved
+    }
+  }
+`;
+
 export const GET_STUDIES = gql`
   {
     studies {

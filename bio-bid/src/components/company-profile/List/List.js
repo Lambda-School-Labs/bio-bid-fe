@@ -66,7 +66,7 @@ export default (props) => {
             <Button onClick={handleReDirect}>
               <p>Add Company</p>
             </Button>
-            {/* implement login here */}
+            {/* implements login/logout here */}
             <Login component={Login} />
           </div>
         </div>
