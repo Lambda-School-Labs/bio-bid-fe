@@ -4,9 +4,7 @@ import { LoginCallback, useOktaAuth } from "@okta/okta-react";
 import "./Login.css";
 
 export default function AutoLogin() {
-  const { authService,
-    //  authState  - uncomment this when using console logs
-     } = useOktaAuth();
+  const { authService } = useOktaAuth();
   let location = useLocation();
 
   useEffect(() => {
@@ -17,7 +15,7 @@ export default function AutoLogin() {
     }
   });
   // uncomment/comment these for auth and user information
-  // console.log("authservice and state:", authService, authState);
+  // console.log("authservice/state:", authService);
   // authService.getUser().then(console.log);
 
   return (

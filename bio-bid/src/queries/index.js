@@ -1,5 +1,23 @@
 import { gql } from 'apollo-boost';
 
+export const GET_CLAIMS = gql`
+  {
+    pendingClaims {
+      id
+      user
+      email
+      name
+      company {
+        id
+        name
+        maintainer
+      }
+      pending
+      approved
+    }
+  }
+`;
+
 export const GET_STUDIES = gql`
   {
     studies {
@@ -16,18 +34,40 @@ export const GET_STUDIES = gql`
   }
 `;
 
-export const GET_COMPANIES = gql`
+export const GET_COMPANIES = gql` 
   {
     companies {
       id
       name
+      email
+      phases
       logoURL
       website
       linkedin
       overview
+      headquarters
+      companySize
+      services {
+          name
+          specialties {
+            name
+            sub_specialties {
+              name
+            }
+          }
+        }
+      regions {
+          id
+          name
+        }
+      therapeutics {
+          id
+          name
+        }
+      }
     }
-  }
 `;
+
 
 export const GET_COMPANY_BY_ID = gql`
   query Company($id: ID) {

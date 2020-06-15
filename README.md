@@ -3,9 +3,10 @@
 You can find the deployed project at https://biobidlabs.com/.
 
 ## Contributors
-[Alston Garrett](https://github.com/Neytoro) 
-| [Andrea Harris](https://github.com/aharris1012) 
-| [Joshua Agins](https://github.com/jagins) 
+
+[Alston Garrett](https://github.com/Neytoro)
+| [Andrea Harris](https://github.com/aharris1012)
+| [Joshua Agins](https://github.com/jagins)
 | [James Morris](https://github.com/)
 | [Emmanuelle Berda](https://github.com/)
 | [Josiah Roa](https://github.com/josiahroa18)
@@ -21,7 +22,6 @@ You can find the deployed project at https://biobidlabs.com/.
 [![Maintainability](https://api.codeclimate.com/v1/badges/5172c7cb7e3b192f2a43/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/bio-bid-fe/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5172c7cb7e3b192f2a43/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/bio-bid-fe/test_coverage)
 
-
 ## Project Overview
 
 [Trello Board](https://trello.com/b/lO90hEuU/labs-22-bio-bid)
@@ -33,6 +33,12 @@ You can find the deployed project at https://biobidlabs.com/.
 # Description
 
 Connecting clinical trial sponsors to the right services providers for their needs.
+
+#### Note
+
+BioBids main landing page will reside on Alex’s (stakeholder) WordPress website. From there it will be a button which when clicked will redirect the user to our BioBids application. Once on our application, you’ll be met with a list of service providers. To access other items in our application you will need to use specific routes in your url. For example to access the “bids” page you’d need to go to https://biobidlabs.com then include /bids in your url for the bids page.
+
+Example: https://biobidlabs.com/bids
 
 ### Key Features
 
@@ -54,20 +60,21 @@ Connecting clinical trial sponsors to the right services providers for their nee
 This framework was chosen as it's the framework we feel the most comfortable and flexible using.
 
 Dependencies:
-  - Apollo-Boost
-  - Bootstrap
-  - Dotenv
-  - Graphql
-  - jquery
-  - js-search
-  - Material-Table
-  - Moment
-  - React-Apollo
-  - React-Router-Dom
-  - Reactstrap
-  - Styled-Components
-  - Styled-Icons
-  - Typescript
+
+- Apollo-Boost
+- Bootstrap
+- Dotenv
+- Graphql
+- jquery
+- js-search
+- Material-Table
+- Moment
+- React-Apollo
+- React-Router-Dom
+- Reactstrap
+- Styled-Components
+- Styled-Icons
+- Typescript
 
 #### Front end deployed to `Heroku.com`
 
@@ -113,7 +120,7 @@ In order for the app to function correctly, the user must set up their own envir
 
     * build - creates a build of the application
     * start - starts the production server after a build is created
-    * test - runs tests in **tests** directory 
+    * test - runs tests in **tests** directory
     * eject - copy the configuration files and dependencies into the project so you have full control over them
 
 # Contributing
