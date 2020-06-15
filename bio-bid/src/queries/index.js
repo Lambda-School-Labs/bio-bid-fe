@@ -87,9 +87,12 @@ export const GET_COMPANY_BY_ID = gql`
       }
       services {
         name
-      }
-      specialties {
-        name
+        specialties {
+          name
+          sub_specialties {
+            name
+          }
+        }
       }
     }
   }
