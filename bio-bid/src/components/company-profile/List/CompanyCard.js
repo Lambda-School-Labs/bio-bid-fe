@@ -9,19 +9,21 @@ export default ({company}) => {
     const [ overview, setOverview ] = useState('');
     const [ tooLong, setTooLong ] = useState(false);
 
-    useEffect(() => {
-        if(company.overview.length >= 300){
-            setOverview(`${company.overview.substring(0, 300)}...`);
-            setTooLong(true);
-        }else{
-            setOverview(company.overview);
-        }
-    }, [ company.overview ]);
+    console.log(company.overview)
+
+    // useEffect(() => {
+    //     if(company.overview.length >= 300){
+    //         setOverview(`${company.overview.substring(0, 300)}...`);
+    //         setTooLong(true);
+    //     }else{
+    //         setOverview(company.overview);
+    //     }
+    // }, [ company.overview ]);
 
     return (
         <CompanyCard>
             {company.logoURL ? (
-               <img src={company.logoURL} alt='default logo'/> 
+                <img src={company.logoURL} alt='default logo'/> 
             ) : (
                 <img src={defaultLogo} alt={company.name}/>
             )}
