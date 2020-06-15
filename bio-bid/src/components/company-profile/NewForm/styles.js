@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '../../../theme';
 import { Warning } from '@styled-icons/entypo/';
 import { ArrowIosBackOutline, ArrowIosDownwardOutline } from '@styled-icons/evaicons-outline/';
-import { Check } from '@styled-icons/boxicons-regular/';
+import { PlusCircle } from '@styled-icons/boxicons-solid/';
 
 export const Body = styled.div`
     width: 100%;
@@ -37,6 +37,19 @@ export const Body = styled.div`
             }
         }
         
+    }
+    .error{
+        width: 100%;
+        height: 50px;
+        background-color: ${theme.colors.torchRead};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p{
+            color: ${theme.colors.alabaster};
+            font: ${theme.fontStyling.text};
+            margin: 0;
+        }
     }
     .form-wrapper{
         display: flex;
@@ -150,10 +163,54 @@ export const Services = styled.div`
             width: 730px;
             .container-col{
                 width: 300px;
+                display: flex;
+                flex-direction: column;
             }
         }
     }
-    
+`;
+
+export const Service = styled.div`
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid ${theme.colors.silver};
+    .service-header{
+        background-color: ${theme.colors.silver};
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        height: 30px;
+        p{
+            margin: 0;
+        }
+        .add-service{
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            &:hover{
+                color: ${theme.colors.scienceBlue};
+            }
+        }
+    }
+    input{
+        display: ${props => props.specialtyOpen ? 'block' : 'none'};
+        border: 1px solid ${theme.colors.silver};
+        height: 30px;
+        border-radius: 5px;
+        outline: none;
+        padding: 7px;
+        margin: 0;
+        width: 100%;
+        &:focus{
+            box-shadow: 0 0 5px ${theme.colors.scienceBlue};
+        }
+    }
+    .dropdown{
+        position: absolute;
+        width: 100%;
+    }
 `;
 
 export const WarningCard = styled.div`
@@ -234,12 +291,7 @@ export const Arrow = styled(ArrowIosBackOutline)`
     color: inherit;
 `;
 
-export const DownArrow = styled(ArrowIosDownwardOutline)`
+export const Plus = styled(PlusCircle)`
     width: 20px;
-    color: ${theme.colors.mineShaft};
 `;
 
-export const CheckMark = styled(Check)`
-    width: 20px;
-    color: ${theme.colors.mineShaft};
-`;

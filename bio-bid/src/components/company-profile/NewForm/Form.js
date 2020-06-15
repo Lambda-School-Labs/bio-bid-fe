@@ -3,13 +3,15 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 
 import WarningCard from './WarningCard';
+import Service from './Service';
 
-import { GET_REGIONS, GET_THERAPEUTICS, GET_SERVICES } from '../../../queries';
+import { GET_REGIONS, GET_THERAPEUTICS, GET_SERVICES, GET_COMPANY_BY_ID } from '../../../queries';
+import { ADD_COMPANY, EDIT_COMPANY } from '../../../mutations';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-import { Body, Basic, Services, Button, WarningIcon, Arrow } from './styles';
+import { Body, Basic, Services, Button, WarningIcon, Arrow, Plus } from './styles';
 
 
 import Input from '@material-ui/core/Input';
@@ -64,6 +66,17 @@ export default () => {
     const { data: regionsData } = useQuery(GET_REGIONS);
     const { data: therapeuticsData } = useQuery(GET_THERAPEUTICS);
     const { data: servicesData } = useQuery(GET_SERVICES);
+    // const { loading, error: companyError, data: companyData } = useQuery(GET_COMPANY_BY_ID, {
+    //     variables: { id },
+    // })
+
+    // Mutations
+    const [ addCompany ] = useMutation(ADD_COMPANY, {
+        update: (proxy, result) => {
+            setNewId(result.data.createCompany.id);
+        }
+    });
+    const [ editCompany ] = useMutation(EDIT_COMPANY);
 
     // State
     const [ confirmCancel, setConfirmCancel ] = useState(false);
@@ -81,10 +94,15 @@ export default () => {
     const [ phases, setPhases ] = useState([]);
     const [ regions, setRegions ] = useState([]);
     const [ therapeutics, setTherapeutics ] = useState([]);
+    const [ services, setServices ] = useState(['Hello']);
 
     const [ regionsAll, setRegionsAll ] = useState(false);
     const [ therapeuticsAll, setTherapeuticsAll ] = useState(false);
     const [ phasesAll, setPhasesAll ] = useState(false);
+
+    const [ error, setError ] = useState('');
+    const [ newId, setNewId ] = useState(null);
+    const [ submitting, setSubmitting ] = useState(false);
 
     // Event handlers
     const handleMultiple = e => {
@@ -96,6 +114,9 @@ export default () => {
         }   
         if(e.target.name === 'phases'){
             setPhases(e.target.value);
+        }
+        if(e.target.name === 'services'){
+            setServices(e.target.value);
         }
     }
 
@@ -143,11 +164,43 @@ export default () => {
         history.push('/');
     }
 
-    const handleSubmit = () => {
-        console.log(formData);
-        console.log(phases);
-        console.log(regions);
-        console.log(therapeutics);
+    const handleSubmit = async () => {
+        if(!formData.name){
+            setError('Missing name field');
+            window.scrollTo(0, 0);
+        }else{
+            setSubmitting(true);
+            console.log(formData);
+            console.log('phases', phases);
+            console.log(regions);
+            console.log(therapeutics);
+            console.log({
+                ...formData,
+                regions: regions.map(region => ({name: region})),
+                therapeutics: therapeutics.map(therapeutic => ({name: therapeutic})),
+                phases: phases
+            })
+            try{
+                await addCompany({ variables: {
+                    name: formData.name,
+                    logoURL: formData.logoURL,
+                    website: formData.website,
+                    linkedin: formData.linkedin,
+                    overview: formData.overview,
+                    headquarters: formData.headquarters,
+                    companySize: formData.companySize === '' ? null : formData.companySize,
+                    regions: regions.map(region => ({name: region})),
+                    therapeutics: therapeutics.map(therapeutic => ({name: therapeutic})),
+                    phases: phases.length === 0 ? [] : phases
+                }})
+                
+                setSubmitting(false);
+            }catch(error){
+                console.log(error);
+                setError('Company Name Already Exists');
+                setSubmitting(false);
+            }
+        }
     }
 
     const handleChange = e => {
@@ -156,10 +209,6 @@ export default () => {
             [e.target.name]: e.target.value
         })
     }
-
-    useEffect(() => {
-        console.log(formData)
-    }, [ formData ])
 
     useEffect(() => {
         if(regionsAll){
@@ -186,6 +235,11 @@ export default () => {
                     <WarningCard handleCancel={handleCancel} handleReDirect={handleReDirect}/>
                 </Backdrop>
             )}
+            {submitting && (
+                <Backdrop className={classes.backdrop} open={submitting}>
+                    <CircularProgress color='inherit'/>
+                </Backdrop>
+            )}
             <header>
                 <div className='header-content'>
                     <h2>Create Company Profile</h2>
@@ -195,6 +249,11 @@ export default () => {
                     </div>
                 </div>
             </header>
+            {error.length > 1 && (
+                <div className='error'>
+                    <p>{error}</p>
+                </div>
+            )}
             <div className='form-wrapper'>
                 <div className='import-container'>
                     <h3>LinkedIn Import</h3>
@@ -211,7 +270,7 @@ export default () => {
                         <div className='form'>
                             <div className='row'>
                                 <div className='input-box'>
-                                    <label>Company Name</label>
+                                    <label>Company Name*</label>
                                     <input
                                         name='name'
                                         onChange={handleChange}
@@ -256,23 +315,26 @@ export default () => {
                                 </div>
                                 <div className='input-box'>
                                     <label>Company Size</label>
-                                    <select
-                                        name='companySize'
-                                        onChange={handleChange}
-                                        value={formData.companySize}
-                                    >
-                                        <option value='' defaultValue disabled hidden>Choose company size</option>
-                                        <option value='N/A'>N/A</option>
-                                        <option value='A'>A: Self Employed</option>
-                                        <option value='B'>B: 1-10 Employees</option>
-                                        <option value='C'>C: 11-50 Employees</option>
-                                        <option value='D'>D: 51-200 Employees</option>
-                                        <option value='E'>E: 201-500 Employees</option>
-                                        <option value='F'>F: 501-1,000 Employees</option>
-                                        <option value='G'>G: 1,001-5,000 Employees</option>
-                                        <option value='H'>H: 5,001-10,000 Employees</option>
-                                        <option value='I'>I: 10,000+ Employees</option>
-                                    </select>
+                                    <FormControl className={classes.formControl}>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={formData.companySize}
+                                            onChange={handleChange}
+                                            name='companySize'
+                                        >
+                                            <MenuItem value=''>N/A</MenuItem>
+                                            <MenuItem value='A'>Self Employed</MenuItem>
+                                            <MenuItem value='B'>1-10 Employees</MenuItem>
+                                            <MenuItem value='C'>11-50 Employees</MenuItem>
+                                            <MenuItem value='D'>51-200 Employees</MenuItem>
+                                            <MenuItem value='E'>201-500 Employees</MenuItem>
+                                            <MenuItem value='F'>501-1,000 Employees</MenuItem>
+                                            <MenuItem value='G'>1,001-5,000 Employees</MenuItem>
+                                            <MenuItem value='H'>5,001-10,000 Employees</MenuItem>
+                                            <MenuItem value='I'>10,000+ Employees</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </div>
                             </div>
                             <div className='row'>
@@ -290,6 +352,7 @@ export default () => {
                                                 renderValue={(selected) => selected.join(', ')}
                                                 MenuProps={MenuProps}
                                                 name='regions'
+                                                placeholder='Select Regions'
                                             >
                                             <MenuItem key='All' value='All' onClick={toggleAllRegions}>
                                                 <Checkbox checked={regionsAll}/>
@@ -340,15 +403,15 @@ export default () => {
                                     <label>Clinical Trial Phases</label>
                                     <FormControl className={classes.formControl}>
                                         <Select
-                                        labelId="demo-mutiple-checkbox-label"
-                                        id="demo-mutiple-checkbox"
-                                        multiple
-                                        value={phases}
-                                        onChange={handleMultiple}
-                                        input={<Input />}
-                                        renderValue={(selected) => selected.join(', ')}
-                                        MenuProps={MenuProps}
-                                        name='phases'
+                                            labelId="demo-mutiple-checkbox-label"
+                                            id="demo-mutiple-checkbox"
+                                            multiple
+                                            value={phases}
+                                            onChange={handleMultiple}
+                                            input={<Input />}
+                                            renderValue={(selected) => selected.join(', ')}
+                                            MenuProps={MenuProps}
+                                            name='phases'
                                         >
                                         <MenuItem key='All' value='All' onClick={toggleAllPhases}>
                                             <Checkbox checked={phasesAll}/>
@@ -381,6 +444,31 @@ export default () => {
                         <div className='wrapper'>
                             <div className='container-col'>
                                 <label>Add Services</label>
+                                {servicesData && (
+                                    <FormControl className={classes.formControl}>
+                                        <Select
+                                            labelId="demo-mutiple-checkbox-label"
+                                            id="demo-mutiple-checkbox"
+                                            multiple
+                                            value={services}
+                                            onChange={handleMultiple}
+                                            input={<Input />}
+                                            renderValue={(selected) => selected.join(', ')}
+                                            MenuProps={MenuProps}
+                                            name='services'
+                                        >
+                                        {servicesData.serviceItems.map(service => (
+                                            <MenuItem key={service.name} value={service.name}>
+                                                <Checkbox checked={services.indexOf(service.name) > -1} />
+                                                <ListItemText primary={service.name} />
+                                            </MenuItem>
+                                        ))}
+                                        </Select>
+                                    </FormControl>
+                                )}
+                                {services.map(service => {
+                                    return <Service service={service}/>
+                                })}
                             </div>     
                             <div className='container-col'>
                                 <p>Overview</p>

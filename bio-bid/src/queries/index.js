@@ -57,7 +57,7 @@ export const GET_COMPANY_BY_ID = gql`
 
 export const GET_SERVICES = gql`
   {
-    services {
+    serviceItems {
       name
     }
   }
