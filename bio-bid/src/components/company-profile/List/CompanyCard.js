@@ -11,14 +11,15 @@ export default ({company}) => {
 
     console.log(company.overview)
 
-    // useEffect(() => {
-    //     if(company.overview.length >= 300){
-    //         setOverview(`${company.overview.substring(0, 300)}...`);
-    //         setTooLong(true);
-    //     }else{
-    //         setOverview(company.overview);
-    //     }
-    // }, [ company.overview ]);
+    useEffect(() => {
+        
+        if(company.overview?.length >= 300){
+            setOverview(`${company.overview.substring(0, 300)}...`);
+            setTooLong(true);
+        }else{
+            setOverview(company.overview);
+        }
+    }, [ company.overview ]);
 
     return (
         <CompanyCard>

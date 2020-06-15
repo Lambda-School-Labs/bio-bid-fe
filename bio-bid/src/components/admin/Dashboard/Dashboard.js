@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavBar from './NavBar';
 import { Dashboard } from './styles';
+import Admin from './Admin.js';
 
 import Info from './info/Info';
 
