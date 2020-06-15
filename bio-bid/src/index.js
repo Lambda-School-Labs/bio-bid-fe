@@ -27,6 +27,14 @@ const client = new ApolloClient({
       I
       null
     }
+
+    enum Phase {
+      I
+      II
+      III
+      IV
+      null
+    }
   `,
 });
 

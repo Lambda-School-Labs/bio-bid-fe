@@ -127,52 +127,12 @@ export const Basic = styled.div`
                             box-shadow: 0 0 5px ${theme.colors.scienceBlue};
                         }
                     }
+                    .multiple-drop{
+                        height: 80px;
+                    }
                 }
             }
         }
-    }
-`;
-
-export const MultipleSelect = styled.div`
-    .input{
-        cursor: pointer;
-        border: 1px solid ${theme.colors.silver};
-        width: 100%;
-        height: 30px;
-        border-radius: 5px;
-        padding: 7px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        p{
-            margin: 0;
-        }
-    }
-`;
-
-export const Options = styled.div`
-    display: ${props => props.open ? 'flex' : 'none'};
-    position: absolute;
-    background-color: ${theme.colors.alabaster};
-    width: 300px;
-    flex-direction: column;
-    border: 1px solid  ${theme.colors.silver};
-`;
-
-export const Option = styled.div`
-    cursor: pointer;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    &:hover{
-        background-color: ${theme.colors.silver};
-    }
-    p{
-        margin: 0;
-    }
-    .check-container{
-        visibility: ${props => props.selected ? 'visible' : 'hidden'};
-        margin: 0 3px;
     }
 `;
 

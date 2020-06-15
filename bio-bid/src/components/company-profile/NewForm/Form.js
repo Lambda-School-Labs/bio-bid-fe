@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 
 import WarningCard from './WarningCard';
-import MultipleSelect from './MultipleSelect';
 
 import { GET_REGIONS, GET_THERAPEUTICS, GET_SERVICES } from '../../../queries';
 
@@ -13,12 +12,49 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Body, Basic, Services, Button, WarningIcon, Arrow } from './styles';
 
 
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import ListItemText from '@material-ui/core/ListItemText';
+import Select from '@material-ui/core/Select';
+import Checkbox from '@material-ui/core/Checkbox';
+
+
 const useStyles = makeStyles((theme) => ({
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
+    formControl: {
+        minWidth: 120,
+        maxWidth: 300,
+    },
+        chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    noLabel: {
+        marginTop: theme.spacing(3),
+    },
 }));
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const phaseOptions = [
+    'I',
+    'II',
+    'III',
+    'IV'
+];
 
 export default () => {
     const classes = useStyles();
@@ -39,14 +75,66 @@ export default () => {
         linkedin: '',
         overview: '',
         headquarters: '',
-        companySize: '',
-        regions: [],
-        therapeutics: [],
-        services: [],
-        phases: []
+        companySize: ''
     })
 
+    const [ phases, setPhases ] = useState([]);
+    const [ regions, setRegions ] = useState([]);
+    const [ therapeutics, setTherapeutics ] = useState([]);
+
+    const [ regionsAll, setRegionsAll ] = useState(false);
+    const [ therapeuticsAll, setTherapeuticsAll ] = useState(false);
+    const [ phasesAll, setPhasesAll ] = useState(false);
+
     // Event handlers
+    const handleMultiple = e => {
+        if(e.target.name === 'regions'){
+            setRegions(e.target.value);
+        }
+        if(e.target.name === 'therapeutics'){
+            setTherapeutics(e.target.value);
+        }   
+        if(e.target.name === 'phases'){
+            setPhases(e.target.value);
+        }
+    }
+
+    const setAll = field => {
+        if(field === 'regions'){
+            setRegions(regionsData.regions.map(region => region.name));
+        }
+        if(field === 'therapeutics'){
+            setTherapeutics(therapeuticsData.therapeutics.map(therapeutic => therapeutic.name));
+        }
+        if(field === 'phases'){
+            setPhases(phaseOptions);
+        }
+    }
+
+    const clearAll = field => {
+        if(field === 'regions'){
+            setRegions([]);
+        }
+        if(field === 'therapeutics'){
+            setTherapeutics([]);
+        }
+        if(field === 'phases'){
+            setPhases([])
+        }
+    }
+
+    const toggleAllTherapeutics = () => {
+        setTherapeuticsAll(!therapeuticsAll);
+    }
+
+    const toggleAllRegions = () => {
+        setRegionsAll(!regionsAll);
+    }
+
+    const toggleAllPhases = () => {
+        setPhasesAll(!phasesAll);
+    }
+
     const handleCancel = () => {
         setConfirmCancel(!confirmCancel);
     }
@@ -57,6 +145,9 @@ export default () => {
 
     const handleSubmit = () => {
         console.log(formData);
+        console.log(phases);
+        console.log(regions);
+        console.log(therapeutics);
     }
 
     const handleChange = e => {
@@ -65,6 +156,28 @@ export default () => {
             [e.target.name]: e.target.value
         })
     }
+
+    useEffect(() => {
+        console.log(formData)
+    }, [ formData ])
+
+    useEffect(() => {
+        if(regionsAll){
+            setAll('regions');
+        }else{
+            clearAll('regions');
+        }
+        if(therapeuticsAll){
+            setAll('therapeutics');
+        }else{
+            clearAll('therapeutics');
+        }
+        if(phasesAll){
+            setAll('phases');
+        }else{
+            clearAll('phases');
+        }
+    }, [therapeuticsAll, regionsAll, phasesAll]);
     
     return (
         <Body>
@@ -166,20 +279,89 @@ export default () => {
                                 <div className='input-box'>
                                     <label>Regions Covered</label>
                                     {regionsData && (
-                                        <MultipleSelect selectName='Regions Covered' options={regionsData.regions}/>
+                                        <FormControl className={classes.formControl}>
+                                            <Select
+                                                labelId="demo-mutiple-checkbox-label"
+                                                id="demo-mutiple-checkbox"
+                                                multiple
+                                                value={regions}
+                                                onChange={handleMultiple}
+                                                input={<Input />}
+                                                renderValue={(selected) => selected.join(', ')}
+                                                MenuProps={MenuProps}
+                                                name='regions'
+                                            >
+                                            <MenuItem key='All' value='All' onClick={toggleAllRegions}>
+                                                <Checkbox checked={regionsAll}/>
+                                                <ListItemText primary='All'/>
+                                            </MenuItem>
+                                            {regionsData.regions.map(region => (
+                                                <MenuItem key={region.name} value={region.name}>
+                                                    <Checkbox checked={regions.indexOf(region.name) > -1} />
+                                                    <ListItemText primary={region.name} />
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
                                     )}
                                 </div>
                                 <div className='input-box'>
                                     <label>Therapeutic Areas</label>
                                     {therapeuticsData && (
-                                        <MultipleSelect selectName='Therapeutic Areas' options={therapeuticsData.therapeutics}/>
+                                        <FormControl className={classes.formControl}>
+                                            <Select
+                                                labelId="demo-mutiple-checkbox-label"
+                                                id="demo-mutiple-checkbox"
+                                                multiple
+                                                value={therapeutics}
+                                                onChange={handleMultiple}
+                                                input={<Input />}
+                                                renderValue={(selected) => selected.join(', ')}
+                                                MenuProps={MenuProps}
+                                                name='therapeutics'
+                                            >
+                                            <MenuItem key='All' value='All' onClick={toggleAllTherapeutics}>
+                                                <Checkbox checked={therapeuticsAll}/>
+                                                <ListItemText primary='All'/>
+                                            </MenuItem>
+                                            {therapeuticsData.therapeutics.map(therapeutic => (
+                                                <MenuItem key={therapeutic.name} value={therapeutic.name}>
+                                                    <Checkbox checked={therapeutics.indexOf(therapeutic.name) > -1} />
+                                                    <ListItemText primary={therapeutic.name} />
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
                                     )}
                                 </div>
                             </div>
                             <div className='row'>
                                 <div className='input-box'>
                                     <label>Clinical Trial Phases</label>
-                                    <MultipleSelect selectName='Clinical Trial Phases'/>
+                                    <FormControl className={classes.formControl}>
+                                        <Select
+                                        labelId="demo-mutiple-checkbox-label"
+                                        id="demo-mutiple-checkbox"
+                                        multiple
+                                        value={phases}
+                                        onChange={handleMultiple}
+                                        input={<Input />}
+                                        renderValue={(selected) => selected.join(', ')}
+                                        MenuProps={MenuProps}
+                                        name='phases'
+                                        >
+                                        <MenuItem key='All' value='All' onClick={toggleAllPhases}>
+                                            <Checkbox checked={phasesAll}/>
+                                            <ListItemText primary='All'/>
+                                        </MenuItem>
+                                        {phaseOptions.map(phase => (
+                                            <MenuItem key={phase} value={phase}>
+                                                <Checkbox checked={phases.indexOf(phase) > -1} />
+                                                <ListItemText primary={phase} />
+                                            </MenuItem>
+                                        ))}
+                                        </Select>
+                                    </FormControl>
                                 </div>
                                 <div className='input-box'>
                                     <label>Company Overview</label>
@@ -199,9 +381,6 @@ export default () => {
                         <div className='wrapper'>
                             <div className='container-col'>
                                 <label>Add Services</label>
-                                {servicesData && (
-                                    <MultipleSelect selectName='Services' options={servicesData.services}/>
-                                )}
                             </div>     
                             <div className='container-col'>
                                 <p>Overview</p>
