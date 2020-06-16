@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useOktaAuth } from "@okta/okta-react";
 import defaultLogo from '../../../images/default-company-logo.png';
-
 import { CompanyCard, CardButton } from './styles';
+
 
 export default ({company}) => {
     const [ overview, setOverview ] = useState('');
     const [ tooLong, setTooLong ] = useState(false);
-
+    const { authState } = useOktaAuth();
     console.log(company.overview)
 
     useEffect(() => {
@@ -36,9 +36,10 @@ export default ({company}) => {
                         {company.linkedin && <p><span>LinkedIn URL: </span>{company.linkedin}</p>}
                     </div>
                     <div className='btn-container'>
+                        {authState.isAuthenticated &&
                         <CardButton gray> 
                             <p>Claim</p>
-                        </CardButton>
+                        </CardButton>}
                         <Link to={`/service-providers/${company.id}`}>
                             <CardButton>
                                 <p>Details</p>
