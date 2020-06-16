@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import theme from '../../../theme';
 import { Warning } from '@styled-icons/entypo/';
 import { ArrowIosBackOutline, ArrowIosDownwardOutline } from '@styled-icons/evaicons-outline/';
-import { PlusCircle } from '@styled-icons/boxicons-solid/';
+import { PlusCircle, Trash } from '@styled-icons/boxicons-solid/';
+import { Plus, Search } from '@styled-icons/boxicons-regular/';
 
 export const Body = styled.div`
     width: 100%;
@@ -223,6 +224,22 @@ export const OptionBtn = styled.div`
     }
 `;
 
+export const SpecialtyList = styled.div`
+    width: 100%;
+    .specialty{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 30px;
+        padding: 0 5px;
+        p{
+            margin: 0;
+            font: ${theme.fontStyling.text};
+        }
+    }
+`;
+
 export const WarningCard = styled.div`
     width: 500px;
     padding: 20px;
@@ -290,6 +307,10 @@ export const Bar = styled.div`
     };
 `;
 
+export const Item = styled.div`
+    display: ${props => props.render ? 'block' : 'none'};
+`;
+
 export const WarningIcon = styled(Warning)`
     width: 30px;
     color: ${theme.colors.sun};
@@ -301,7 +322,32 @@ export const Arrow = styled(ArrowIosBackOutline)`
     color: inherit;
 `;
 
-export const Plus = styled(PlusCircle)`
+export const AddCircle = styled(PlusCircle)`
     width: 20px;
+`;
+
+export const Add = styled(Plus)`
+    width: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    &:hover{
+        color: ${theme.colors.laPalma};
+    }
+`;
+
+export const SearchAdd = styled(Search)`
+    width: 20px;
+    cursor: pointer;
+    &:hover{
+        color: ${theme.colors.laPalma};
+    }
+`;
+
+export const Delete = styled(Trash)`
+    width: 20px;
+    cursor: pointer;
+    &:hover{
+        color: ${theme.colors.torchRead};
+    }
 `;
 

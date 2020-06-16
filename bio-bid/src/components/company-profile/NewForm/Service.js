@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Service, Plus, Option, OptionBtn } from './styles';
+import { Service, AddCircle, Add, SearchAdd, Option, OptionBtn, SpecialtyList, Delete, Item } from './styles';
 
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -8,7 +8,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     formControl: {
         minWidth: 298
     }
@@ -37,46 +37,66 @@ export default (props) => {
         setSearchSelected(false);
     }
 
+    console.log(props.service.specialties && props.service.specialties.map(specialty => specialty.name));
+
     return (
-        <Service key={Math.random()} specialtyOpen={specialtyOpen}>
-            <div className='service-header'>
-                <p>{props.service.name}</p>
-                <div className='add-service' onClick={toggleSpecialtyOpen}>
-                    <Plus/>
-                    <p>Add Specialty</p>
+        <>
+            <Service key={Math.random()} specialtyOpen={specialtyOpen}>
+                <div className='service-header'>
+                    <p>{props.service.name}</p>
+                    <div className='add-service' onClick={toggleSpecialtyOpen}>
+                        <AddCircle/>
+                        <p>Add Specialty</p>
+                    </div>
                 </div>
-            </div>
-            <Option open={specialtyOpen}>
-                <OptionBtn className='button' onClick={toggleSearchSelected} selected={searchSelected} borderRight>
-                    <p>Search existing</p>
-                </OptionBtn>
-                <OptionBtn className='button' onClick={toggleNewSelected} selected={newSelected}>
-                    <p>Add new</p>
-                </OptionBtn>
-            </Option>
-            {searchSelected && (
-                <FormControl className={classes.formControl}>
-                    <Select                    
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                    >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
-            )}
-            {newSelected && (
-                <TextField 
-                    id="standard-helperText" 
-                    fullWidth
-                    placeholder='Enter new specialty'
-                />
-            )}
-        </Service>
+                <Option open={specialtyOpen}>
+                    <OptionBtn className='button' onClick={toggleSearchSelected} selected={searchSelected} borderRight>
+                        <p>Search existing</p>
+                    </OptionBtn>
+                    <OptionBtn className='button' onClick={toggleNewSelected} selected={newSelected}>
+                        <p>Add new</p>
+                    </OptionBtn>
+                </Option>
+                {searchSelected && (
+                    <FormControl className={classes.formControl}>
+                        <Select                    
+                            displayEmpty
+                            className={classes.selectEmpty}
+                            inputProps={{ 'aria-label': 'Without label' }}
+                            value={props.service.specialties.map(specialty => specialty.name)}
+                            onChange={props.handleSpecialtyChange}
+                            name={props.service.name}
+                        >
+                            {props.specialtyData.specialtyItems.map(specialty => {
+                                return(
+                                    <MenuItem value={specialty.name} key={Math.random()}>{specialty.name}</MenuItem>
+                                )                                
+                            })}
+                        </Select>
+                    </FormControl>
+                )}
+                {newSelected && (
+                    <TextField 
+                        id="standard-helperText" 
+                        fullWidth
+                        placeholder='Enter new specialty'
+                    />
+                )}
+            </Service>
+            <SpecialtyList>
+                {props.service.specialties && props.service.specialties.map(specialty => {
+                    return (
+                        <div className='specialty' key={specialty.name}>
+                            <p>{specialty.name}</p>
+                            <div className='btn-container'>
+                                <SearchAdd/>
+                                <Add/>
+                                <Delete/>
+                            </div>
+                        </div>
+                    )
+                })}
+            </SpecialtyList>
+        </>
     );
 }

@@ -261,6 +261,23 @@ export default () => {
         })
     }
 
+    const handleSpecialtyChange = e => {
+        console.log(e.target.value)
+        const service = services.filter(service => service.name === e.target.name);
+        setServices([
+            ...services.filter(service => service.name !== e.target.name),
+            {
+                name: e.target.name,
+                specialties: [
+                    ...service[0].specialties,
+                    {
+                        name: e.target.value
+                    }
+                ]
+            }
+        ])
+    } 
+
     useEffect(() => {
         if(regionsAll){
             setAll('regions');
@@ -518,15 +535,20 @@ export default () => {
                                     </FormControl>
                                 )}
                                 {specialtyData && services.map(service => {
-                                    return <Service service={service} specialtyData={specialtyData} key={Math.random()}/>
+                                    return <Service 
+                                                service={service} 
+                                                specialtyData={specialtyData} 
+                                                handleSpecialtyChange={handleSpecialtyChange}
+                                                key={Math.random()}
+                                            />
                                 })}
+                                
                             </div>     
                             <div className='container-col'>
                                 <p>Overview</p>
                             </div>             
                         </div>
                     </div>
-                    
                 </Services>
                 <div className='btn-wrapper'>
                     <div className='btn-container'>
