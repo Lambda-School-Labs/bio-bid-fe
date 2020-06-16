@@ -27,7 +27,7 @@ export default () => {
   const [userInfo, setUserInfo] = useState({});
   const [addClaim] = useMutation(CLAIM_COMPANY);
   const [isClaiming, setIsClaiming] = useState(false);
-  console.log("onmount claiming: ", isClaiming);
+  // console.log("already claiming: ", isClaiming);
 
   useEffect(() => {
     setIsClaiming(localStorage.getItem('isClaiming'))
@@ -36,7 +36,7 @@ export default () => {
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log("users info: ", userInfo);
+  // console.log("users info: ", userInfo);
 
   const handleClaims = async () => {
     try {
@@ -50,10 +50,10 @@ export default () => {
           company: id,
         },
       });
-      console.log(
-        `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
-      );
-      console.log("isClaiming: ", isClaiming);
+      // console.log(
+      //   `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
+      // );
+      // console.log("isClaiming: ", isClaiming);
     } catch (error) {
       console.log(error);
     }

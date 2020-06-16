@@ -11,16 +11,16 @@ export default ({ company }) => {
   const [userInfo, setUserInfo] = useState({});
   const [addClaim] = useMutation(CLAIM_COMPANY);
   const [isClaiming, setIsClaiming] = useState(false);
-  console.log("onmount claiming: ", isClaiming);
+  // console.log("onmount claiming: ", isClaiming);
 
   useEffect(() => {
-    setIsClaiming(localStorage.getItem('isClaiming'))
-  }, [])
+    setIsClaiming(localStorage.getItem("isClaiming"));
+  }, []);
 
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log("users info: ", userInfo);
+  // console.log("users info: ", userInfo);
 
   const handleClaims = async () => {
     try {
@@ -34,9 +34,9 @@ export default ({ company }) => {
           company: company.id,
         },
       });
-      console.log(
-        `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${company.id}`
-      );
+      // console.log(
+      //   `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${company.id}`
+      // );
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +85,9 @@ export default ({ company }) => {
             )}
           </div>
           <div className="btn-container">
-            {!authState.isAuthenticated || isClaiming || userInfo.profile==='Admin' ? null : (
+            {!authState.isAuthenticated ||
+            isClaiming ||
+            userInfo.profile === "Admin" ? null : (
               <CardButton onClick={handleClaims} gray>
                 <p>Claim</p>
               </CardButton>
