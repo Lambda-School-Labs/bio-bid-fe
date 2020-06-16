@@ -25,8 +25,8 @@ export default () => {
   const { id } = useParams();
   const { authState, authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
-  const [addClaim, {claimData}] = useMutation(CLAIM_COMPANY);
-  const [isClaiming, setIsClaiming] = useState('');
+  const [addClaim, { claimData }] = useMutation(CLAIM_COMPANY);
+  const [isClaiming, setIsClaiming] = useState("");
   // console.log("already claiming: ", isClaiming);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default () => {
           company: id,
         },
       });
-      console.log(claimData)
+      console.log(claimData);
       // console.log(
       //   `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
       // );
@@ -60,10 +60,11 @@ export default () => {
     }
   };
 
-  // const handleCancel = () => {
-    // localStorage.removeItem('isClaiming');
+  const handleCancel = () => {
+    localStorage.removeItem("isClaiming");
+    setIsClaiming('');
     // cancel mutation with resulting claim id from addClaim mutation
-  // }
+  };
 
   const classes = useStyles();
   const history = useHistory();
@@ -141,7 +142,11 @@ export default () => {
                   <p>Claim</p>
                 </Button>
               )}
-              {isClaiming===`${id}` && <Button><p>Cancel</p></Button>}
+              {isClaiming === `${id}` && (
+                <Button onClick={handleCancel}>
+                  <p>Cancel</p>
+                </Button>
+              )}
             </div>
             <div className="btn-container">
               <Button onClick={handleDelete} color="delete">
