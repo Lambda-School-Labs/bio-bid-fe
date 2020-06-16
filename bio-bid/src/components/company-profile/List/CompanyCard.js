@@ -24,7 +24,7 @@ export default ({ company }) => {
 
   const handleClaims = async () => {
     try {
-      localStorage.setItem("isClaiming", "true");
+      localStorage.setItem("isClaiming", true);
       setIsClaiming(true);
       await addClaim({
         variables: {
@@ -44,6 +44,7 @@ export default ({ company }) => {
 
   // const handleCancel = () => {
   //   localStorage.removeItem('isClaiming');
+  //   setIsClaiming(false);
   // }
 
   const [overview, setOverview] = useState("");
@@ -84,12 +85,12 @@ export default ({ company }) => {
             )}
           </div>
           <div className="btn-container">
-            {!authState.isAuthenticated || isClaiming ? null : (
+            {!authState.isAuthenticated || isClaiming || userInfo.profile==='Admin' ? null : (
               <CardButton onClick={handleClaims} gray>
                 <p>Claim</p>
               </CardButton>
             )}
-            {/* {!localStorage.getItem('isClaiming') ? null : (
+            {/* {!isClaiming ? null : (
               <CardButton onClick={handleCancel} gray>
                 <p>Cancel</p>
               </CardButton>

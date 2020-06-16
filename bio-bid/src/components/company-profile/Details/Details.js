@@ -40,7 +40,7 @@ export default () => {
 
   const handleClaims = async () => {
     try {
-      localStorage.setItem("isClaiming", "true");
+      localStorage.setItem("isClaiming", true);
       setIsClaiming(true);
       await addClaim({
         variables: {
