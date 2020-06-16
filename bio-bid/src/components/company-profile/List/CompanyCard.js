@@ -27,7 +27,9 @@ export default ({ company }) => {
           company: company.id,
         },
       });
-      console.log("test working");
+      console.log(
+        `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${company.id}`
+      );
     } catch (error) {
       console.log(error);
     }

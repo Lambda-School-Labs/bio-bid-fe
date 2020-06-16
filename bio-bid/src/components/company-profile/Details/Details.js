@@ -5,7 +5,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Login from "../../Login/Login";
-import { DELETE_COMPANY } from "../../../mutations/index";
+import { DELETE_COMPANY, CLAIM_COMPANY } from "../../../mutations/index";
 import { GET_COMPANY_BY_ID } from "../../../queries/index";
 import Bubble from "./Bubble";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -22,20 +22,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
+  const { id } = useParams();
   const { authState, authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
+  const [addClaim] = useMutation(CLAIM_COMPANY);
 
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
   console.log("users info: ", userInfo);
 
-  const handleClaims = (e) => {
-    console.log("test working");
+  const handleClaims = async () => {
+    // localStorage.setItem('isClaiming', 'true')
+    try {
+      await addClaim({
+        variables: {
+          user: userInfo.sub,
+          email: userInfo.email,
+          name: `${userInfo.given_name} ${userInfo.family_name}`,
+          company: id,
+        },
+      });
+      console.log(
+        `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const classes = useStyles();
-  const { id } = useParams();
   const history = useHistory();
 
   const [size, setSize] = useState(undefined);
