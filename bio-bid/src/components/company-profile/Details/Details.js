@@ -4,15 +4,15 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Login from '../../Login/Login';
+import Login from "../../Login/Login";
 import { DELETE_COMPANY } from "../../../mutations/index";
 import { GET_COMPANY_BY_ID } from "../../../queries/index";
-import { useOktaAuth } from "@okta/okta-react";
 import Bubble from "./Bubble";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Details, Button, Website, LinkedIn, Size, Location } from "./styles";
 import logo from "../../../images/default-company-logo.png";
+import { useOktaAuth } from "@okta/okta-react";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -22,7 +22,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
-  const { authState } = useOktaAuth();
+  const { authState, authService } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState({});
+
+  useEffect(() => {
+    authService.getUser().then(setUserInfo);
+  }, [authService]);
+  console.log(userInfo);
+
   const classes = useStyles();
   const { id } = useParams();
   const history = useHistory();
@@ -93,9 +100,11 @@ export default () => {
           <div className="header-container">
             <div className="company-name">
               <h2>{data.company.name}</h2>
-              {authState.isAuthenticated &&<Button>
-                <p>Claim</p>
-              </Button>}
+              {!authState.isAuthenticated ? null : (
+                <Button>
+                  <p>Claim</p>
+                </Button>
+              )}
             </div>
             <div className="btn-container">
               <Button onClick={handleDelete} color="delete">
