@@ -26,6 +26,12 @@ export default () => {
   const { authState, authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
   const [addClaim] = useMutation(CLAIM_COMPANY);
+  const [isClaiming, setIsClaiming] = useState(false);
+  console.log("onmount claiming: ", isClaiming);
+
+  useEffect(() => {
+    setIsClaiming(localStorage.getItem('isClaiming'))
+  }, [])
 
   useEffect(() => {
     authService.getUser().then(setUserInfo);
@@ -33,8 +39,9 @@ export default () => {
   console.log("users info: ", userInfo);
 
   const handleClaims = async () => {
-    // localStorage.setItem('isClaiming', 'true')
     try {
+      localStorage.setItem("isClaiming", "true");
+      setIsClaiming(true);
       await addClaim({
         variables: {
           user: userInfo.sub,
@@ -46,6 +53,7 @@ export default () => {
       console.log(
         `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
       );
+      console.log("isClaiming: ", isClaiming);
     } catch (error) {
       console.log(error);
     }
@@ -120,8 +128,8 @@ export default () => {
           <div className="header-container">
             <div className="company-name">
               <h2>{data.company.name}</h2>
-              {!authState.isAuthenticated ? null : (
-                <Button onClick={handleClaims}>
+              {!authState.isAuthenticated || isClaiming ? null : (
+                <Button id="claim" onClick={handleClaims}>
                   <p>Claim</p>
                 </Button>
               )}
