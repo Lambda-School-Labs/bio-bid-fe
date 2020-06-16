@@ -11,7 +11,7 @@ export default ({ company }) => {
   const [userInfo, setUserInfo] = useState({});
   const [addClaim] = useMutation(CLAIM_COMPANY);
   const [isClaiming, setIsClaiming] = useState(false);
-  // console.log("onmount claiming: ", isClaiming);
+  // console.log("already claiming: ", isClaiming);
 
   useEffect(() => {
     setIsClaiming(localStorage.getItem("isClaiming"));

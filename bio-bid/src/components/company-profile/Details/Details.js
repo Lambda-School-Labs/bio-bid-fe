@@ -30,8 +30,8 @@ export default () => {
   // console.log("already claiming: ", isClaiming);
 
   useEffect(() => {
-    setIsClaiming(localStorage.getItem('isClaiming'))
-  }, [])
+    setIsClaiming(localStorage.getItem("isClaiming"));
+  }, []);
 
   useEffect(() => {
     authService.getUser().then(setUserInfo);
@@ -128,7 +128,9 @@ export default () => {
           <div className="header-container">
             <div className="company-name">
               <h2>{data.company.name}</h2>
-              {!authState.isAuthenticated || isClaiming ? null : (
+              {!authState.isAuthenticated ||
+              isClaiming ||
+              userInfo.profile === "Admin" ? null : (
                 <Button id="claim" onClick={handleClaims}>
                   <p>Claim</p>
                 </Button>
