@@ -3,16 +3,40 @@ import { Link } from "react-router-dom";
 import defaultLogo from "../../../images/default-company-logo.png";
 import { CompanyCard, CardButton } from "./styles";
 import { useOktaAuth } from "@okta/okta-react";
+import { CLAIM_COMPANY } from "../../../mutations";
+import { useMutation } from "@apollo/react-hooks";
 
 export default ({ company }) => {
   const { authState, authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
+  const [addClaim] = useMutation(CLAIM_COMPANY);
 
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log(userInfo)
-  
+  console.log("users info: ", userInfo);
+
+  const handleClaims = async () => {
+    // localStorage.setItem('isClaiming', 'true')
+    try {
+      await addClaim({
+        variables: {
+          user: userInfo.sub,
+          email: userInfo.email,
+          name: `${userInfo.given_name} ${userInfo.family_name}`,
+          company: company.id,
+        },
+      });
+      console.log("test working");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handleCancel = () => {
+  //   localStorage.removeItem('isClaiming');
+  // }
+
   const [overview, setOverview] = useState("");
   const [tooLong, setTooLong] = useState(false);
   console.log(company.overview);
@@ -52,10 +76,15 @@ export default ({ company }) => {
           </div>
           <div className="btn-container">
             {!authState.isAuthenticated ? null : (
-              <CardButton gray>
+              <CardButton onClick={handleClaims} gray>
                 <p>Claim</p>
               </CardButton>
             )}
+            {/* {!localStorage.getItem('isClaiming') ? null : (
+              <CardButton onClick={handleCancel} gray>
+                <p>Cancel</p>
+              </CardButton>
+            )} */}
             <Link to={`/service-providers/${company.id}`}>
               <CardButton>
                 <p>Details</p>

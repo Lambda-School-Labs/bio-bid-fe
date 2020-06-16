@@ -28,7 +28,11 @@ export default () => {
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log(userInfo);
+  console.log("users info: ", userInfo);
+
+  const handleClaims = (e) => {
+    console.log("test working");
+  };
 
   const classes = useStyles();
   const { id } = useParams();
@@ -101,7 +105,7 @@ export default () => {
             <div className="company-name">
               <h2>{data.company.name}</h2>
               {!authState.isAuthenticated ? null : (
-                <Button>
+                <Button onClick={handleClaims}>
                   <p>Claim</p>
                 </Button>
               )}
