@@ -194,22 +194,32 @@ export const Service = styled.div`
             }
         }
     }
-    input{
-        display: ${props => props.specialtyOpen ? 'block' : 'none'};
-        border: 1px solid ${theme.colors.silver};
-        height: 30px;
-        border-radius: 5px;
-        outline: none;
-        padding: 7px;
+`;
+
+export const Option = styled.div`
+    width: 100%;
+    height: 30px;
+    display: ${props => props.open ? 'flex' : 'none'}; 
+`;
+
+export const OptionBtn = styled.div`
+    width: 50%;
+    border-right: ${props => props.borderRight ? `1px solid ${theme.colors.silver}` : 'none'};
+    border-bottom: 1px solid ${theme.colors.silver};
+    color: ${props => props.selected ? theme.colors.scienceBlue : theme.colors.silver};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: none;
+    cursor: pointer;
+    transition: .5s color ease;
+    p{
+        color: inherit;
         margin: 0;
-        width: 100%;
-        &:focus{
-            box-shadow: 0 0 5px ${theme.colors.scienceBlue};
-        }
+        
     }
-    .dropdown{
-        position: absolute;
-        width: 100%;
+    &:hover{
+        color: ${theme.colors.scienceBlue};
     }
 `;
 

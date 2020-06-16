@@ -119,3 +119,11 @@ export const GET_THERAPEUTICS = gql`
   }
 `;
 
+export const GET_SPECIALTIES = gql`
+  {
+    specialtyItems{
+      name
+    }
+  }
+`;
+

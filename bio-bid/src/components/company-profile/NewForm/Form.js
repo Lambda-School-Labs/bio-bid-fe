@@ -5,13 +5,13 @@ import { useHistory } from 'react-router-dom';
 import WarningCard from './WarningCard';
 import Service from './Service';
 
-import { GET_REGIONS, GET_THERAPEUTICS, GET_SERVICES, GET_COMPANY_BY_ID } from '../../../queries';
+import { GET_REGIONS, GET_THERAPEUTICS, GET_SERVICES, GET_SPECIALTIES, GET_COMPANY_BY_ID } from '../../../queries';
 import { ADD_COMPANY, EDIT_COMPANY } from '../../../mutations';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-import { Body, Basic, Services, Button, WarningIcon, Arrow, Plus } from './styles';
+import { Body, Basic, Services, Button, WarningIcon, Arrow } from './styles';
 
 
 import Input from '@material-ui/core/Input';
@@ -66,6 +66,7 @@ export default () => {
     const { data: regionsData } = useQuery(GET_REGIONS);
     const { data: therapeuticsData } = useQuery(GET_THERAPEUTICS);
     const { data: servicesData } = useQuery(GET_SERVICES);
+    const { data: specialtyData } = useQuery(GET_SPECIALTIES);
     // const { loading, error: companyError, data: companyData } = useQuery(GET_COMPANY_BY_ID, {
     //     variables: { id },
     // })
@@ -94,7 +95,16 @@ export default () => {
     const [ phases, setPhases ] = useState([]);
     const [ regions, setRegions ] = useState([]);
     const [ therapeutics, setTherapeutics ] = useState([]);
-    const [ services, setServices ] = useState(['Hello']);
+    const [ services, setServices ] = useState([
+        {
+            name: 'Service 1',
+            specialties: [
+                {
+                    name: 'Specialty 1'
+                }
+            ]
+        }
+    ]);
 
     const [ regionsAll, setRegionsAll ] = useState(false);
     const [ therapeuticsAll, setTherapeuticsAll ] = useState(false);
@@ -116,7 +126,48 @@ export default () => {
             setPhases(e.target.value);
         }
         if(e.target.name === 'services'){
-            setServices(e.target.value);
+            /*
+                services state = old array
+                e.target.value = new array
+                Compare [new and old array] to see if a services has been removed or added
+                    - If a services has been added, add the new service to [old array]
+                    - If a services has been removed, remove the service from [old array]
+                Now that [old array] has been changed, it has updated state
+
+                Comparing Algorithm
+                    - Check the length of [old array]
+                        - If [new array] is longer, we know there is a new service.
+                            - Use [new array] and pull the last index and add it to [old array]
+                        - If [new array] is shorter, we know a service has been removed.
+                            - Alphabetically sort [old array and new array]
+                            - Starting at index 0, compare each index of both arrays
+                                - When a value doesn't match in the old array, this is the removed service
+                                    - Remove that service from the original services state
+            */
+            if(e.target.value.length > services.length){
+                const newService = e.target.value[e.target.value.length - 1];
+                setServices([
+                    ...services,
+                    {
+                        name: newService
+                    }
+                ])
+            }else{
+                const oldArray = services.map(service => service.name);
+                const newArray = e.target.value;
+                oldArray.sort();
+                newArray.sort();
+                let i=0;
+                while(true){
+                    if(oldArray[i] === newArray[i]){
+                        i++;
+                    }else{
+                        setServices(services.filter(service => service.name !== oldArray[i]));
+                        return;
+                    }
+                }
+            }
+
         }
     }
 
@@ -450,7 +501,7 @@ export default () => {
                                             labelId="demo-mutiple-checkbox-label"
                                             id="demo-mutiple-checkbox"
                                             multiple
-                                            value={services}
+                                            value={services.map(service => service.name)}
                                             onChange={handleMultiple}
                                             input={<Input />}
                                             renderValue={(selected) => selected.join(', ')}
@@ -459,15 +510,15 @@ export default () => {
                                         >
                                         {servicesData.serviceItems.map(service => (
                                             <MenuItem key={service.name} value={service.name}>
-                                                <Checkbox checked={services.indexOf(service.name) > -1} />
+                                                <Checkbox checked={services.map(service => service.name).indexOf(service.name) > -1} />
                                                 <ListItemText primary={service.name} />
                                             </MenuItem>
                                         ))}
                                         </Select>
                                     </FormControl>
                                 )}
-                                {services.map(service => {
-                                    return <Service service={service}/>
+                                {specialtyData && services.map(service => {
+                                    return <Service service={service} specialtyData={specialtyData} key={Math.random()}/>
                                 })}
                             </div>     
                             <div className='container-col'>
