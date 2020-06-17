@@ -8,6 +8,7 @@ import CompanyCard from "./CompanyCard";
 import { CompanyList, Button } from "./styles";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useOktaAuth } from "@okta/okta-react";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -17,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default (props) => {
+  const { authState, authService } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    authService.getUser().then(setUserInfo);
+  }, [authService]);
+  
   const classes = useStyles();
   const history = useHistory();
 
@@ -63,9 +70,9 @@ export default (props) => {
             <Button onClick={handleSearch}>
               <p>Search</p>
             </Button>
-            <Button onClick={handleReDirect}>
+            {userInfo.profile==='Admin' && <Button onClick={handleReDirect}>
               <p>Add Company</p>
-            </Button>
+            </Button>}
             {/* implements login/logout here */}
             <Login component={Login} />
           </div>

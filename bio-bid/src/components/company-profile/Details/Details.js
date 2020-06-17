@@ -177,7 +177,7 @@ export default () => {
                   <p>Service Providers</p>
                 </Button>
               </Link>
-              {/* implement login here */}
+              {/* implement login/logout here */}
               <Login component={Login} />
             </div>
           </div>
