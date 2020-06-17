@@ -152,7 +152,7 @@ export default () => {
               <h2>{data.company.name}</h2>
               {!authState.isAuthenticated ||
               isClaiming ||
-              userInfo.profile !== id ||
+              userInfo.profile ||
               data.company.maintainer ? null : (
                 <Button onClick={handleClaims}>
                   <p>Claim</p>
