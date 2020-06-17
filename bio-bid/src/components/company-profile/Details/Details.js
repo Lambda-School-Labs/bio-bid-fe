@@ -5,7 +5,11 @@ import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Login from "../../Login/Login";
-import { DELETE_COMPANY, CLAIM_COMPANY } from "../../../mutations/index";
+import {
+  DELETE_COMPANY,
+  CLAIM_COMPANY,
+  DENY_CLAIM,
+} from "../../../mutations/index";
 import { GET_COMPANY_BY_ID } from "../../../queries/index";
 import Bubble from "./Bubble";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -25,12 +29,23 @@ export default () => {
   const { id } = useParams();
   const { authState, authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
-  const [addClaim, { claimData }] = useMutation(CLAIM_COMPANY);
+  const [denyClaim] = useMutation(DENY_CLAIM);
   const [isClaiming, setIsClaiming] = useState("");
-  // console.log("already claiming: ", isClaiming);
+  const [claim, setClaim] = useState("");
+  const [addClaim, { data: claimData }] = useMutation(CLAIM_COMPANY, {
+    onCompleted: (claimData) => {
+      console.log("claimData: ", claimData);
+      console.log("claimData.claimCompany.id",claimData.claimCompany.id);
+      localStorage.setItem("isClaiming", `${id}`);
+      setIsClaiming(id);
+      
+      localStorage.setItem("claim", `${claimData.claimCompany.id}`);
+    },
+  });
 
   useEffect(() => {
     setIsClaiming(localStorage.getItem("isClaiming"));
+    setClaim(localStorage.getItem("claim"));
   }, []);
 
   useEffect(() => {
@@ -40,8 +55,6 @@ export default () => {
 
   const handleClaims = async () => {
     try {
-      localStorage.setItem("isClaiming", `${id}`);
-      setIsClaiming(id);
       await addClaim({
         variables: {
           user: userInfo.sub,
@@ -50,7 +63,6 @@ export default () => {
           company: id,
         },
       });
-      console.log(claimData);
       // console.log(
       //   `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
       // );
@@ -60,9 +72,18 @@ export default () => {
     }
   };
 
-  const handleCancel = () => {
-    localStorage.removeItem("isClaiming");
-    setIsClaiming('');
+  const handleCancel = async () => {
+    try {
+      await denyClaim({
+        variables: { id: `${localStorage.getItem("claim")}` },
+      });
+      localStorage.removeItem("isClaiming");
+      setIsClaiming("");
+      localStorage.removeItem("claim");
+      setClaim("");
+    } catch (err) {
+      console.log(err);
+    }
     // cancel mutation with resulting claim id from addClaim mutation
   };
 
