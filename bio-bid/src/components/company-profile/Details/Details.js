@@ -31,7 +31,7 @@ export default () => {
   const [userInfo, setUserInfo] = useState({});
   const [denyClaim] = useMutation(DENY_CLAIM);
   const [isClaiming, setIsClaiming] = useState("");
-  const [claim, setClaim] = useState("");
+  // const [claim, setClaim] = useState("");
   const [addClaim] = useMutation(CLAIM_COMPANY, {
     onCompleted: (claimData) => {
       console.log("claimData: ", claimData);
@@ -44,7 +44,7 @@ export default () => {
 
   useEffect(() => {
     setIsClaiming(localStorage.getItem("isClaiming"));
-    setClaim(localStorage.getItem("claim"));
+    // setClaim(localStorage.getItem("claim"));
   }, []);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default () => {
       localStorage.removeItem("isClaiming");
       setIsClaiming("");
       localStorage.removeItem("claim");
-      setClaim("");
+      // setClaim("");
     } catch (err) {
       console.log(err);
     }
@@ -152,7 +152,7 @@ export default () => {
               <h2>{data.company.name}</h2>
               {!authState.isAuthenticated ||
               isClaiming ||
-              userInfo.profile === "Admin" ? null : (
+              userInfo.profile === "Admin" || data.company.maintainer ? null : (
                 <Button onClick={handleClaims}>
                   <p>Claim</p>
                 </Button>
