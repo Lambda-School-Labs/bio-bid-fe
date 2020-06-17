@@ -152,7 +152,7 @@ export default () => {
               <h2>{data.company.name}</h2>
               {!authState.isAuthenticated ||
               isClaiming ||
-              userInfo.profile!==id ||
+              userInfo.profile !== id ||
               data.company.maintainer ? null : (
                 <Button onClick={handleClaims}>
                   <p>Claim</p>
@@ -172,10 +172,18 @@ export default () => {
                   <p>Delete</p>
                 </Button>
               ) : null}
-              {userInfo && (userInfo.profile === "Admin" || userInfo.profile === `${id}`) ? (
+              {userInfo &&
+              (userInfo.profile === "Admin" || userInfo.profile === `${id}`) ? (
                 <Link to={`/service-provider/edit/${id}`}>
                   <Button color="edit">
                     <p>Edit</p>
+                  </Button>
+                </Link>
+              ) : null}
+              {userInfo && userInfo.profile === "Admin" ? (
+                <Link to={`/admin/dashboard`}>
+                  <Button>
+                    <p>Dashboard</p>
                   </Button>
                 </Link>
               ) : null}
@@ -184,13 +192,6 @@ export default () => {
                   <p>Service Providers</p>
                 </Button>
               </Link>
-              {userInfo && userInfo.profile === "Admin" ? (
-                <Link to={`/admin/dashboard`}>
-                  <Button >
-                    <p>Dashboard</p>
-                  </Button>
-                </Link>
-              ) : null}
               {/* implement login/logout here */}
               <Login component={Login} />
             </div>

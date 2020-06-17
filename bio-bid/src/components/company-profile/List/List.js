@@ -75,8 +75,8 @@ export default (props) => {
               </Button>
             )}
             {userInfo && userInfo.profile === "Admin" ? (
-                <Link to={`/admin/dashboard`}>
-                  <Button >
+                <Link to={`/admin/dashboard`} style={{ textDecoration: 'none' }}>
+                  <Button>
                     <p>Dashboard</p>
                   </Button>
                 </Link>
