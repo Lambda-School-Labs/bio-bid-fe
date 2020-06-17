@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_COMPANIES } from "../../../queries";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Login from "../../Login/Login.js";
 import CompanyCard from "./CompanyCard";
 import { CompanyList, Button } from "./styles";
@@ -74,6 +74,13 @@ export default (props) => {
                 <p>Add Company</p>
               </Button>
             )}
+            {userInfo && userInfo.profile === "Admin" ? (
+                <Link to={`/admin/dashboard`}>
+                  <Button >
+                    <p>Dashboard</p>
+                  </Button>
+                </Link>
+              ) : null}
             {/* implements login/logout here */}
             <Login component={Login} />
           </div>
