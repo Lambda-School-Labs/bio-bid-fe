@@ -23,7 +23,7 @@ export default (props) => {
   const [companyData, setCompanyData] = useState(null);
   const [search, setSearch] = useState("");
   const { loading, data, refetch } = useQuery(GET_COMPANIES);
-  const { authState, authService } = useOktaAuth();
+  const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {

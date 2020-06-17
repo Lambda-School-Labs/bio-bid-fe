@@ -151,26 +151,34 @@ export default () => {
             <div className="company-name">
               <h2>{data.company.name}</h2>
               {!authState.isAuthenticated ||
-              isClaiming || userInfo.profile==='Admin' || data.company.maintainer ? null : (
+              isClaiming ||
+              userInfo.profile === "Admin" ||
+              data.company.maintainer ? null : (
                 <Button onClick={handleClaims}>
                   <p>Claim</p>
                 </Button>
               )}
-              {userInfo && userInfo.profile!==`${id}` && isClaiming === `${id}` ? (
+              {userInfo &&
+              userInfo.profile !== `${id}` &&
+              isClaiming === `${id}` ? (
                 <Button color="delete" onClick={handleCancel}>
                   <p>Cancel</p>
-                </Button>) : null
-              }
+                </Button>
+              ) : null}
             </div>
             <div className="btn-container">
-              <Button onClick={handleDelete} color="delete">
-                <p>Delete</p>
-              </Button>
-              <Link to={`/service-provider/edit/${id}`}>
-                <Button color="edit">
-                  <p>Edit</p>
+              {userInfo && (userInfo.profile === "Admin" || userInfo.profile === `${id}`) ? (
+                <Button onClick={handleDelete} color="delete">
+                  <p>Delete</p>
                 </Button>
-              </Link>
+              ) : null}
+              {userInfo && (userInfo.profile === "Admin" || userInfo.profile === `${id}`) ? (
+                <Link to={`/service-provider/edit/${id}`}>
+                  <Button color="edit">
+                    <p>Edit</p>
+                  </Button>
+                </Link>
+              ) : null}
               <Link to="/">
                 <Button lg>
                   <p>Service Providers</p>
