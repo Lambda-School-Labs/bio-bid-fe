@@ -18,19 +18,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default (props) => {
+  const classes = useStyles();
+  const history = useHistory();
+  const [companyData, setCompanyData] = useState(null);
+  const [search, setSearch] = useState("");
+  const { loading, data, refetch } = useQuery(GET_COMPANIES);
   const { authState, authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
+
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  
-  const classes = useStyles();
-  const history = useHistory();
-
-  const [companyData, setCompanyData] = useState(null);
-  const [search, setSearch] = useState("");
-
-  const { loading, data, refetch } = useQuery(GET_COMPANIES);
+  console.log("userInfo in list: ", userInfo);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -70,9 +69,11 @@ export default (props) => {
             <Button onClick={handleSearch}>
               <p>Search</p>
             </Button>
-            {userInfo.profile==='Admin' && <Button onClick={handleReDirect}>
-              <p>Add Company</p>
-            </Button>}
+            {!userInfo || userInfo.profile !== 'Admin' ? null : (
+              <Button onClick={handleReDirect}>
+                <p>Add Company</p>
+              </Button>
+            )}
             {/* implements login/logout here */}
             <Login component={Login} />
           </div>

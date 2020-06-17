@@ -151,17 +151,16 @@ export default () => {
             <div className="company-name">
               <h2>{data.company.name}</h2>
               {!authState.isAuthenticated ||
-              isClaiming ||
-              userInfo.profile === "Admin" || data.company.maintainer ? null : (
+              isClaiming || userInfo.profile==='Admin' || data.company.maintainer ? null : (
                 <Button onClick={handleClaims}>
                   <p>Claim</p>
                 </Button>
               )}
-              {userInfo.profile!==`${id}` && isClaiming === `${id}` && (
+              {userInfo && userInfo.profile!==`${id}` && isClaiming === `${id}` ? (
                 <Button color="delete" onClick={handleCancel}>
                   <p>Cancel</p>
-                </Button>
-              )}
+                </Button>) : null
+              }
             </div>
             <div className="btn-container">
               <Button onClick={handleDelete} color="delete">
