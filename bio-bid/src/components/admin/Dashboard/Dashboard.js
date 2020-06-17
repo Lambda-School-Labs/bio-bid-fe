@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import { Dashboard } from './styles';
 import Admin from './Admin.js';
 
-import Info from './info/Info';
+import Info from './info/info';
 
 export default () => {
   const [selected, setSelected] = useState('0');

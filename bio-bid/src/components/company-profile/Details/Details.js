@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 // import { Card, CardBody, CardTitle, CardImg, CardLink, CardDeck, Button, ButtonGroup } from 'reactstrap';
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { useParams, useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useParams, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import Login from '../../Login/Login';
-import { DELETE_COMPANY } from "../../../mutations/index";
-import { GET_COMPANY_BY_ID } from "../../../queries/index";
+import { DELETE_COMPANY } from '../../../mutations/index';
+import { GET_COMPANY_BY_ID } from '../../../queries/index';
 
-import Bubble from "./Bubble";
+import Bubble from './Bubble';
 
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { Details, Button, Website, LinkedIn, Size, Location } from "./styles";
-import logo from "../../../images/default-company-logo.png";
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Details, Button, Website, LinkedIn, Size, Location } from './styles';
+import logo from '../../../images/default-company-logo.png';
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
+    color: '#fff',
   },
 }));
 
@@ -38,7 +38,7 @@ export default () => {
   const handleDelete = async () => {
     try {
       await deleteCompany({ variables: { id } });
-      history.push("/");
+      history.push('/');
     } catch (err) {
       console.log(err);
     }
@@ -48,35 +48,35 @@ export default () => {
     refetch();
     if (data && data.company.companySize) {
       switch (data.company.companySize) {
-        case "A":
-          setSize("Self-Employed");
+        case 'A':
+          setSize('Self-Employed');
           break;
-        case "B":
-          setSize("1-10 Employees");
+        case 'B':
+          setSize('1-10 Employees');
           break;
-        case "C":
-          setSize("11-50 Employees");
+        case 'C':
+          setSize('11-50 Employees');
           break;
-        case "D":
-          setSize("51-200 Employees");
+        case 'D':
+          setSize('51-200 Employees');
           break;
-        case "E":
-          setSize("201-500 Employees");
+        case 'E':
+          setSize('201-500 Employees');
           break;
-        case "F":
-          setSize("501-1,000 Employees");
+        case 'F':
+          setSize('501-1,000 Employees');
           break;
-        case "G":
-          setSize("1,000-5,000 Employees");
+        case 'G':
+          setSize('1,000-5,000 Employees');
           break;
-        case "H":
-          setSize("5,001-10,000 Employees");
+        case 'H':
+          setSize('5,001-10,000 Employees');
           break;
-        case "I":
-          setSize("10,000+ Employees");
+        case 'I':
+          setSize('10,000+ Employees');
           break;
         default:
-          setSize("N/A");
+          setSize('N/A');
       }
     }
   }, [data, refetch]);
@@ -130,11 +130,7 @@ export default () => {
                 <div className="link">
                   <Website />
                   {data.company.website ? (
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={`https://${data.company.website}`}
-                    >
+                    <a target="_blank" rel="noopener noreferrer" href={`https://${data.company.website}`}>
                       {data.company.website}
                     </a>
                   ) : (
@@ -144,11 +140,7 @@ export default () => {
                 <div className="link">
                   <LinkedIn />
                   {data.company.linkedin ? (
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={`https://${data.company.linkedin}`}
-                    >
+                    <a target="_blank" rel="noopener noreferrer" href={`https://${data.company.linkedin}`}>
                       {data.company.linkedin}
                     </a>
                   ) : (
@@ -159,20 +151,16 @@ export default () => {
               <div className="basic-info">
                 <div className="info">
                   <Size alt="Company Size" />
-                  <p>{size ? size : "N/A"}</p>
+                  <p>{size ? size : 'N/A'}</p>
                 </div>
                 <div className="info">
                   <Location />
-                  <p>
-                    {data.company.headquarters
-                      ? data.company.headquarters
-                      : "N/A"}
-                  </p>
+                  <p>{data.company.headquarters ? data.company.headquarters : 'N/A'}</p>
                 </div>
               </div>
               <div className="overview">
                 <h3>Overview</h3>
-                <p>{data.company.overview ? data.company.overview : "N/A"}</p>
+                <p>{data.company.overview ? data.company.overview : 'N/A'}</p>
               </div>
             </div>
             <div className="specifics">
@@ -186,9 +174,7 @@ export default () => {
               <div className="therapeutic-areas">
                 <h3>Therapeutic Areas</h3>
                 {data.company.therapeutics.map((therapeutic) => {
-                  return (
-                    <Bubble key={Math.random()} content={therapeutic.name} />
-                  );
+                  return <Bubble key={Math.random()} content={therapeutic.name} />;
                 })}
               </div>
               <div className="bar" />
