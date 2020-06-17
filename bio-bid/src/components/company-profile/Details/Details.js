@@ -32,13 +32,12 @@ export default () => {
   const [denyClaim] = useMutation(DENY_CLAIM);
   const [isClaiming, setIsClaiming] = useState("");
   const [claim, setClaim] = useState("");
-  const [addClaim, { data: claimData }] = useMutation(CLAIM_COMPANY, {
+  const [addClaim] = useMutation(CLAIM_COMPANY, {
     onCompleted: (claimData) => {
       console.log("claimData: ", claimData);
-      console.log("claimData.claimCompany.id",claimData.claimCompany.id);
+      console.log("claimData.claimCompany.id", claimData.claimCompany.id);
       localStorage.setItem("isClaiming", `${id}`);
       setIsClaiming(id);
-      
       localStorage.setItem("claim", `${claimData.claimCompany.id}`);
     },
   });
@@ -51,7 +50,7 @@ export default () => {
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  // console.log("users info: ", userInfo);
+  console.log("users info: ", userInfo);
 
   const handleClaims = async () => {
     try {
@@ -63,10 +62,6 @@ export default () => {
           company: id,
         },
       });
-      // console.log(
-      //   `${userInfo.given_name} ${userInfo.family_name} created a claim for company ${id}`
-      // );
-      // console.log("isClaiming: ", isClaiming);
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +79,6 @@ export default () => {
     } catch (err) {
       console.log(err);
     }
-    // cancel mutation with resulting claim id from addClaim mutation
   };
 
   const classes = useStyles();
@@ -163,7 +157,7 @@ export default () => {
                   <p>Claim</p>
                 </Button>
               )}
-              {isClaiming === `${id}` && (
+              {userInfo.profile!==`${id}` && isClaiming === `${id}` && (
                 <Button onClick={handleCancel}>
                   <p>Cancel</p>
                 </Button>
