@@ -184,6 +184,13 @@ export default () => {
                   <p>Service Providers</p>
                 </Button>
               </Link>
+              {userInfo && userInfo.profile === "Admin" ? (
+                <Link to={`/admin/dashboard`}>
+                  <Button >
+                    <p>Dashboard</p>
+                  </Button>
+                </Link>
+              ) : null}
               {/* implement login/logout here */}
               <Login component={Login} />
             </div>
