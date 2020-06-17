@@ -158,7 +158,7 @@ export default () => {
                 </Button>
               )}
               {userInfo.profile!==`${id}` && isClaiming === `${id}` && (
-                <Button onClick={handleCancel}>
+                <Button color="delete" onClick={handleCancel}>
                   <p>Cancel</p>
                 </Button>
               )}
