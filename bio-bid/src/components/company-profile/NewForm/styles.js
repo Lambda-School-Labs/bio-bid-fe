@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../../theme';
 import { Warning } from '@styled-icons/entypo/';
-import { ArrowIosBackOutline, ArrowIosDownwardOutline } from '@styled-icons/evaicons-outline/';
+import { ArrowIosBackOutline } from '@styled-icons/evaicons-outline/';
 import { PlusCircle, Trash } from '@styled-icons/boxicons-solid/';
 import { Plus, Search } from '@styled-icons/boxicons-regular/';
 
@@ -296,20 +296,7 @@ export const Button = styled.div`
     }
 `;
 
-export const Bar = styled.div`
-    height: 1px;
-    width: 100%;
-    background-color: ${props => 
-        props.color === 'sun' ? theme.colors.sun : null ||
-        props.color === 'laPalma' ? theme.colors.laPalma : null ||
-        props.color === 'scienceBlue' ? theme.colors.scienceBlue : null ||
-        props.color === 'silver' ? theme.colors.silver : null
-    };
-`;
-
-export const Item = styled.div`
-    display: ${props => props.render ? 'block' : 'none'};
-`;
+// Icon styling
 
 export const WarningIcon = styled(Warning)`
     width: 30px;

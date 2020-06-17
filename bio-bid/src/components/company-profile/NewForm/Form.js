@@ -149,7 +149,8 @@ export default () => {
                 setServices([
                     ...services,
                     {
-                        name: newService
+                        name: newService,
+                        specialties: []
                     }
                 ])
             }else{
@@ -261,8 +262,8 @@ export default () => {
         })
     }
 
+    // Handles state change for selecting specialties
     const handleSpecialtyChange = e => {
-        console.log(e.target.value)
         const service = services.filter(service => service.name === e.target.name);
         setServices([
             ...services.filter(service => service.name !== e.target.name),
@@ -277,6 +278,35 @@ export default () => {
             }
         ])
     } 
+
+    // Handles deleting a specialty from a service
+    const handleSpecialtyDelete = (serviceName, specialtyName) => {
+        const service = services.filter(service => service.name === serviceName);
+        setServices([
+            ...services.filter(service => service.name !== serviceName),
+            {
+                name: serviceName,
+                specialties: service[0].specialties.filter(specialty => specialty.name !== specialtyName)
+            }
+        ])
+    }
+
+    // Handles state change for specialties that the user inputs
+    const handleCustomSpecialty = (serviceName, newSpecialty) => {
+        const service = services.filter(service => service.name === serviceName);
+        setServices([
+            ...services.filter(service => service.name !== serviceName),
+            {
+                name: serviceName,
+                specialties: [
+                    ...service[0].specialties,
+                    {
+                        name: newSpecialty
+                    }
+                ]
+            }
+        ])
+    }
 
     useEffect(() => {
         if(regionsAll){
@@ -539,7 +569,9 @@ export default () => {
                                                 service={service} 
                                                 specialtyData={specialtyData} 
                                                 handleSpecialtyChange={handleSpecialtyChange}
-                                                key={Math.random()}
+                                                handleSpecialtyDelete={handleSpecialtyDelete}
+                                                handleCustomSpecialty={handleCustomSpecialty}
+                                                key={service.name}
                                             />
                                 })}
                                 
