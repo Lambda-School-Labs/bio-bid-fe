@@ -238,6 +238,20 @@ export const SpecialtyList = styled.div`
             font: ${theme.fontStyling.text};
         }
     }
+    .sub-specialties{
+        .sub-specialty{
+            display: flex;
+            width: 100%;
+            height: 30px;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 5px;
+            padding-left: 15px;
+            p{
+                margin: 0;
+            }
+        }
+    }
 `;
 
 export const WarningCard = styled.div`
@@ -317,6 +331,7 @@ export const Add = styled(Plus)`
     width: 20px;
     margin: 0 5px;
     cursor: pointer;
+    color: ${props => props.selected ? theme.colors.laPalma : theme.colors.mineShaft};
     &:hover{
         color: ${theme.colors.laPalma};
     }
@@ -325,6 +340,7 @@ export const Add = styled(Plus)`
 export const SearchAdd = styled(Search)`
     width: 20px;
     cursor: pointer;
+    color: ${props => props.selected ? theme.colors.laPalma : theme.colors.mineShaft};
     &:hover{
         color: ${theme.colors.laPalma};
     }

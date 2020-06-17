@@ -100,7 +100,12 @@ export default () => {
             name: 'Service 1',
             specialties: [
                 {
-                    name: 'Specialty 1'
+                    name: 'Specialty 1',
+                    sub_specialties: [
+                        {
+                            name: 'Sub Specialty 1'
+                        }
+                    ]
                 }
             ]
         }
@@ -304,6 +309,40 @@ export default () => {
                         name: newSpecialty
                     }
                 ]
+            }
+        ])
+    }
+
+    // Handles state change for selecting subSpecialties
+    const handleSubSelect = () => {
+
+    }
+
+    // Handles state change for subSpecialties the user inputs
+    const handleCustomSub = (serviceName, specialtyName, newSub) => {
+        const service = services.filter(service => service.name === serviceName);
+        const oldSpecialties = service[0].specialties.filter(specialty => specialty.name !== specialtyName);
+        const updatedSpecialty = service[0].specialties.filter(specialty => specialty.name === specialtyName);
+        let oldSubSpecialties = []
+        if(updatedSpecialty[0].sub_specialties){
+            oldSubSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => ({name: subSpecialty.name}))
+        }
+        setServices([
+            ...services.filter(service => service.name !== serviceName),
+            {
+                name: serviceName,
+                specialties: [
+                    ...oldSpecialties,
+                    {
+                        name: specialtyName,
+                        sub_specialties: [
+                            ...oldSubSpecialties,
+                            {
+                                name: newSub
+                            }
+                        ]
+                    }
+                ],
             }
         ])
     }
@@ -571,6 +610,7 @@ export default () => {
                                                 handleSpecialtyChange={handleSpecialtyChange}
                                                 handleSpecialtyDelete={handleSpecialtyDelete}
                                                 handleCustomSpecialty={handleCustomSpecialty}
+                                                handleCustomSub={handleCustomSub}
                                                 key={service.name}
                                             />
                                 })}

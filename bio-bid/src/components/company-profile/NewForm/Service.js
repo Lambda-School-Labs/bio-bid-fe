@@ -22,6 +22,10 @@ export default (props) => {
     const [ newSelected, setNewSelected ] = useState(false);
     const [ customSpecialty, setCustomSpecialty ] = useState('');
 
+    const [ searchSub, setSearchSub ] = useState(false);
+    const [ addSub, setAddSub ] = useState(false);
+    const [ customSub, setCustomSub ] = useState('');
+
     const toggleSpecialtyOpen = () => {
         setSpecialtyOpen(!specialtyOpen);
         setNewSelected(false);
@@ -38,14 +42,34 @@ export default (props) => {
         setSearchSelected(false);
     }
 
+    const toggleSearchSub = () => {
+        setSearchSub(!searchSub);
+        setAddSub(false);
+    }
+
+    const toggleAddSub = () => {
+        setAddSub(!addSub);
+        setSearchSub(false);
+    }
+
     const handleChange = e => {
         setCustomSpecialty(e.target.value);
+    }
+
+    const handleSubChange = e => {
+        setCustomSub(e.target.value);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
         props.handleCustomSpecialty(props.service.name, customSpecialty);
         setCustomSpecialty('');
+    }
+
+    const handleSubSubmit = (e, specialtyName) => {
+        e.preventDefault();
+        props.handleCustomSub(props.service.name, specialtyName, customSub);
+        setCustomSub('');
     }
 
     return (
@@ -75,6 +99,7 @@ export default (props) => {
                             onChange={props.handleSpecialtyChange}
                             value=''
                             name={props.service.name}
+                            placeholder='Select specialty'
                         >
                             {props.specialtyData.specialtyItems.map(specialty => {
                                 return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
@@ -97,13 +122,52 @@ export default (props) => {
             <SpecialtyList>
                 {props.service.specialties && props.service.specialties.map(specialty => {
                     return (
-                        <div className='specialty' key={specialty.name}>
-                            <p>{specialty.name}</p>
-                            <div className='btn-container'>
-                                <SearchAdd/>
-                                <Add/>
-                                <Delete onClick={() => props.handleSpecialtyDelete(props.service.name, specialty.name)}/>
+                        <div key={specialty.name}>
+                            <div className='specialty' >
+                                <p>{specialty.name}</p>
+                                <div className='btn-container'>
+                                    <SearchAdd onClick={toggleSearchSub} selected={searchSub}/>
+                                    <Add onClick={toggleAddSub} selected={addSub}/>
+                                    <Delete onClick={() => props.handleSpecialtyDelete(props.service.name, specialty.name)}/>
+                                </div>
                             </div>
+                            <div className='sub-specialties'>
+                                {specialty.sub_specialties && specialty.sub_specialties.map(subSpecialty => {
+                                    return (
+                                        <div className='sub-specialty' key={subSpecialty.name}>
+                                            <p>- {subSpecialty.name}</p>
+                                            <Delete/>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            {searchSub && (
+                                <FormControl className={classes.formControl}>
+                                    <Select                    
+                                        displayEmpty
+                                        className={classes.selectEmpty}
+                                        inputProps={{ 'aria-label': 'Without label' }}
+                                        onChange={props.handleSpecialtyChange}
+                                        value=''
+                                        name={props.service.name}
+                                    >
+                                        {props.specialtyData.specialtyItems.map(specialty => {
+                                            return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            )}
+                            {addSub && (
+                                <form onSubmit={(e) => handleSubSubmit(e, specialty.name)}>
+                                    <TextField 
+                                        id="standard-helperText" 
+                                        fullWidth
+                                        placeholder='Enter new specialty'
+                                        onChange={handleSubChange}
+                                        value={customSub}
+                                    />
+                                </form>
+                            )}
                         </div>
                     )
                 })}
