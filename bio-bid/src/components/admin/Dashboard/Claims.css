@@ -1,5 +1,5 @@
 .claimContainer {
-  background-color: #1187b6;
+  background-color: #096DD9;
   width: 90%;
   margin: 1% auto;
   display: flex;
@@ -24,6 +24,7 @@
 
 .textTitle {
   font-family: Inter, sans-serif;
+  color:#FAAD14;
 }
 
 .approveClaim {
