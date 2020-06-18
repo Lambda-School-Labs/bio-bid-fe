@@ -1,240 +1,356 @@
 import styled from 'styled-components';
 import theme from '../../../theme';
-import { LinkedinSquare } from '@styled-icons/boxicons-logos'
+import { Warning } from '@styled-icons/entypo/';
+import { ArrowIosBackOutline } from '@styled-icons/evaicons-outline/';
+import { PlusCircle, Trash } from '@styled-icons/boxicons-solid/';
+import { Plus, Search } from '@styled-icons/boxicons-regular/';
 
-export const Body= styled.div`
-    display: flex;
+export const Body = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    position: relative;
-    .body{
-        margin: 0 auto;
-        margin-top: 30px;
-        width: 90%;
-        .header-wrapper{
-            margin-top: 50px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            h1{
+    align-items: center;
+    header{
+        width: 100%;
+        height: 7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .header-content{
+            width: 90%;
+            h2{
                 font: ${theme.fontStyling.header2};
-                color: ${theme.colors.mineShaft};
+                color: ${theme.colors.scienceBlue};
             }
             .btn-container{
                 display: flex;
-                justify-content: flex-end;
-                width: 300px;
+                cursor: pointer;
+                color: ${theme.colors.silver};
+                width: 60px;
+                .grey{
+                    color: inherit;
+                    margin: 0;
+                    margin-bottom: 2px;
+                }
+                &:hover{
+                    color: ${theme.colors.scienceBlue};
+                }
             }
         }
-        .bar{
-            width: 100%;
-            height: 1px;
-            background-color: ${theme.colors.scienceBlue};
+        
+    }
+    .error{
+        width: 100%;
+        height: 50px;
+        background-color: ${theme.colors.torchRead};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p{
+            color: ${theme.colors.alabaster};
+            font: ${theme.fontStyling.text};
+            margin: 0;
+        }
+    }
+    .form-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 800px;
+    }
+    h3{
+        font: ${theme.fontStyling.header3};
+        color: ${theme.colors.mineShaft};
+    }
+    .text, label{
+        font: ${theme.fontStyling.text};
+        color: ${theme.colors.mineShaft};
+        margin: 0;
+    }
+    .import-container{
+        margin-top: 20px;
+        width: 100%;
+        box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75);
+        padding: 20px;
+        .warning-container{
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+    }
+    .btn-wrapper{
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        .btn-container{
+            display: flex;
+            margin-top: 20px;
+            margin-bottom: 50px;
         }
     }
 `;
 
-export const HeaderError = styled.div`
-    display: ${props => props.display ? 'flex' : 'none'};
-    position: absolute;
-    height: 50px;
+export const Basic = styled.div`
+    margin-top: 20px;
     width: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: ${theme.colors.torchRead};
-    p{
-        font: ${theme.fontStyling.text};
-        margin: 0;
-        color: ${theme.colors.alabaster};
+    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75);
+    padding: 20px;
+    .form-wrapper{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        .form{
+            width: 700px;
+            .row{
+                display: flex;
+                justify-content: space-between;
+                .input-box{
+                    display: flex;
+                    flex-direction: column;
+                    width: 300px;
+                    margin: 10px 0;
+                    input{
+                        border: 1px solid ${theme.colors.silver};
+                        height: 30px;
+                        border-radius: 5px;
+                        outline: none;
+                        padding: 7px;
+                        &:focus{
+                            box-shadow: 0 0 5px ${theme.colors.scienceBlue};
+                        }
+                    }
+                    textarea{
+                        resize: none;
+                        height: 150px;
+                        border-radius: 5px;
+                        border: 1px solid ${theme.colors.silver};
+                        padding-left: 7px;
+                        outline: none;
+                        &:focus{
+                            box-shadow: 0 0 5px ${theme.colors.scienceBlue};
+                        }
+                    }
+                    select{
+                        cursor: pointer;
+                        height: 30px;
+                        border-radius: 5px;
+                        border: 1px solid ${theme.colors.silver};
+                        outline: none;
+                        background-color: #FFFFFF;
+                        &:focus{
+                            box-shadow: 0 0 5px ${theme.colors.scienceBlue};
+                        }
+                    }
+                    .multiple-drop{
+                        height: 80px;
+                    }
+                }
+            }
+        }
     }
 `;
 
-export const SucceessMessage = styled.div`
-    display: ${props => props.display ? 'flex' : 'none'};
-    position: absolute;
-    height: 50px;
+export const Services = styled.div`
+    margin-top: 20px;
     width: 100%;
+    box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75);
+    padding: 20px;
+    .service-container{
+        display: flex;
+        justify-content: center;
+        .wrapper{
+            display: flex;
+            justify-content: space-between;
+            width: 730px;
+            .container-col{
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+`;
+
+export const Service = styled.div`
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid ${theme.colors.silver};
+    .service-header{
+        background-color: ${theme.colors.silver};
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        height: 30px;
+        p{
+            margin: 0;
+        }
+        .add-service{
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            &:hover{
+                color: ${theme.colors.scienceBlue};
+            }
+        }
+    }
+`;
+
+export const Option = styled.div`
+    width: 100%;
+    height: 30px;
+    display: ${props => props.open ? 'flex' : 'none'}; 
+`;
+
+export const OptionBtn = styled.div`
+    width: 50%;
+    border-right: ${props => props.borderRight ? `1px solid ${theme.colors.silver}` : 'none'};
+    border-bottom: 1px solid ${theme.colors.silver};
+    color: ${props => props.selected ? theme.colors.scienceBlue : theme.colors.silver};
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: ${theme.colors.laPalma};
+    border-radius: none;
+    cursor: pointer;
+    transition: .5s color ease;
     p{
-        font: ${theme.fontStyling.text};
+        color: inherit;
         margin: 0;
-        color: ${theme.colors.alabaster};
+        
+    }
+    &:hover{
+        color: ${theme.colors.scienceBlue};
+    }
+`;
+
+export const SpecialtyList = styled.div`
+    width: 100%;
+    .specialty{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 30px;
+        padding: 0 5px;
+        p{
+            margin: 0;
+            font: ${theme.fontStyling.text};
+        }
+    }
+    .sub-specialties{
+        .sub-specialty{
+            display: flex;
+            width: 100%;
+            height: 30px;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 5px;
+            padding-left: 15px;
+            p{
+                margin: 0;
+            }
+        }
+    }
+`;
+
+export const WarningCard = styled.div`
+    width: 500px;
+    padding: 20px;
+    background-color: ${theme.colors.alabaster};
+    h3{
+        font: ${theme.fontStyling.header3};
+        color: ${theme.colors.mineShaft};
+    }
+    .text{
+        font: ${theme.fontStyling.text};
+        color: ${theme.colors.mineShaft};
+        margin-bottom: 20px;
+    }
+    .btn-container{
+        display: flex;
+        justify-content: flex-end;
     }
 `;
 
 export const Button = styled.div`
-    width: 150px;
-    height: 40px;
+    width: 160px;
+    height: 30px;
+    background-color: ${props => 
+        props.color === 'sun' ? theme.colors.sun : null ||
+        props.color === 'laPalma' ? theme.colors.laPalma : null ||
+        props.color === 'scienceBlue' ? theme.colors.scienceBlue : null ||
+        props.color === 'alabaster' ? theme.colors.alabaster : null
+    };
+    border: 1px solid ${props =>
+        props.color === 'sun' ? theme.colors.sun : null ||
+        props.color === 'laPalma' ? theme.colors.laPalma : null ||
+        props.color === 'scienceBlue' ? theme.colors.scienceBlue : null ||
+        props.color === 'alabaster' ? theme.colors.alabaster : null
+    };
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: ${props => props.noMargin ? '0' : '20px'};
-    border-radius: 10px;
-    border: 1px solid ${props => props.cancel ? theme.colors.sun : theme.colors.scienceBlue};
-    background-color: ${props => props.cancel ? theme.colors.sun : theme.colors.scienceBlue};
-    color: ${theme.colors.alabaster};
     cursor: pointer;
+    color: ${theme.colors.alabaster};
+    margin-left: ${props => props.marginLeft};
     p{
-        margin-bottom: 0 !important;
+        margin: 0;
         font: ${theme.fontStyling.text};
-        color: inherit;
     }
     &:hover{
         background-color: ${theme.colors.alabaster};
-        color: ${props => props.cancel ? theme.colors.sun : theme.colors.scienceBlue};
+        color: ${props => 
+            props.color === 'sun' ? theme.colors.sun : null ||
+            props.color === 'laPalma' ? theme.colors.laPalma : null ||
+            props.color === 'scienceBlue' ? theme.colors.scienceBlue : null ||
+            props.color === 'alabaster' ? theme.colors.alabaster : null
+        };
     }
 `;
 
-export const Form = styled.div`
-    width: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-    height: 800px;
-    .background-asset{
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translate(0, -50%);
-        width: 800px;
-        opacity: 0.6;
-        z-inedx: -1;
-    }
-    .top-row{
-        display: flex;
-        z-index: 1;
-        position: absolute;
-        width: 100%;
-        justify-content: center;
-        .side-bar{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            img{
-                border-radius: 50%;
-                border: 1px solid ${theme.colors.mineShaft};
-                width: 200px;
-                height: 200px;
-                margin-bottom: 20px;
-            }
-        }
-        .col-custom{
-            width: 480px;
-            height: 280px;
-            padding: 0;
-            margin-left: 50px;
-            .error{
-                color: red;
-                margin: 0;
-            }
-            .input-container{
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 40px;
-                label{
-                    font: ${theme.fontStyling.text};
-                    margin: 0;
-                }
-                input{
-                    width: 250px;
-                    height: 30px;
-                    border-radius: 5px;
-                    border: 1px solid ${theme.colors.silver};
-                    padding-left: 8px;
-                    outline: none;
-                    &:focus{
-                        box-shadow: 0 0 5px ${theme.colors.scienceBlue};
-                    }
-                }
-                textarea{
-                    resize: none;
-                    width: 250px;
-                    height: 100px;
-                    border-radius: 5px;
-                    border: 1px solid ${theme.colors.silver};
-                    padding-left: 8px;
-                    outline: none;
-                    &:focus{
-                        box-shadow: 0 0 5px ${theme.colors.scienceBlue};
-                    }
-                }   
-                select{
-                    width: 250px;
-                    height: 30px;
-                    border-radius: 5px;
-                    border: 1px solid ${theme.colors.silver};
-                    background-color: #FFFFFF;
-                    outline: none;
-                    &:focus{
-                        box-shadow: 0 0 5px ${theme.colors.scienceBlue};
-                    }
-                }   
-            }
-        }
-    }
-    .bottom-row{
-        display: flex;
-        position: absolute;
-        z-index: 1;
-        margin-top: 350px;
-        width: 100%;
-        justify-content: center;
-        .multi-container{
-            display: flex;
-            flex-direction: column;
-            width: 250px;
-            margin: 0 20px;
-            label{
-                font: ${theme.fontStyling.text};
-                margin: 0;
-                margin-bottom: 10px;
-            }
-            input{
-                width: 250px;
-                height: 30px;
-                border-radius: 5px;
-                border: 1px solid ${theme.colors.silver};
-                padding-left: 8px;
-                outline: none;
-                &:focus{
-                    box-shadow: 0 0 5px ${theme.colors.scienceBlue};
-                }
-            }
-        }
-    }
-`;
+// Icon styling
 
-export const LinkedIn = styled(LinkedinSquare)`
+export const WarningIcon = styled(Warning)`
     width: 30px;
+    color: ${theme.colors.sun};
+    margin-right: 10px;
+`;
+
+export const Arrow = styled(ArrowIosBackOutline)`
+    width: 20px;
     color: inherit;
 `;
 
-export const Card = styled.div`
-    width: 400px;
-    height: 200px;
-    background-color: ${theme.colors.alabaster};
-    border-radius: 10px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    h1{
-        font: ${theme.fontStyling.header2};
-        color: ${theme.colors.torchRead};
-    }
-    .message{
-        font: ${theme.fontStyling.text};
-        color: ${theme.colors.mineShaft};
-    }
-    .btn-container{
-        color: ${theme.colors.alabaster};
-        display: flex;
+export const AddCircle = styled(PlusCircle)`
+    width: 20px;
+`;
+
+export const Add = styled(Plus)`
+    width: 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    color: ${props => props.selected ? theme.colors.laPalma : theme.colors.mineShaft};
+    &:hover{
+        color: ${theme.colors.laPalma};
     }
 `;
+
+export const SearchAdd = styled(Search)`
+    width: 20px;
+    cursor: pointer;
+    color: ${props => props.selected ? theme.colors.laPalma : theme.colors.mineShaft};
+    &:hover{
+        color: ${theme.colors.laPalma};
+    }
+`;
+
+export const Delete = styled(Trash)`
+    width: 20px;
+    cursor: pointer;
+    &:hover{
+        color: ${theme.colors.torchRead};
+    }
+`;
+

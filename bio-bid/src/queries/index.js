@@ -79,6 +79,7 @@ export const GET_COMPANY_BY_ID = gql`
       overview
       headquarters
       companySize
+      email
       regions {
         name
       }

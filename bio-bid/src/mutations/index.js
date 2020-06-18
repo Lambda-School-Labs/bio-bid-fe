@@ -96,6 +96,7 @@ export const EDIT_COMPANY = gql`
   mutation editCompany(
     $id: ID!
     $name: String
+    $email: String
     $logoURL: String
     $website: String
     $linkedin: String
@@ -105,11 +106,12 @@ export const EDIT_COMPANY = gql`
     $regions: [RegionInput]
     $therapeutics: [TherapeuticInput]
     $services: [ServiceInput]
-    $specialties: [SpecialtyInput]
+    $phases: [Phase]
   ) {
     updateCompany(
       id: $id
       updated_name: $name
+      updated_email: $email
       updated_logoURL: $logoURL
       updated_website: $website
       updated_linkedin: $linkedin
@@ -117,11 +119,12 @@ export const EDIT_COMPANY = gql`
       updated_headquarters: $headquarters
       updated_companySize: $companySize
       updated_services: $services
-      updated_specialties: $specialties
       updated_regions: $regions
       updated_therapeutics: $therapeutics
+      updated_phases: $phases
     ) {
       id
     }
   }
 `;
+
