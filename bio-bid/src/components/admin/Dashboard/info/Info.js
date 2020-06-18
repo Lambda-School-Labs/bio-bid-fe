@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { Card, CardTitle, CardGroup, CardBody, Input, Button, InputGroup, InputGroupAddon, Spinner } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+
+//Imported Queries
+
 import { GET_SERVICES, GET_REGIONS, GET_THERAPEUTICS } from '../../../../queries/index';
+
+//Imported Mutations
 
 import {
   ADD_SERVICE,
@@ -14,6 +19,8 @@ import {
 
 import styled from 'styled-components';
 
+//Imported Material Ui components
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -22,6 +29,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+//State
 
 const InfoCards = (props) => {
   const { loading, error, data: services } = useQuery(GET_SERVICES);
@@ -44,6 +53,8 @@ const InfoCards = (props) => {
     setData({ services: services?.serviceItems, therapeutics: therapeutics?.therapeutics, regions: regions?.regions });
   }, [services, therapeutics, regions]);
 
+  //Add Service Logic
+
   const handleAddService = async (name) => {
     try {
       const addedService = await addService({ variables: { name } });
@@ -53,6 +64,8 @@ const InfoCards = (props) => {
       console.log(err);
     }
   };
+
+  //Add Therapeutics Logic
 
   const handleAddTherapeutics = async (name) => {
     try {
@@ -64,6 +77,8 @@ const InfoCards = (props) => {
     }
   };
 
+  //Add Regions Logic
+
   const handleAddRegion = async (name) => {
     try {
       const addedRegions = await addRegion({ variables: { name } });
@@ -73,6 +88,8 @@ const InfoCards = (props) => {
       console.log(err);
     }
   };
+
+  //Delete Services Logic
 
   const handleDeleteService = async (name) => {
     try {
@@ -85,6 +102,8 @@ const InfoCards = (props) => {
       console.log(err);
     }
   };
+
+  //Delete Therapeutics Logic
 
   const handleDeleteTherapeutics = async (name) => {
     try {
@@ -100,6 +119,8 @@ const InfoCards = (props) => {
     }
   };
 
+  //Delete Regions Logic
+
   const handleDeleteRegions = async (name) => {
     try {
       const deletedRegions = await deleteRegion({ variables: { name } });
@@ -114,6 +135,8 @@ const InfoCards = (props) => {
 
   if (loading || loadone || loadtwo)
     return (
+      // Loading Spinner
+
       <h3 style={{ display: 'flex', justifyContent: 'center', marginTop: '5rem' }}>
         {' '}
         <Spinner type="grow" color="primary" />
@@ -131,6 +154,8 @@ const InfoCards = (props) => {
     <Style>
       <h1>Information</h1>
       <CardGroup style={{ marginTop: '-1.2rem' }}>
+        {/* Card One */}
+
         <Card className="card">
           <CardBody className="cardBody">
             <CardTitle className="CardTitle">Regions Covered</CardTitle>
@@ -172,6 +197,9 @@ const InfoCards = (props) => {
             </Grid>
           </CardBody>
         </Card>
+
+        {/* Card Two */}
+
         <Card className="card">
           <CardBody className="cardBody">
             <CardTitle className="CardTitle"> Therapeutic Areas</CardTitle>
@@ -215,6 +243,8 @@ const InfoCards = (props) => {
             </Grid>
           </CardBody>
         </Card>
+
+        {/* Card Three */}
 
         <Card className="card">
           <CardBody className="cardBody">
@@ -261,6 +291,8 @@ const InfoCards = (props) => {
 };
 
 export default InfoCards;
+
+// Styling
 
 export const Style = styled.div`
   padding-right: 1rem;
