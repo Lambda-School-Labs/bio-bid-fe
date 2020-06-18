@@ -1,0 +1,41 @@
+.claimContainer {
+  background-color: #1187b6;
+  width: 90%;
+  margin: 1% auto;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  border-radius: 50px 0px;
+  box-shadow: 5px 5px 5px 5px gray;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.claimText {
+  font-size: 18px;
+  font-family: Inter, sans-serif;
+  color: white;
+  width: 250px;
+}
+
+.textTitle {
+  font-family: Inter, sans-serif;
+}
+
+.approveClaim {
+  border-radius: 15px;
+  margin: 1%;
+  padding: 1%;
+  width: 100px;
+}
+
+.denyClaim {
+  width: 100px;
+  border-radius: 15px;
+  margin: 1%;
+  padding: 1%;
+}

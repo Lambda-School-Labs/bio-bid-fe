@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { APPROVE_CLAIM, DENY_CLAIM } from "../../../mutations";
 import { GET_CLAIMS } from "../../../queries";
+import "./Claims.css";
 
 export default function Claims() {
-  const { loading, data, refetch } = useQuery(GET_CLAIMS);
-  const [denyClaim] = useMutation(DENY_CLAIM);
-  const [approveClaim] = useMutation(APPROVE_CLAIM);
   const [claims, setClaims] = useState();
+  const { loading, data, refetch } = useQuery(GET_CLAIMS);
+  const [denyClaim] = useMutation(DENY_CLAIM, {
+    onCompleted: () => refetch(),
+  });
+  const [approveClaim] = useMutation(APPROVE_CLAIM, {
+    onCompleted: () => refetch(),
+  });
 
   useEffect(() => {
     setClaims(data);
@@ -21,16 +26,29 @@ export default function Claims() {
 
   return (
     <div>
-      {claims && claims.pendingClaims.map((claim) => {
+      {claims &&
+        claims.pendingClaims.map((claim) => {
           return (
-            <div key={claim.id} style={{ display: `flex` }}>
-              <p>User ID: {claim.user}</p>
-              <p>User Name: {claim.name}</p>
-              <p>User Email: {claim.email}</p>
-              <p>Company: {claim.company.name}</p>
-              <p>Approved: {claim.approved}</p>
-              <p>Pending: {claim.pending}</p>
+            <div className="claimContainer" key={claim.id}>
+              <div className="textContainer">
+                <h3 className="textTitle">Company: </h3>
+                <p className="claimText">{claim.company.name}</p>
+              </div>
+              <div className="textContainer">
+                <h3 className="textTitle">User Name: </h3>
+                <p className="claimText">{claim.name}</p>
+              </div>
+              <div className="textContainer">
+                <h3 className="textTitle">User Email: </h3>
+                <p className="claimText">{claim.email}</p>
+              </div>
+              <div className="textContainer">
+                <h3 className="textTitle">User ID:</h3>
+                <p className="claimText">{claim.user}</p>
+              </div>
+
               <button
+                className="approveClaim"
                 onClick={async () => {
                   try {
                     await approveClaim({
@@ -41,9 +59,10 @@ export default function Claims() {
                   }
                 }}
               >
-                approve
+                Approve
               </button>
               <button
+                className="denyClaim"
                 onClick={async () => {
                   try {
                     await denyClaim({
@@ -54,7 +73,7 @@ export default function Claims() {
                   }
                 }}
               >
-                deny
+                Deny
               </button>
             </div>
           );
