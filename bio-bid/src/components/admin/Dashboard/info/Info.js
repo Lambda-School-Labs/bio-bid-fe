@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Card, CardTitle, CardGroup, CardBody, Input, Button, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Card, CardTitle, CardGroup, CardBody, Input, Button, InputGroup, InputGroupAddon, Spinner } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_SERVICES, GET_REGIONS, GET_THERAPEUTICS } from '../../../../queries/index';
 
@@ -21,6 +21,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const InfoCards = (props) => {
   const { loading, error, data: services } = useQuery(GET_SERVICES);
@@ -111,7 +112,19 @@ const InfoCards = (props) => {
     }
   };
 
-  if (loading || loadone || loadtwo) return <h3>Loading...</h3>;
+  if (loading || loadone || loadtwo)
+    return (
+      <h3 style={{ display: 'flex', justifyContent: 'center', marginTop: '5rem' }}>
+        {' '}
+        <Spinner type="grow" color="primary" />
+        <Spinner type="grow" color="secondary" />
+        <Spinner type="grow" color="success" />
+        <Spinner type="grow" color="danger" />
+        <Spinner type="grow" color="warning" />
+        <Spinner type="grow" color="info" />
+        <Spinner type="grow" color="dark" />
+      </h3>
+    );
   if (error || errorone || errortwo) return <p>Error</p>;
 
   return (
@@ -138,17 +151,17 @@ const InfoCards = (props) => {
                   {' '}
                   {data.regions?.map((region) => (
                     <ListItem>
-                      <ListItemText key={region.id}>
+                      <ListItemText key={region.id} className="item" style={{ marginTop: '-8px' }}>
                         {' '}
                         {region.name}{' '}
                         <ListItemSecondaryAction>
                           <IconButton
                             edge="end"
                             aria-label="delete"
-                            style={{ color: '#F5222D' }}
+                            style={{ color: '#F5222D', marginTop: '-8px' }}
                             onClick={() => handleDeleteRegions(region.name)}>
                             {' '}
-                            <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
+                            <DeleteIcon style={{ fontSize: 30 }} />
                           </IconButton>{' '}
                         </ListItemSecondaryAction>
                       </ListItemText>
@@ -181,17 +194,17 @@ const InfoCards = (props) => {
                 <List>
                   {data.therapeutics?.map((therapeutic) => (
                     <ListItem>
-                      <ListItemText key={therapeutic.id}>
+                      <ListItemText key={therapeutic.id} className="item" style={{ marginTop: '-8px' }}>
                         {' '}
                         {therapeutic.name}{' '}
                         <ListItemSecondaryAction>
                           <IconButton
                             edge="end"
                             aria-label="delete"
-                            style={{ color: '#F5222D' }}
+                            style={{ color: '#F5222D', marginTop: '-8px' }}
                             onClick={() => handleDeleteTherapeutics(therapeutic.name)}>
                             {' '}
-                            <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
+                            <DeleteIcon style={{ fontSize: 30 }} />
                           </IconButton>{' '}
                         </ListItemSecondaryAction>
                       </ListItemText>
@@ -207,11 +220,7 @@ const InfoCards = (props) => {
           <CardBody className="cardBody">
             <CardTitle className="CardTitle">Services</CardTitle>
             <InputGroup>
-              <Input
-                placeholder="Add Services"
-                value={serviceInput}
-                onChange={(e) => setServiceInput(e.target.value)}
-              />
+              <Input placeholder="Add Service" value={serviceInput} onChange={(e) => setServiceInput(e.target.value)} />
               <InputGroupAddon addonType="append">
                 <Button className="addButton" color="success" onClick={() => handleAddService(serviceInput)}>
                   ADD
@@ -226,16 +235,16 @@ const InfoCards = (props) => {
                 <List>
                   {data.services?.map((service) => (
                     <ListItem>
-                      <ListItemText key={service.id}>
+                      <ListItemText key={service.id} className="item" style={{ marginTop: '-8px' }}>
                         {' '}
                         {service.name}{' '}
                         <ListItemSecondaryAction>
                           <IconButton
                             edge="end"
                             aria-label="delete"
-                            style={{ color: '#F5222D' }}
+                            style={{ color: '#F5222D', marginTop: '-8px' }}
                             onClick={() => handleDeleteService(service.name)}>
-                            <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
+                            <DeleteIcon style={{ fontSize: 30 }} />
                           </IconButton>
                         </ListItemSecondaryAction>
                       </ListItemText>
@@ -258,7 +267,7 @@ export const Style = styled.div`
   margin-top: 1rem;
 
   .CardTitle {
-    color: #096dd9;
+    color: black;
     font-size: 1.8rem;
   }
   .card {
@@ -273,5 +282,10 @@ export const Style = styled.div`
     display: flex;
     justify-content: center;
     color: #096dd9;
+  }
+  .item {
+    border: solid grey 1px;
+    padding: 8px;
+    border-radius: 3px;
   }
 `;
