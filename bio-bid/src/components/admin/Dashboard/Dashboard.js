@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import NavBar from './NavBar';
 import { Dashboard } from './styles';
-import Admin from "./Admin.js"
+import Claims from "./Claims.js";
+import Admin from "./Admin.js";
 
 export default () => {
     const [selected, setSelected ] = useState('0');
@@ -24,7 +25,7 @@ export default () => {
                     selected === '1' ? 
                     <div className="requests-container">
                         <h1>Claim Requests</h1>
-
+                        <Claims />
                     </div> : null ||
 
 
