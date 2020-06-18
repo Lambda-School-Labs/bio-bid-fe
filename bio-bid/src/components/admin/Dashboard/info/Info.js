@@ -130,7 +130,7 @@ const InfoCards = (props) => {
   return (
     <Style>
       <h1>Information</h1>
-      <CardGroup>
+      <CardGroup style={{ marginTop: '-1.2rem' }}>
         <Card className="card">
           <CardBody className="cardBody">
             <CardTitle className="CardTitle">Regions Covered</CardTitle>
@@ -264,7 +264,7 @@ export default InfoCards;
 
 export const Style = styled.div`
   padding-right: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 
   .CardTitle {
     color: black;
@@ -281,7 +281,13 @@ export const Style = styled.div`
   h1 {
     display: flex;
     justify-content: center;
-    color: #096dd9;
+    color: white;
+    border: 4px solid #096dd9;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 10px;
+    border-radius: 3px;
+    background: #096dd9;
   }
   .item {
     border: solid grey 1px;
