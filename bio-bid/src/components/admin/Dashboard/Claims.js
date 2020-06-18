@@ -9,26 +9,6 @@ export default function Claims() {
   const [approveClaim] = useMutation(APPROVE_CLAIM);
   const [claims, setClaims] = useState();
 
-  const handleDeny = async (claim) => {
-    try {
-      await denyClaim({
-        variables: { id: claim.id },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleApprove = async (claim) => {
-    try {
-      await approveClaim({
-        variables: { id: claim.id },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     setClaims(data);
   }, [data]);
@@ -37,22 +17,45 @@ export default function Claims() {
     refetch();
   }, [refetch]);
 
-//   console.log("data in claims component", claims);
+  //   console.log("data in claims component", claims);
 
   return (
     <div>
-      {claims &&
-        claims.pendingClaims.map((claim) => {
+      {claims && claims.pendingClaims.map((claim) => {
           return (
-            <div key={claim.id} style={{ display: `flex` }}>
+            <div id={claim.id} style={{ display: `flex` }}>
               <p>User ID: {claim.user}</p>
               <p>User Name: {claim.name}</p>
               <p>User Email: {claim.email}</p>
               <p>Company: {claim.company.name}</p>
               <p>Approved: {claim.approved}</p>
               <p>Pending: {claim.pending}</p>
-              <button>approve</button>
-              <button>deny</button>
+              <button
+                onClick={async () => {
+                  try {
+                    await approveClaim({
+                      variables: { id: claim.id },
+                    });
+                  } catch (err) {
+                    console.log(err);
+                  }
+                }}
+              >
+                approve
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    await denyClaim({
+                      variables: { id: claim.id },
+                    });
+                  } catch (err) {
+                    console.log(err);
+                  }
+                }}
+              >
+                deny
+              </button>
             </div>
           );
         })}
