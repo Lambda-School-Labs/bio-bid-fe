@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardTitle, CardGroup, CardBody, Input, Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_SERVICES, GET_REGIONS, GET_THERAPEUTICS } from '../../../../queries/index';
@@ -47,6 +47,7 @@ const InfoCards = (props) => {
     try {
       const addedService = await addService({ variables: { name } });
       setData({ ...data, services: [...data.services, addedService.data.createServiceItem] });
+      setServiceInput('');
     } catch (err) {
       console.log(err);
     }
@@ -56,6 +57,7 @@ const InfoCards = (props) => {
     try {
       const addedTheraputics = await addTherapeutics({ variables: { name } });
       setData({ ...data, therapeutics: [...data.therapeutics, addedTheraputics.data.createTherapeutic] });
+      setTherapeuticInput('');
     } catch (err) {
       console.log(err);
     }
@@ -65,6 +67,7 @@ const InfoCards = (props) => {
     try {
       const addedRegions = await addRegion({ variables: { name } });
       setData({ ...data, regions: [...data.regions, addedRegions.data.createRegion] });
+      setRegionInput('');
     } catch (err) {
       console.log(err);
     }
@@ -119,7 +122,7 @@ const InfoCards = (props) => {
           <CardBody className="cardBody">
             <CardTitle className="CardTitle">Regions Covered</CardTitle>
             <InputGroup>
-              <Input value={regionInput} onChange={(e) => setRegionInput(e.target.value)} />
+              <Input placeholder="Add Region" value={regionInput} onChange={(e) => setRegionInput(e.target.value)} />
 
               <InputGroupAddon addonType="append">
                 <Button className="addButton" color="success" onClick={() => handleAddRegion(regionInput)}>
@@ -129,7 +132,7 @@ const InfoCards = (props) => {
             </InputGroup>
             <br />
 
-            <Grid item xs={14} md={12}>
+            <Grid item xs={12} md={12}>
               <div>
                 <List>
                   {' '}
@@ -139,14 +142,14 @@ const InfoCards = (props) => {
                         {' '}
                         {region.name}{' '}
                         <ListItemSecondaryAction>
-                          <iconButton
+                          <IconButton
                             edge="end"
                             aria-label="delete"
                             style={{ color: '#F5222D' }}
                             onClick={() => handleDeleteRegions(region.name)}>
                             {' '}
                             <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
-                          </iconButton>{' '}
+                          </IconButton>{' '}
                         </ListItemSecondaryAction>
                       </ListItemText>
                     </ListItem>
@@ -160,7 +163,11 @@ const InfoCards = (props) => {
           <CardBody className="cardBody">
             <CardTitle className="CardTitle"> Therapeutic Areas</CardTitle>
             <InputGroup>
-              <Input value={therapeuticInput} onChange={(e) => setTherapeuticInput(e.target.value)} />
+              <Input
+                placeholder="Add Terapeutic Area"
+                value={therapeuticInput}
+                onChange={(e) => setTherapeuticInput(e.target.value)}
+              />
               <InputGroupAddon addonType="append">
                 <Button className="addButton" color="success" onClick={() => handleAddTherapeutics(therapeuticInput)}>
                   ADD
@@ -169,7 +176,7 @@ const InfoCards = (props) => {
             </InputGroup>
 
             <br />
-            <Grid item xs={14} md={12}>
+            <Grid item xs={12} md={12}>
               <div>
                 <List>
                   {data.therapeutics?.map((therapeutic) => (
@@ -200,7 +207,11 @@ const InfoCards = (props) => {
           <CardBody className="cardBody">
             <CardTitle className="CardTitle">Services</CardTitle>
             <InputGroup>
-              <Input value={serviceInput} onChange={(e) => setServiceInput(e.target.value)} />
+              <Input
+                placeholder="Add Services"
+                value={serviceInput}
+                onChange={(e) => setServiceInput(e.target.value)}
+              />
               <InputGroupAddon addonType="append">
                 <Button className="addButton" color="success" onClick={() => handleAddService(serviceInput)}>
                   ADD
@@ -210,12 +221,12 @@ const InfoCards = (props) => {
 
             <br />
 
-            <Grid item xs={14} md={12}>
+            <Grid item xs={12} md={12}>
               <div>
                 <List>
                   {data.services?.map((service) => (
                     <ListItem>
-                      <ListItemText>
+                      <ListItemText key={service.id}>
                         {' '}
                         {service.name}{' '}
                         <ListItemSecondaryAction>
@@ -248,14 +259,14 @@ export const Style = styled.div`
 
   .CardTitle {
     color: #096dd9;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
   .card {
     margin: 1rem;
   }
 
   .cardBody {
-    border: 3px solid #096dd9;
+    border: 4px solid #096dd9;
     border-radius: 3px;
   }
   h1 {
