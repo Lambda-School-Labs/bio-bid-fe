@@ -1,6 +1,19 @@
+.claimsHeader {
+  color:white;
+  background-color: #096DD9;
+  font-family: Inter, sans-serif;
+  border:1px solid black;
+  border-radius:15px;
+  max-width:300px;
+  text-align:center;
+  margin:1% auto;
+  padding:1%;
+  box-shadow:5px 5px 5px gray;
+}
+
 .claimContainer {
   background-color: #096DD9;
-  width: 90%;
+  width: 85%;
   margin: 1% auto;
   display: flex;
   justify-content: space-evenly;
@@ -10,9 +23,11 @@
 }
 
 .textContainer {
+  padding-top:1%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items:center;
 }
 
 .claimText {
@@ -20,6 +35,8 @@
   font-family: Inter, sans-serif;
   color: white;
   width: 250px;
+  display:flex;
+  justify-content:center;
 }
 
 .textTitle {

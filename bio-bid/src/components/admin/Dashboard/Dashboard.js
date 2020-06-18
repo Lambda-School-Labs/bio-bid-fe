@@ -24,7 +24,6 @@ export default () => {
                     
                     selected === '1' ? 
                     <div className="requests-container">
-                        <h1>Claim Requests</h1>
                         <Claims />
                     </div> : null ||
 

@@ -26,6 +26,7 @@ export default function Claims() {
 
   return (
     <div>
+      <h2 className="claimsHeader">Claim Requests</h2>
       {claims &&
         claims.pendingClaims.map((claim) => {
           return (
