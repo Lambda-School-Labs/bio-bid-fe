@@ -270,12 +270,16 @@ export default () => {
     // Handles state change for selecting specialties
     const handleSpecialtyChange = e => {
         const service = services.filter(service => service.name === e.target.name);
+        let specialtiesArray = [];
+        if(service[0].specialties){
+            specialtiesArray = service[0].specialties;
+        }
         setServices([
             ...services.filter(service => service.name !== e.target.name),
             {
                 name: e.target.name,
                 specialties: [
-                    ...service[0].specialties,
+                    ...specialtiesArray,
                     {
                         name: e.target.value
                     }
@@ -299,12 +303,16 @@ export default () => {
     // Handles state change for specialties that the user inputs
     const handleCustomSpecialty = (serviceName, newSpecialty) => {
         const service = services.filter(service => service.name === serviceName);
+        let specialtiesArray = [];
+        if(service[0].specialties){
+            specialtiesArray = service[0].specialties;
+        }
         setServices([
             ...services.filter(service => service.name !== serviceName),
             {
                 name: serviceName,
                 specialties: [
-                    ...service[0].specialties,
+                    ...specialtiesArray,
                     {
                         name: newSpecialty
                     }
@@ -314,8 +322,54 @@ export default () => {
     }
 
     // Handles state change for selecting subSpecialties
-    const handleSubSelect = () => {
+    const handleSubSelect = (e, specialtyName) => {
+        const service = services.filter(service => service.name === e.target.name);
 
+        const oldSpecialties = service[0].specialties.filter(specialty => specialty.name !== specialtyName);
+        const updatedSpecialty = service[0].specialties.filter(specialty => specialty.name === specialtyName);
+        let oldSubSpecialties = [];
+        if(updatedSpecialty[0].sub_specialties){
+            oldSubSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => ({name: subSpecialty.name}));
+        }
+        setServices([
+            ...services.filter(service => service.name !== e.target.name),
+            {
+                name: e.target.name,
+                specialties: [
+                    ...oldSpecialties,
+                    {
+                        name: specialtyName,
+                        sub_specialties: [
+                            ...oldSubSpecialties,
+                            {
+                                name: e.target.value
+                            }
+                        ]
+                    }
+                ]
+            }
+        ])
+    }
+
+    // Handles deleting a sub-specialty from a specialty
+    const handleSubDelete = (serviceName, specialtyName, delSub) => {
+        const service = services.filter(service => service.name === serviceName);
+        const oldSpecialties = service[0].specialties.filter(specialty => specialty.name !== specialtyName);
+        const updatedSpecialty = service[0].specialties.filter(specialty => specialty.name === specialtyName);
+        console.log(oldSpecialties)
+        setServices([
+            ...services.filter(service => service.name !== serviceName),
+            {
+                name: serviceName,
+                specialties: [
+                    ...oldSpecialties,
+                    {
+                        name: specialtyName,
+                        sub_specialties: updatedSpecialty[0].sub_specialties.filter(subSpecialty => subSpecialty.name !== delSub)
+                    }
+                ]
+            }
+        ])
     }
 
     // Handles state change for subSpecialties the user inputs
@@ -611,6 +665,8 @@ export default () => {
                                                 handleSpecialtyDelete={handleSpecialtyDelete}
                                                 handleCustomSpecialty={handleCustomSpecialty}
                                                 handleCustomSub={handleCustomSub}
+                                                handleSubSelect={handleSubSelect}
+                                                handleSubDelete={handleSubDelete}
                                                 key={service.name}
                                             />
                                 })}

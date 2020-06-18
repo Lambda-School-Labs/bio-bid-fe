@@ -136,7 +136,7 @@ export default (props) => {
                                     return (
                                         <div className='sub-specialty' key={subSpecialty.name}>
                                             <p>- {subSpecialty.name}</p>
-                                            <Delete/>
+                                            <Delete onClick={() => props.handleSubDelete(props.service.name, specialty.name, subSpecialty.name)}/>
                                         </div>
                                     )
                                 })}
@@ -147,7 +147,7 @@ export default (props) => {
                                         displayEmpty
                                         className={classes.selectEmpty}
                                         inputProps={{ 'aria-label': 'Without label' }}
-                                        onChange={props.handleSpecialtyChange}
+                                        onChange={(e) => props.handleSubSelect(e, specialty.name)}
                                         value=''
                                         name={props.service.name}
                                     >
