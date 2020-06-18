@@ -23,7 +23,7 @@ export default function Claims() {
     <div>
       {claims && claims.pendingClaims.map((claim) => {
           return (
-            <div id={claim.id} style={{ display: `flex` }}>
+            <div key={claim.id} style={{ display: `flex` }}>
               <p>User ID: {claim.user}</p>
               <p>User Name: {claim.name}</p>
               <p>User Email: {claim.email}</p>
