@@ -1,5 +1,8 @@
 {
     "scripts": {
         "coverage": "cd bio-bid && yarn && npm run coverage"
+    },
+    "dependencies": {
+        "@material-ui/icons": "^4.9.1"
     }
 }

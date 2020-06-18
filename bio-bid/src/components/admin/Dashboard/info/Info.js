@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardTitle,
-  CardText,
-  CardGroup,
-  CardBody,
-  Input,
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  ListGroup,
-  ListGroupItem,
-} from 'reactstrap';
+import { Card, CardTitle, CardGroup, CardBody, Input, Button, InputGroup, InputGroupAddon } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_SERVICES, GET_REGIONS, GET_THERAPEUTICS } from '../../../../queries/index';
 
@@ -25,6 +13,14 @@ import {
 } from '../../../../mutations/index';
 
 import styled from 'styled-components';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 
 const InfoCards = (props) => {
   const { loading, error, data: services } = useQuery(GET_SERVICES);
@@ -133,23 +129,31 @@ const InfoCards = (props) => {
             </InputGroup>
             <br />
 
-            <ListGroup className="listgroup">
-              {' '}
-              {data.regions?.map((region) => (
-                <ListGroupItem key={region.id} className="listGroupItem">
+            <Grid item xs={14} md={12}>
+              <div>
+                <List>
                   {' '}
-                  {region.name}{' '}
-                  <Button
-                    className="deleteButton"
-                    color="danger"
-                    style={{ marginLeft: '5rem' }}
-                    onClick={() => handleDeleteRegions(region.name)}>
-                    {' '}
-                    delete
-                  </Button>{' '}
-                </ListGroupItem>
-              ))}
-            </ListGroup>
+                  {data.regions?.map((region) => (
+                    <ListItem>
+                      <ListItemText key={region.id}>
+                        {' '}
+                        {region.name}{' '}
+                        <ListItemSecondaryAction>
+                          <iconButton
+                            edge="end"
+                            aria-label="delete"
+                            style={{ color: '#F5222D' }}
+                            onClick={() => handleDeleteRegions(region.name)}>
+                            {' '}
+                            <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
+                          </iconButton>{' '}
+                        </ListItemSecondaryAction>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Grid>
           </CardBody>
         </Card>
         <Card className="card">
@@ -165,23 +169,30 @@ const InfoCards = (props) => {
             </InputGroup>
 
             <br />
-
-            <ListGroup className="listgroup">
-              {data.therapeutics?.map((therapeutic) => (
-                <ListGroupItem key={therapeutic.id} className="listGroupItem">
-                  {' '}
-                  {therapeutic.name}{' '}
-                  <Button
-                    className="deleteButton"
-                    color="danger"
-                    style={{ marginLeft: '5rem' }}
-                    onClick={() => handleDeleteTherapeutics(therapeutic.name)}>
-                    {' '}
-                    delete
-                  </Button>{' '}
-                </ListGroupItem>
-              ))}
-            </ListGroup>
+            <Grid item xs={14} md={12}>
+              <div>
+                <List>
+                  {data.therapeutics?.map((therapeutic) => (
+                    <ListItem>
+                      <ListItemText key={therapeutic.id}>
+                        {' '}
+                        {therapeutic.name}{' '}
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            style={{ color: '#F5222D' }}
+                            onClick={() => handleDeleteTherapeutics(therapeutic.name)}>
+                            {' '}
+                            <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
+                          </IconButton>{' '}
+                        </ListItemSecondaryAction>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Grid>
           </CardBody>
         </Card>
 
@@ -196,22 +207,32 @@ const InfoCards = (props) => {
                 </Button>
               </InputGroupAddon>
             </InputGroup>
+
             <br />
-            <ListGroup className="listgroup">
-              {data.services?.map((service) => (
-                <ListGroupItem>
-                  {' '}
-                  {service.name}{' '}
-                  <Button
-                    className="deleteButton"
-                    color="danger"
-                    style={{ marginLeft: '5rem' }}
-                    onClick={() => handleDeleteService(service.name)}>
-                    delete
-                  </Button>
-                </ListGroupItem>
-              ))}
-            </ListGroup>
+
+            <Grid item xs={14} md={12}>
+              <div>
+                <List>
+                  {data.services?.map((service) => (
+                    <ListItem>
+                      <ListItemText>
+                        {' '}
+                        {service.name}{' '}
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            edge="end"
+                            aria-label="delete"
+                            style={{ color: '#F5222D' }}
+                            onClick={() => handleDeleteService(service.name)}>
+                            <DeleteOutlineRoundedIcon style={{ fontSize: 30 }} />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </ListItemText>
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Grid>
           </CardBody>
         </Card>
       </CardGroup>
@@ -234,21 +255,12 @@ export const Style = styled.div`
   }
 
   .cardBody {
-    border: 2px solid #096dd9;
+    border: 3px solid #096dd9;
     border-radius: 3px;
   }
   h1 {
     display: flex;
     justify-content: center;
     color: #096dd9;
-  }
-  .addButton {
-  }
-  ]
-  .deleteButton {
-    margin-left: 10rem;
-  }
-  .listGroupItem {
-    font-size: 10px;
   }
 `;
