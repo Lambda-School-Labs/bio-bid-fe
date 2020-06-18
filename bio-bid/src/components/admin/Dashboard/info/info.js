@@ -322,7 +322,7 @@ export const Style = styled.div`
     background: #096dd9;
   }
   .item {
-    border: solid grey 1px;
+    border: solid lightgrey 1px;
     padding: 8px;
     border-radius: 3px;
   }
