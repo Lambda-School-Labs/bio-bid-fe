@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardTitle, CardText, CardGroup, CardBody, Input, Button, InputGroup, InputGroupAddon } from 'reactstrap';
+import {
+  Card,
+  CardTitle,
+  CardText,
+  CardGroup,
+  CardBody,
+  Input,
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  ListGroup,
+  ListGroupItem,
+} from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_SERVICES, GET_REGIONS, GET_THERAPEUTICS } from '../../../../queries/index';
 
@@ -11,6 +23,8 @@ import {
   ADD_REGION,
   DELETE_REGION,
 } from '../../../../mutations/index';
+
+import styled from 'styled-components';
 
 const InfoCards = (props) => {
   const { loading, error, data: services } = useQuery(GET_SERVICES);
@@ -102,100 +116,139 @@ const InfoCards = (props) => {
   if (error || errorone || errortwo) return <p>Error</p>;
 
   return (
-    <CardGroup>
-      <Card>
-        <CardBody>
-          <CardTitle>Regions Covered</CardTitle>
-          <InputGroup>
-            <Input value={regionInput} onChange={(e) => setRegionInput(e.target.value)} />
-            <InputGroupAddon addonType="append">
-              <Button color="success" onClick={() => handleAddRegion(regionInput)}>
-                ADD
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
-          <br />
-          <CardText>
-            <ul>
+    <Style>
+      <h1>Information</h1>
+      <CardGroup>
+        <Card className="card">
+          <CardBody className="cardBody">
+            <CardTitle className="CardTitle">Regions Covered</CardTitle>
+            <InputGroup>
+              <Input value={regionInput} onChange={(e) => setRegionInput(e.target.value)} />
+
+              <InputGroupAddon addonType="append">
+                <Button className="addButton" color="success" onClick={() => handleAddRegion(regionInput)}>
+                  ADD
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
+            <br />
+
+            <ListGroup className="listgroup">
               {' '}
               {data.regions?.map((region) => (
-                <ul key={region.id}>
+                <ListGroupItem key={region.id} className="listGroupItem">
                   {' '}
                   {region.name}{' '}
-                  <Button color="danger" onClick={() => handleDeleteRegions(region.name)}>
+                  <Button
+                    className="deleteButton"
+                    color="danger"
+                    style={{ marginLeft: '5rem' }}
+                    onClick={() => handleDeleteRegions(region.name)}>
                     {' '}
                     delete
                   </Button>{' '}
-                </ul>
+                </ListGroupItem>
               ))}
-            </ul>
-          </CardText>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardBody>
-          <CardTitle> Therapeutic Areas</CardTitle>
-          <InputGroup>
-            <Input value={therapeuticInput} onChange={(e) => setTherapeuticInput(e.target.value)} />
-            <InputGroupAddon addonType="append">
-              <Button color="success" onClick={() => handleAddTherapeutics(therapeuticInput)}>
-                ADD
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
+            </ListGroup>
+          </CardBody>
+        </Card>
+        <Card className="card">
+          <CardBody className="cardBody">
+            <CardTitle className="CardTitle"> Therapeutic Areas</CardTitle>
+            <InputGroup>
+              <Input value={therapeuticInput} onChange={(e) => setTherapeuticInput(e.target.value)} />
+              <InputGroupAddon addonType="append">
+                <Button className="addButton" color="success" onClick={() => handleAddTherapeutics(therapeuticInput)}>
+                  ADD
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
 
-          <br />
-          <CardText>
-            <ul>
-              {' '}
-              <br />
+            <br />
+
+            <ListGroup className="listgroup">
               {data.therapeutics?.map((therapeutic) => (
-                <ul>
+                <ListGroupItem key={therapeutic.id} className="listGroupItem">
                   {' '}
                   {therapeutic.name}{' '}
-                  <Button color="danger" onClick={() => handleDeleteTherapeutics(therapeutic.name)}>
+                  <Button
+                    className="deleteButton"
+                    color="danger"
+                    style={{ marginLeft: '5rem' }}
+                    onClick={() => handleDeleteTherapeutics(therapeutic.name)}>
                     {' '}
                     delete
                   </Button>{' '}
-                </ul>
+                </ListGroupItem>
               ))}
-            </ul>
-          </CardText>
-        </CardBody>
-      </Card>
+            </ListGroup>
+          </CardBody>
+        </Card>
 
-      <Card>
-        <CardBody>
-          <CardTitle>Services</CardTitle>
-          <InputGroup>
-            <Input value={serviceInput} onChange={(e) => setServiceInput(e.target.value)} />
-            <InputGroupAddon addonType="append">
-              <Button color="success" onClick={() => handleAddService(serviceInput)}>
-                ADD
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
-
-          <br />
-          <CardText>
-            <ul>
+        <Card className="card">
+          <CardBody className="cardBody">
+            <CardTitle className="CardTitle">Services</CardTitle>
+            <InputGroup>
+              <Input value={serviceInput} onChange={(e) => setServiceInput(e.target.value)} />
+              <InputGroupAddon addonType="append">
+                <Button className="addButton" color="success" onClick={() => handleAddService(serviceInput)}>
+                  ADD
+                </Button>
+              </InputGroupAddon>
+            </InputGroup>
+            <br />
+            <ListGroup className="listgroup">
               {data.services?.map((service) => (
-                <ul>
+                <ListGroupItem>
                   {' '}
                   {service.name}{' '}
-                  <Button color="danger" onClick={() => handleDeleteService(service.name)}>
-                    {' '}
+                  <Button
+                    className="deleteButton"
+                    color="danger"
+                    style={{ marginLeft: '5rem' }}
+                    onClick={() => handleDeleteService(service.name)}>
                     delete
-                  </Button>{' '}
-                </ul>
+                  </Button>
+                </ListGroupItem>
               ))}
-              <br />
-            </ul>
-          </CardText>
-        </CardBody>
-      </Card>
-    </CardGroup>
+            </ListGroup>
+          </CardBody>
+        </Card>
+      </CardGroup>
+    </Style>
   );
 };
 
 export default InfoCards;
+
+export const Style = styled.div`
+  padding-right: 1rem;
+  margin-top: 1rem;
+
+  .CardTitle {
+    color: #096dd9;
+    font-size: 1.5rem;
+  }
+  .card {
+    margin: 1rem;
+  }
+
+  .cardBody {
+    border: 2px solid #096dd9;
+    border-radius: 3px;
+  }
+  h1 {
+    display: flex;
+    justify-content: center;
+    color: #096dd9;
+  }
+  .addButton {
+  }
+  ]
+  .deleteButton {
+    margin-left: 10rem;
+  }
+  .listGroupItem {
+    font-size: 10px;
+  }
+`;
