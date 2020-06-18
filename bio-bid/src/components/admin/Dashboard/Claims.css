@@ -27,15 +27,41 @@
 }
 
 .approveClaim {
-  border-radius: 15px;
+  font-family: Inter, sans-serif;
+  color: white;
+  background-color: #389e0d;
+  border-radius: 20px 0px;
+  border: 1px solid #389e0d;
   margin: 1%;
   padding: 1%;
   width: 100px;
 }
 
+.approveClaim:hover {
+  color: #389e0d;
+  background-color: white;
+}
+
+.approveClaim:focus {
+  outline: none;
+}
+
 .denyClaim {
+  font-family: Inter, sans-serif;
+  color: white;
+  background-color: #f5222d;
+  border: 1px solid #f5222d;
   width: 100px;
-  border-radius: 15px;
+  border-radius: 20px 0px;
   margin: 1%;
   padding: 1%;
+}
+
+.denyClaim:hover {
+  color: #f5222d;
+  background-color: white;
+}
+
+.denyClaim:focus {
+  outline: none;
 }
