@@ -6,7 +6,7 @@ import Bids from './components/bids';
 import Form from './components/company-profile/Form/Form';
 import Details from './components/company-profile/Details/Details';
 import List from './components/company-profile/List/List';
-
+// import PrivateRoute from './utils/PrivateRoute';
 import Dashboard from './components/admin/Dashboard/Dashboard';
 
 function App() {
@@ -30,6 +30,8 @@ function App() {
       <Route path='/admin/dashboard'>
         <Dashboard/>
       </Route>
+      {/* PrivateRoute denies users from manually typing in /admin/dashboard, don't implement unless ready */}
+      {/* <PrivateRoute path="/admin/dashboard" component={Dashboard} /> */}
     </div>
   );
 }
