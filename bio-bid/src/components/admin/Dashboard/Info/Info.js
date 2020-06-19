@@ -27,7 +27,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 //State
