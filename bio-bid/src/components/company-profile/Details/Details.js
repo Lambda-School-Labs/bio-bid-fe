@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Login from '../../Login/Login';
+import Login from "../../Login/Login";
 import { DELETE_COMPANY } from "../../../mutations/index";
 import { GET_COMPANY_BY_ID } from "../../../queries/index";
 
@@ -14,6 +14,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Details, Button, Website, LinkedIn, Size, Location } from "./styles";
 import logo from "../../../images/default-company-logo.png";
+import Services from "./Services";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -193,7 +194,8 @@ export default () => {
               </div>
               <div className="bar" />
               <div className="services">
-                <h3>Services Coming Soon</h3>
+                <h3>Services</h3>
+                <Services services={data.company.services} />
               </div>
             </div>
             <div className="reviews">
