@@ -39,13 +39,11 @@ function Services({ services }) {
   };
 
   return services.map((service) => (
-    <>
-      <h5 key={service.id} className={classes.serviceName}>
-        {service.name}
-      </h5>
+    <React.Fragment key={service.name}>
+      <h5 className={classes.serviceName}>{service.name}</h5>
       <ul className={classes.specialties}>
         {service.specialties.map((specialty) => (
-          <>
+          <React.Fragment key={specialty.name}>
             <li
               className={classes.specialtyName}
               onClick={() => handleToggle(specialty.name)}
@@ -58,14 +56,16 @@ function Services({ services }) {
             {open === specialty.name && (
               <ul className={classes.subs}>
                 {specialty.sub_specialties.map((sub) => (
-                  <li className={classes.subName}>{sub.name}</li>
+                  <li key={sub.name} className={classes.subName}>
+                    {sub.name}
+                  </li>
                 ))}
               </ul>
             )}
-          </>
+          </React.Fragment>
         ))}
       </ul>
-    </>
+    </React.Fragment>
   ));
 }
 
