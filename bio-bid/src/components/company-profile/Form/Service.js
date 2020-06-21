@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Service, AddCircle, Add, SearchAdd, Option, OptionBtn, SpecialtyList, Delete } from './styles';
 
+import Specialty from './Specialty';
+
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -17,14 +19,12 @@ const useStyles = makeStyles(() => ({
 export default (props) => {
     const classes = useStyles();
 
+    const specialtyData = props.service.specialties.map(specialty => specialty.name);
+
     const [ specialtyOpen, setSpecialtyOpen ] = useState(false);
     const [ searchSelected, setSearchSelected ] = useState(false);
     const [ newSelected, setNewSelected ] = useState(false);
     const [ customSpecialty, setCustomSpecialty ] = useState('');
-
-    const [ searchSub, setSearchSub ] = useState(false);
-    const [ addSub, setAddSub ] = useState(false);
-    const [ customSub, setCustomSub ] = useState('');
 
     const toggleSpecialtyOpen = () => {
         setSpecialtyOpen(!specialtyOpen);
@@ -42,34 +42,14 @@ export default (props) => {
         setSearchSelected(false);
     }
 
-    const toggleSearchSub = () => {
-        setSearchSub(!searchSub);
-        setAddSub(false);
-    }
-
-    const toggleAddSub = () => {
-        setAddSub(!addSub);
-        setSearchSub(false);
-    }
-
     const handleChange = e => {
         setCustomSpecialty(e.target.value);
-    }
-
-    const handleSubChange = e => {
-        setCustomSub(e.target.value);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
         props.handleCustomSpecialty(props.service.name, customSpecialty);
         setCustomSpecialty('');
-    }
-
-    const handleSubSubmit = (e, specialtyName) => {
-        e.preventDefault();
-        props.handleCustomSub(props.service.name, specialtyName, customSub);
-        setCustomSub('');
     }
 
     return (
@@ -101,8 +81,10 @@ export default (props) => {
                             name={props.service.name}
                             placeholder='Select specialty'
                         >
-                            {props.specialtyData.specialtyItems.map(specialty => {
-                                return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
+                            {props.specialtyData.specialtyItems.filter(specialty => {
+                                return specialtyData.indexOf(specialty.name) < 0;
+                            }).map(filtered => {
+                                return <MenuItem value={filtered.name} key={filtered.name}>{filtered.name}</MenuItem>
                             })}
                         </Select>
                     </FormControl>
@@ -122,53 +104,17 @@ export default (props) => {
             <SpecialtyList>
                 {props.service.specialties && props.service.specialties.map(specialty => {
                     return (
-                        <div key={specialty.name}>
-                            <div className='specialty' >
-                                <p>{specialty.name}</p>
-                                <div className='btn-container'>
-                                    <SearchAdd onClick={toggleSearchSub} selected={searchSub}/>
-                                    <Add onClick={toggleAddSub} selected={addSub}/>
-                                    <Delete onClick={() => props.handleSpecialtyDelete(props.service.name, specialty.name)}/>
-                                </div>
-                            </div>
-                            <div className='sub-specialties'>
-                                {specialty.sub_specialties && specialty.sub_specialties.map(subSpecialty => {
-                                    return (
-                                        <div className='sub-specialty' key={subSpecialty.name}>
-                                            <p>- {subSpecialty.name}</p>
-                                            <Delete onClick={() => props.handleSubDelete(props.service.name, specialty.name, subSpecialty.name)}/>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            {searchSub && (
-                                <FormControl className={classes.formControl}>
-                                    <Select                    
-                                        displayEmpty
-                                        className={classes.selectEmpty}
-                                        inputProps={{ 'aria-label': 'Without label' }}
-                                        onChange={(e) => props.handleSubSelect(e, specialty.name)}
-                                        value=''
-                                        name={props.service.name}
-                                    >
-                                        {props.specialtyData.specialtyItems.map(specialty => {
-                                            return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
-                                        })}
-                                    </Select>
-                                </FormControl>
-                            )}
-                            {addSub && (
-                                <form onSubmit={(e) => handleSubSubmit(e, specialty.name)}>
-                                    <TextField 
-                                        id="standard-helperText" 
-                                        fullWidth
-                                        placeholder='Enter new specialty'
-                                        onChange={handleSubChange}
-                                        value={customSub}
-                                    />
-                                </form>
-                            )}
-                        </div>
+                        <Specialty
+                            key={specialty.name}
+                            specialty={specialty}
+                            serviceName={props.service.name}
+                            handleSpecialtyDelete={props.handleSpecialtyDelete}
+                            handleSelect={props.handleSelect}
+                            handleSubSelect={props.handleSubSelect}
+                            specialtyData={props.specialtyData}
+                            handleSubDelete={props.handleSubDelete}
+                            handleCustomSub={props.handleCustomSub}
+                        />
                     )
                 })}
             </SpecialtyList>

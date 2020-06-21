@@ -63,6 +63,7 @@ export const DELETE_COMPANY = gql`
 export const ADD_COMPANY = gql`
   mutation addCompany(
     $name: String!
+    $email: String
     $logoURL: String
     $website: String
     $linkedin: String
@@ -76,6 +77,7 @@ export const ADD_COMPANY = gql`
   ) {
     createCompany(
       name: $name
+      email: $email
       logoURL: $logoURL
       website: $website
       linkedin: $linkedin

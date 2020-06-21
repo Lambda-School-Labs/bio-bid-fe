@@ -104,6 +104,7 @@ export default ({edit}) => {
     const [ error, setError ] = useState('');
     const [ newId, setNewId ] = useState(null);
     const [ submitting, setSubmitting ] = useState(false);
+    const [ successMessage, setSuccessMessage ] = useState(false);
 
     // Event handlers
     const handleMultiple = e => {
@@ -219,7 +220,8 @@ export default ({edit}) => {
                         ...formData,
                         regions: regions.map(region => ({ name: region })),
                         therapeutics: therapeutics.map(therapeutic => ({ name: therapeutic })),
-                        phases: phases.length === 0 ? [] : phases
+                        phases: phases.length === 0 ? [] : phases,
+                        services: services
                     })
                     await editCompany({ variables: {
                         id: id,
@@ -237,6 +239,8 @@ export default ({edit}) => {
                         services: services.length === 0 ? [] : services
                     }})
                     setSubmitting(false);
+                    setSuccessMessage(true);
+                    window.scrollTo(0, 0);
                 }catch(error){
                     console.log('Save changes error ', error);
                     setSubmitting(false);
@@ -314,18 +318,21 @@ export default ({edit}) => {
         if(service[0].specialties){
             specialtiesArray = service[0].specialties;
         }
-        setServices([
-            ...services.filter(service => service.name !== serviceName),
-            {
-                name: serviceName,
-                specialties: [
-                    ...specialtiesArray,
-                    {
-                        name: newSpecialty
-                    }
-                ]
-            }
-        ])
+        const specialties = service[0].specialties.map(specialty => specialty.name);
+        if(specialties.indexOf(newSpecialty) < 0){
+            setServices([
+                ...services.filter(service => service.name !== serviceName),
+                {
+                    name: serviceName,
+                    specialties: [
+                        ...specialtiesArray,
+                        {
+                            name: newSpecialty
+                        }
+                    ]
+                }
+            ])
+        }
     }
 
     // Handles state change for selecting subSpecialties
@@ -363,7 +370,6 @@ export default ({edit}) => {
         const service = services.filter(service => service.name === serviceName);
         const oldSpecialties = service[0].specialties.filter(specialty => specialty.name !== specialtyName);
         const updatedSpecialty = service[0].specialties.filter(specialty => specialty.name === specialtyName);
-        console.log(oldSpecialties)
         setServices([
             ...services.filter(service => service.name !== serviceName),
             {
@@ -448,11 +454,27 @@ export default ({edit}) => {
                     headquarters: companyData.company.headquarters,
                     companySize: companyData.company.companySize ? companyData.company.companySize : '',
                 })
+                setPhases(companyData.company.phases);
                 setRegions(regionsMapped);
-                setTherapeutics(therapeuticsMapped)
+                setTherapeutics(therapeuticsMapped);
+                setServices(companyData.company.services);
             }
         }
     }, [ edit, companyData ])
+
+    useEffect(() => {
+        if(!edit && newId && submitting){
+            history.push(`/service-providers/${newId}`)
+        }
+    }, [ edit, newId, submitting ])
+
+    useEffect(() => {
+        if(successMessage){
+            setTimeout(() => {
+                setSuccessMessage(false);
+            }, 3000);
+        }
+    }, [successMessage]);
     
     return (
         <Body>
@@ -473,7 +495,7 @@ export default ({edit}) => {
             )}
             <header>
                 <div className='header-content'>
-                    <h2>Create Company Profile</h2>
+                    <h2>{edit ? 'Edit' : 'Create'} Company Profile</h2>
                     <div className='btn-container' onClick={handleCancel}>
                         <Arrow/>
                         <p className='grey'>Back</p>
@@ -483,6 +505,11 @@ export default ({edit}) => {
             {error.length > 1 && (
                 <div className='error'>
                     <p>{error}</p>
+                </div>
+            )}
+            {successMessage && (
+                <div className='success'>
+                    <p>Changes successfully saved</p>
                 </div>
             )}
             <div className='form-wrapper'>

@@ -52,6 +52,19 @@ export const Body = styled.div`
             margin: 0;
         }
     }
+    .success{
+        width: 100%;
+        height: 50px;
+        background-color: ${theme.colors.laPalma};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p{
+            color: ${theme.colors.alabaster};
+            font: ${theme.fontStyling.text};
+            margin: 0;
+        }
+    }
     .form-wrapper{
         display: flex;
         flex-direction: column;
