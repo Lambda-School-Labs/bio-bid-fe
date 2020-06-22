@@ -6,7 +6,7 @@ import { CompanyCard, CardButton } from "./styles";
 export default ({ company }) => {
   const [overview, setOverview] = useState("");
   const [tooLong, setTooLong] = useState(false);
-  console.log(company.overview);
+  // console.log(company.overview);
 
   useEffect(() => {
     if (company.overview?.length >= 300) {
