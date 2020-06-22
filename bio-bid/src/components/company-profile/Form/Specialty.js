@@ -16,7 +16,11 @@ const useStyles = makeStyles(() => ({
 
 export default (props) => {
     const classes = useStyles();
-
+    let subSpecialties = [];
+    if(props.specialty.sub_specialties){
+        subSpecialties = props.specialty.sub_specialties.map(subSpecialty => subSpecialty.name);
+    }
+    
     const [ searchSub, setSearchSub ] = useState(false);
     const [ addSub, setAddSub ] = useState(false);
     const [ customSub, setCustomSub ] = useState('');
@@ -71,9 +75,14 @@ export default (props) => {
                         value=''
                         name={props.serviceName}
                     >
-                        {props.specialtyData.specialtyItems.map(specialty => {
-                            return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
+                        {props.specialtyData.specialtyItems.filter(specialty => {
+                            return subSpecialties.indexOf(specialty.name) < 0;
+                        }).map(filtered => {
+                            return <MenuItem value={filtered.name} key={filtered.name}>{filtered.name}</MenuItem>
                         })}
+                        {/* {props.specialtyData.specialtyItems.map(specialty => {
+                            return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
+                        })} */}
                     </Select>
                 </FormControl>
             )}

@@ -318,10 +318,12 @@ export default ({edit}) => {
     // Handles state change for specialties that the user inputs
     const handleCustomSpecialty = (serviceName, newSpecialty) => {
         const service = services.filter(service => service.name === serviceName);
+
         let specialtiesArray = [];
         if(service[0].specialties){
             specialtiesArray = service[0].specialties;
         }
+
         const specialties = service[0].specialties.map(specialty => specialty.name);
         if(specialties.indexOf(newSpecialty) < 0){
             setServices([
@@ -342,13 +344,14 @@ export default ({edit}) => {
     // Handles state change for selecting subSpecialties
     const handleSubSelect = (e, specialtyName) => {
         const service = services.filter(service => service.name === e.target.name);
-
         const oldSpecialties = service[0].specialties.filter(specialty => specialty.name !== specialtyName);
         const updatedSpecialty = service[0].specialties.filter(specialty => specialty.name === specialtyName);
+
         let oldSubSpecialties = [];
         if(updatedSpecialty[0].sub_specialties){
             oldSubSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => ({name: subSpecialty.name}));
         }
+
         setServices([
             ...services.filter(service => service.name !== e.target.name),
             {
@@ -394,28 +397,34 @@ export default ({edit}) => {
         const service = services.filter(service => service.name === serviceName);
         const oldSpecialties = service[0].specialties.filter(specialty => specialty.name !== specialtyName);
         const updatedSpecialty = service[0].specialties.filter(specialty => specialty.name === specialtyName);
+
         let oldSubSpecialties = []
         if(updatedSpecialty[0].sub_specialties){
             oldSubSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => ({name: subSpecialty.name}))
         }
-        setServices([
-            ...services.filter(service => service.name !== serviceName),
-            {
-                name: serviceName,
-                specialties: [
-                    ...oldSpecialties,
-                    {
-                        name: specialtyName,
-                        sub_specialties: [
-                            ...oldSubSpecialties,
-                            {
-                                name: newSub
-                            }
-                        ]
-                    }
-                ],
-            }
-        ])
+
+        const subSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => subSpecialty.name);
+
+        if(subSpecialties.indexOf(newSub) < 0){
+            setServices([
+                ...services.filter(service => service.name !== serviceName),
+                {
+                    name: serviceName,
+                    specialties: [
+                        ...oldSpecialties,
+                        {
+                            name: specialtyName,
+                            sub_specialties: [
+                                ...oldSubSpecialties,
+                                {
+                                    name: newSub
+                                }
+                            ]
+                        }
+                    ],
+                }
+            ])
+        }
     }
 
     useEffect(() => {
