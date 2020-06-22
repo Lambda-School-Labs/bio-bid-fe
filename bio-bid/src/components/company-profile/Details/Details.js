@@ -34,8 +34,8 @@ export default () => {
   // const [claim, setClaim] = useState("");
   const [addClaim] = useMutation(CLAIM_COMPANY, {
     onCompleted: (claimData) => {
-      console.log("claimData: ", claimData);
-      console.log("claimData.claimCompany.id", claimData.claimCompany.id);
+      // console.log("claimData: ", claimData);
+      // console.log("claimData.claimCompany.id", claimData.claimCompany.id);
       localStorage.setItem("isClaiming", `${id}`);
       setIsClaiming(id);
       localStorage.setItem("claim", `${claimData.claimCompany.id}`);
@@ -50,7 +50,7 @@ export default () => {
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log("users info: ", userInfo);
+  // console.log("users info in details: ", userInfo);
 
   const handleClaims = async () => {
     try {

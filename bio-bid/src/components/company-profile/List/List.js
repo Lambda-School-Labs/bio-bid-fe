@@ -30,7 +30,7 @@ export default () => {
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log("userInfo in list: ", userInfo);
+  // console.log("userInfo in list: ", userInfo);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
