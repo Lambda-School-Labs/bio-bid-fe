@@ -89,7 +89,8 @@ export default ({edit}) => {
         linkedin: '',
         overview: '',
         headquarters: '',
-        companySize: ''
+        companySize: '',
+        logoURL: ''
     })
 
     const [ phases, setPhases ] = useState([]);
@@ -220,13 +221,13 @@ export default ({edit}) => {
             setSubmitting(true);
             if(edit){
                 try{
-                    console.log({
-                        ...formData,
-                        regions: regions.map(region => ({ name: region })),
-                        therapeutics: therapeutics.map(therapeutic => ({ name: therapeutic })),
-                        phases: phases.length === 0 ? [] : phases,
-                        services: services
-                    })
+                    // console.log({
+                    //     ...formData,
+                    //     regions: regions.map(region => ({ name: region })),
+                    //     therapeutics: therapeutics.map(therapeutic => ({ name: therapeutic })),
+                    //     phases: phases.length === 0 ? [] : phases,
+                    //     services: services
+                    // })
                     await editCompany({ variables: {
                         id: id,
                         name: formData.name,
@@ -235,6 +236,7 @@ export default ({edit}) => {
                         website: formData.website,
                         linkedin: formData.linkedin,
                         overview: formData.overview,
+                        logoURL: formData.logoURL,
                         headquarters: formData.headquarters,
                         companySize: formData.companySize === '' ? null : formData.companySize,
                         regions: regions.map(region => ({ name: region })),
@@ -256,6 +258,7 @@ export default ({edit}) => {
                         logoURL: formData.logoURL,
                         email: formData.email,
                         website: formData.website,
+                        logoURL: formData.logoURL,
                         linkedin: formData.linkedin,
                         overview: formData.overview,
                         headquarters: formData.headquarters,
@@ -403,7 +406,10 @@ export default ({edit}) => {
             oldSubSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => ({name: subSpecialty.name}))
         }
 
-        const subSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => subSpecialty.name);
+        let subSpecialties = [];
+        if(updatedSpecialty[0].sub_specialties){
+            subSpecialties = updatedSpecialty[0].sub_specialties.map(subSpecialty => subSpecialty.name);
+        }
 
         if(subSpecialties.indexOf(newSub) < 0){
             setServices([
@@ -585,6 +591,16 @@ export default ({edit}) => {
                                     />
                                 </div>
                                 <div className='input-box'>
+                                    <label>Logo URL</label>
+                                    <input
+                                        name='logoURL'
+                                        onChange={handleChange}
+                                        value={formData.logoURL}
+                                    />
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className='input-box'>
                                     <label>Company Size</label>
                                     <FormControl className={classes.formControl}>
                                         <Select
@@ -607,8 +623,6 @@ export default ({edit}) => {
                                         </Select>
                                     </FormControl>
                                 </div>
-                            </div>
-                            <div className='row'>
                                 <div className='input-box'>
                                     <label>Regions Covered</label>
                                     {regionsData && (
@@ -633,35 +647,6 @@ export default ({edit}) => {
                                                 <MenuItem key={region.name} value={region.name}>
                                                     <Checkbox checked={regions.indexOf(region.name) > -1} />
                                                     <ListItemText primary={region.name} />
-                                                </MenuItem>
-                                            ))}
-                                            </Select>
-                                        </FormControl>
-                                    )}
-                                </div>
-                                <div className='input-box'>
-                                    <label>Therapeutic Areas</label>
-                                    {therapeuticsData && (
-                                        <FormControl className={classes.formControl}>
-                                            <Select
-                                                labelId="demo-mutiple-checkbox-label"
-                                                id="demo-mutiple-checkbox"
-                                                multiple
-                                                value={therapeutics}
-                                                onChange={handleMultiple}
-                                                input={<Input />}
-                                                renderValue={(selected) => selected.join(', ')}
-                                                MenuProps={MenuProps}
-                                                name='therapeutics'
-                                            >
-                                            <MenuItem key='All' value='All' onClick={toggleAllTherapeutics}>
-                                                <Checkbox checked={therapeuticsAll}/>
-                                                <ListItemText primary='All'/>
-                                            </MenuItem>
-                                            {therapeuticsData.therapeutics.map(therapeutic => (
-                                                <MenuItem key={therapeutic.name} value={therapeutic.name}>
-                                                    <Checkbox checked={therapeutics.indexOf(therapeutic.name) > -1} />
-                                                    <ListItemText primary={therapeutic.name} />
                                                 </MenuItem>
                                             ))}
                                             </Select>
@@ -697,6 +682,37 @@ export default ({edit}) => {
                                         </Select>
                                     </FormControl>
                                 </div>
+                                <div className='input-box'>
+                                    <label>Therapeutic Areas</label>
+                                    {therapeuticsData && (
+                                        <FormControl className={classes.formControl}>
+                                            <Select
+                                                labelId="demo-mutiple-checkbox-label"
+                                                id="demo-mutiple-checkbox"
+                                                multiple
+                                                value={therapeutics}
+                                                onChange={handleMultiple}
+                                                input={<Input />}
+                                                renderValue={(selected) => selected.join(', ')}
+                                                MenuProps={MenuProps}
+                                                name='therapeutics'
+                                            >
+                                            <MenuItem key='All' value='All' onClick={toggleAllTherapeutics}>
+                                                <Checkbox checked={therapeuticsAll}/>
+                                                <ListItemText primary='All'/>
+                                            </MenuItem>
+                                            {therapeuticsData.therapeutics.map(therapeutic => (
+                                                <MenuItem key={therapeutic.name} value={therapeutic.name}>
+                                                    <Checkbox checked={therapeutics.indexOf(therapeutic.name) > -1} />
+                                                    <ListItemText primary={therapeutic.name} />
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
+                                    )}
+                                </div>
+                            </div>
+                            <div className='row'>
                                 <div className='input-box'>
                                     <label>Company Overview</label>
                                     <textarea
