@@ -16,6 +16,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Details, Button, Website, LinkedIn, Size, Location } from "./styles";
 import logo from "../../../images/default-company-logo.png";
+import Services from "./Services";
 import { useOktaAuth } from "@okta/okta-react";
 
 const useStyles = makeStyles((theme) => ({
@@ -274,7 +275,8 @@ export default () => {
               </div>
               <div className="bar" />
               <div className="services">
-                <h3>Services Coming Soon</h3>
+                <h3>Services</h3>
+                <Services services={data.company.services} />
               </div>
             </div>
             <div className="reviews">
