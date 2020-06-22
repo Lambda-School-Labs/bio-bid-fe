@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Service, AddCircle, Add, SearchAdd, Option, OptionBtn, SpecialtyList, Delete } from './styles';
+import { Service, AddCircle, Option, OptionBtn, SpecialtyList } from './styles';
 
 import Specialty from './Specialty';
 
