@@ -7,6 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter as Router } from "react-router-dom";
 import { gql } from "apollo-boost";
 import * as FullStory from "@fullstory/browser";
@@ -27,7 +28,18 @@ const client = new ApolloClient({
       I
       null
     }
+
+    enum Phase {
+      I
+      II
+      III
+      IV
+      null
+    }
   `,
+  cache: new InMemoryCache({
+    addTypename: false
+  })
 });
 
 const config = {

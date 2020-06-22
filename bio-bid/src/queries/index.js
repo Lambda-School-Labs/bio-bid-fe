@@ -34,9 +34,10 @@ export const GET_STUDIES = gql`
   }
 `;
 
-export const GET_COMPANIES = gql` 
+export const GET_COMPANIES = gql`
   {
     companies {
+      maintainer
       id
       name
       email
@@ -48,30 +49,30 @@ export const GET_COMPANIES = gql`
       headquarters
       companySize
       services {
+        name
+        specialties {
           name
-          specialties {
+          sub_specialties {
             name
-            sub_specialties {
-              name
-            }
           }
         }
+      }
       regions {
-          id
-          name
-        }
+        id
+        name
+      }
       therapeutics {
-          id
-          name
-        }
+        id
+        name
       }
     }
+  }
 `;
-
 
 export const GET_COMPANY_BY_ID = gql`
   query Company($id: ID) {
     company(id: $id) {
+      maintainer
       name
       logoURL
       website
@@ -79,6 +80,8 @@ export const GET_COMPANY_BY_ID = gql`
       overview
       headquarters
       companySize
+      email
+      phases
       regions {
         name
       }
@@ -100,7 +103,7 @@ export const GET_COMPANY_BY_ID = gql`
 
 export const GET_SERVICES = gql`
   {
-    services {
+    serviceItems {
       name
     }
   }
@@ -124,8 +127,9 @@ export const GET_THERAPEUTICS = gql`
 
 export const GET_SPECIALTIES = gql`
   {
-    specialties {
+    specialtyItems{
       name
     }
   }
 `;
+

@@ -5,16 +5,19 @@ import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Login from "../../Login/Login";
-import { DELETE_COMPANY } from "../../../mutations/index";
+import {
+  DELETE_COMPANY,
+  CLAIM_COMPANY,
+  DENY_CLAIM,
+} from "../../../mutations/index";
 import { GET_COMPANY_BY_ID } from "../../../queries/index";
-
 import Bubble from "./Bubble";
-
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Details, Button, Website, LinkedIn, Size, Location } from "./styles";
 import logo from "../../../images/default-company-logo.png";
 import Services from "./Services";
+import { useOktaAuth } from "@okta/okta-react";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -24,8 +27,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default () => {
-  const classes = useStyles();
   const { id } = useParams();
+  const { authState, authService } = useOktaAuth();
+  const [userInfo, setUserInfo] = useState({});
+  const [denyClaim] = useMutation(DENY_CLAIM);
+  const [isClaiming, setIsClaiming] = useState("");
+  // const [claim, setClaim] = useState("");
+  const [addClaim] = useMutation(CLAIM_COMPANY, {
+    onCompleted: (claimData) => {
+      // console.log("claimData: ", claimData);
+      // console.log("claimData.claimCompany.id", claimData.claimCompany.id);
+      localStorage.setItem("isClaiming", `${id}`);
+      setIsClaiming(id);
+      localStorage.setItem("claim", `${claimData.claimCompany.id}`);
+    },
+  });
+
+  useEffect(() => {
+    setIsClaiming(localStorage.getItem("isClaiming"));
+    // setClaim(localStorage.getItem("claim"));
+  }, []);
+
+  useEffect(() => {
+    authService.getUser().then(setUserInfo);
+  }, [authService]);
+  // console.log("users info in details: ", userInfo);
+
+  const handleClaims = async () => {
+    try {
+      await addClaim({
+        variables: {
+          user: userInfo.sub,
+          email: userInfo.email,
+          name: `${userInfo.given_name} ${userInfo.family_name}`,
+          company: id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      await denyClaim({
+        variables: { id: `${localStorage.getItem("claim")}` },
+      });
+      localStorage.removeItem("isClaiming");
+      setIsClaiming("");
+      localStorage.removeItem("claim");
+      // setClaim("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const classes = useStyles();
   const history = useHistory();
 
   const [size, setSize] = useState(undefined);
@@ -94,25 +151,49 @@ export default () => {
           <div className="header-container">
             <div className="company-name">
               <h2>{data.company.name}</h2>
-              <Button>
-                <p>Claim</p>
-              </Button>
+              {!authState.isAuthenticated ||
+              isClaiming ||
+              userInfo.profile ||
+              data.company.maintainer ? null : (
+                <Button onClick={handleClaims}>
+                  <p>Claim</p>
+                </Button>
+              )}
+              {userInfo &&
+              userInfo.profile !== `${id}` &&
+              isClaiming === `${id}` ? (
+                <Button color="delete" onClick={handleCancel}>
+                  <p>Cancel</p>
+                </Button>
+              ) : null}
             </div>
             <div className="btn-container">
-              <Button onClick={handleDelete} color="delete">
-                <p>Delete</p>
-              </Button>
-              <Link to={`/service-provider/edit/${id}`}>
-                <Button color="edit">
-                  <p>Edit</p>
+              {userInfo && userInfo.profile === "Admin" ? (
+                <Button onClick={handleDelete} color="delete">
+                  <p>Delete</p>
                 </Button>
-              </Link>
+              ) : null}
+              {userInfo &&
+              (userInfo.profile === "Admin" || userInfo.profile === `${id}`) ? (
+                <Link to={`/service-provider/edit/${id}`}>
+                  <Button color="edit">
+                    <p>Edit</p>
+                  </Button>
+                </Link>
+              ) : null}
+              {userInfo && userInfo.profile === "Admin" ? (
+                <Link to={`/admin/dashboard`}>
+                  <Button>
+                    <p>Dashboard</p>
+                  </Button>
+                </Link>
+              ) : null}
               <Link to="/">
                 <Button lg>
                   <p>Service Providers</p>
                 </Button>
               </Link>
-              {/* implement login here */}
+              {/* implement login/logout here */}
               <Login component={Login} />
             </div>
           </div>
