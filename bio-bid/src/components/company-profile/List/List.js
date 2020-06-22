@@ -25,6 +25,7 @@ export default () => {
   const { loading, data, refetch } = useQuery(GET_COMPANIES);
   const { authService } = useOktaAuth();
   const [userInfo, setUserInfo] = useState({});
+  
 
   useEffect(() => {
     authService.getUser().then(setUserInfo);

@@ -6,7 +6,7 @@ import Form from "./components/company-profile/Form/Form";
 import Details from "./components/company-profile/Details/Details";
 import List from "./components/company-profile/List/List";
 import Dashboard from "./components/admin/Dashboard/Dashboard";
-// import PrivateRoute from './utils/PrivateRoute';
+import PrivateRoute from './utils/PrivateRoute';
 
 function App() {
   return (
@@ -17,21 +17,23 @@ function App() {
       <Route exact path="/">
         <List />
       </Route>
-      <Route path="/service-provider/add">
-        <Form edit={false} />
-      </Route>
       <Route path="/service-providers/:id">
         <Details />
+      </Route>
+      {/* <Route path="/service-provider/add">
+        <Form edit={false} />
       </Route>
       <Route path="/service-provider/edit/:id">
         <Form edit={true} />
       </Route>
       <Route path="/admin/dashboard">
         <Dashboard />
-      </Route>
+      </Route> */}
 
-      {/* PrivateRoute denies users from manually typing in /admin/dashboard, don't implement unless ready */}
-      {/* <PrivateRoute path="/admin/dashboard" component={Dashboard} /> */}
+      {/* PrivateRoute denies anyone from manually typing in urls like /admin/dashboard */}
+      <PrivateRoute path="/service-provider/add" edit={false} component={Form} />
+      <PrivateRoute path="/service-provider/edit/:id" edit={true} component={Form} />
+      <PrivateRoute path="/admin/dashboard" component={Dashboard} />
     </div>
   );
 }

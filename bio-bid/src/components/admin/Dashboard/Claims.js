@@ -2,11 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { APPROVE_CLAIM, DENY_CLAIM } from "../../../mutations";
 import { GET_CLAIMS } from "../../../queries";
+import { makeStyles } from "@material-ui/core/styles";
 import "./Claims.css";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 export default function Claims() {
+  const classes = useStyles();
   const [claims, setClaims] = useState();
-  const { data, refetch } = useQuery(GET_CLAIMS);
+  const {loading, data, refetch } = useQuery(GET_CLAIMS);
   const [denyClaim] = useMutation(DENY_CLAIM, {
     onCompleted: () => refetch(),
   });
@@ -27,6 +38,9 @@ export default function Claims() {
   return (
     <div>
       <h2 className="claimsHeader">Pending Claims</h2>
+      <Backdrop className={classes.backdrop} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {claims &&
         claims.pendingClaims.map((claim) => {
           return (

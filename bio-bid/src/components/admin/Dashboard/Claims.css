@@ -6,7 +6,7 @@
   border-radius:15px;
   max-width:300px;
   text-align:center;
-  margin:1% auto;
+  margin:2% auto;
   padding:1%;
   box-shadow:5px 5px 5px gray;
 }
@@ -14,7 +14,7 @@
 .claimContainer {
   background-color: white;
   width: 85%;
-  margin: 1% auto;
+  margin: 2% auto;
   display: flex;
   justify-content: space-evenly;
   border: 2px solid #096DD9;
