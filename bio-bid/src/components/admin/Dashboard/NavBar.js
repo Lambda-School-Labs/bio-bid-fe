@@ -19,12 +19,14 @@ export default (props) => {
     <NavBar open={open}>
       <div className="top">
         <Arrow className="expand" onClick={toggleOpen} open={open} />
-        <img
+        <img alt="avatar placeholder"
           className="profile-img"
           src="https://images.pexels.com/photos/1484794/pexels-photo-1484794.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
         />
         <p>
-          {props.userInfo.given_name}<br/>{props.userInfo.family_name}
+          {props.userInfo.given_name}
+          <br />
+          {props.userInfo.family_name}
         </p>
       </div>
       <div className="bar" />
