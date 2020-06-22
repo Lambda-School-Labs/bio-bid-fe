@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 import { Dashboard } from "./styles";
 import Claims from "./Claims.js";
 import Admin from "./Admin.js";
-
+import Info from './Info/Info';
 import { Details, Button } from "./../../company-profile/Details/styles";
 import Login from "./../../Login/Login.js";
 import { Link } from "react-router-dom";
@@ -52,7 +52,7 @@ export default () => {
               <Claims />
             </div>
           ) : null || selected === "2" ? (
-            <h1>Info</h1>
+            <Info />
           ) : null}
         </div>
       </Dashboard>

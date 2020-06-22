@@ -109,7 +109,6 @@ export default (props) => {
         setTimeout(() => {
             setOpen(false);
         }, 200)
-        
     }
 
     const handleSelect = name => {
