@@ -1,35 +1,61 @@
-import React, { useState } from 'react';
-import NavBar from './NavBar';
-import { Dashboard } from './styles';
+import React, { useState } from "react";
+import NavBar from "./NavBar";
+import { Dashboard } from "./styles";
 import Claims from "./Claims.js";
 import Admin from "./Admin.js";
 
+import { Details, Button } from "./../../company-profile/Details/styles";
+import Login from "./../../Login/Login.js";
+import { Link } from "react-router-dom";
+
+
+
 export default () => {
-    const [selected, setSelected ] = useState('0');
-    const changeSelected = num => {
-        setSelected(num);
-    }
+  const [selected, setSelected] = useState("0");
+  const changeSelected = (num) => {
+    setSelected(num);
+  };
 
-    return (
-        <Dashboard>
-            <NavBar selected={selected} changeSelected={changeSelected}/>
-            <div className='main'>
-                {
-                    selected === '0' ? 
-                    <div className="admin-container">
-                        <Admin />
-                    </div> : null ||
-
-                    
-                    selected === '1' ? 
-                    <div className="requests-container">
-                        <Claims />
-                    </div> : null ||
-
-
-                    selected === '2' ? <h1>Info</h1> : null
-                }
+  return (
+    <>
+      <Details>
+        <header>
+          <div className="header-container">
+            <div className="company-name">
+              <h2>Admin Dashboard</h2>
             </div>
-        </Dashboard>
-    );
-}
+            <div className="btn-container">
+            <Link to="/service-provider/add">
+                <Button lg>
+                  <p>Add Company</p>
+                </Button>
+              </Link>
+              <Link to="/">
+                <Button lg>
+                  <p>Service Providers</p>
+                </Button>
+              </Link>
+              <Login component={Login} />
+            </div>
+          </div>
+        </header>
+      </Details>
+      <Dashboard>
+        <NavBar selected={selected} changeSelected={changeSelected} />
+        <div className="main">
+          {selected === "0" ? (
+            <div className="admin-container">
+              <Admin />
+            </div>
+          ) : null || selected === "1" ? (
+            <div className="requests-container">
+              <Claims />
+            </div>
+          ) : null || selected === "2" ? (
+            <h1>Info</h1>
+          ) : null}
+        </div>
+      </Dashboard>
+    </>
+  );
+};
