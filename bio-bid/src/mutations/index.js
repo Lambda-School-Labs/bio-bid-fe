@@ -1,25 +1,15 @@
 import { gql } from 'apollo-boost';
 
 export const CLAIM_COMPANY = gql`
-  mutation claimCompany(
-    $user: String!
-    $email: String!
-    $name: String!
-    $company: ID!
-  ) {
-    claimCompany(
-      user: $user
-      email: $email
-      name: $name
-      company: $company
-    ) {
+  mutation claimCompany($user: String!, $email: String!, $name: String!, $company: ID!) {
+    claimCompany(user: $user, email: $email, name: $name, company: $company) {
       id
       user
       email
       name
       company {
         id
-       name
+        name
       }
       pending
       approved
@@ -28,25 +18,25 @@ export const CLAIM_COMPANY = gql`
 `;
 
 export const APPROVE_CLAIM = gql`
-mutation approveClaim( $id: ID! ) {
-  approveClaim( id: $id ) {
-    id
-    user
-    email
-    name
-    company{
+  mutation approveClaim($id: ID!) {
+    approveClaim(id: $id) {
       id
+      user
+      email
       name
+      company {
+        id
+        name
+      }
+      pending
+      approved
     }
-    pending
-    approved
   }
-}
 `;
 
 export const DENY_CLAIM = gql`
-  mutation denyClaim( $id: ID! ) {
-    denyClaim( id: $id ) {
+  mutation denyClaim($id: ID!) {
+    denyClaim(id: $id) {
       id
     }
   }
@@ -54,7 +44,7 @@ export const DENY_CLAIM = gql`
 
 export const DELETE_COMPANY = gql`
   mutation deleteCompany($id: ID!) {
-    deleteCompany(id: $id){
+    deleteCompany(id: $id) {
       id
     }
   }
@@ -130,3 +120,56 @@ export const EDIT_COMPANY = gql`
   }
 `;
 
+export const ADD_SERVICE = gql`
+  mutation addService($name: String!) {
+    createServiceItem(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_SERVICE = gql`
+  mutation deleteService($name: String!) {
+    deleteServiceItem(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_THERAPEUTICS = gql`
+  mutation addTherapeutics($name: String!) {
+    createTherapeutic(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_THERAPEUTICS = gql`
+  mutation deleteTherapeutic($name: String!) {
+    deleteTherapeutic(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_REGION = gql`
+  mutation addRegion($name: String!) {
+    createRegion(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_REGION = gql`
+  mutation deleteRegion($name: String!) {
+    deleteRegion(name: $name) {
+      id
+      name
+    }
+  }
+`;

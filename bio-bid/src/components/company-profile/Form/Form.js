@@ -205,7 +205,11 @@ export default ({edit}) => {
     }
 
     const handleReDirect = () => {
-        history.push('/');
+        if(edit){
+            history.push(`/service-providers/${id}`)
+        }else{
+            history.push('/');
+        }
     }
 
     const handleSubmit = async () => {
@@ -740,7 +744,7 @@ export default ({edit}) => {
                                 
                             </div>     
                             <div className='container-col'>
-                                <p>Overview</p>
+                                {/* <p>Overview</p> */}
                             </div>             
                         </div>
                     </div>

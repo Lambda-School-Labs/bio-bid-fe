@@ -34,7 +34,7 @@ export const GET_STUDIES = gql`
   }
 `;
 
-export const GET_COMPANIES = gql` 
+export const GET_COMPANIES = gql`
   {
     companies {
       id
@@ -48,26 +48,25 @@ export const GET_COMPANIES = gql`
       headquarters
       companySize
       services {
+        name
+        specialties {
           name
-          specialties {
+          sub_specialties {
             name
-            sub_specialties {
-              name
-            }
           }
         }
+      }
       regions {
-          id
-          name
-        }
+        id
+        name
+      }
       therapeutics {
-          id
-          name
-        }
+        id
+        name
       }
     }
+  }
 `;
-
 
 export const GET_COMPANY_BY_ID = gql`
   query Company($id: ID) {
