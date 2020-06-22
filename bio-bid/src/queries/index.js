@@ -37,6 +37,7 @@ export const GET_STUDIES = gql`
 export const GET_COMPANIES = gql`
   {
     companies {
+      maintainer
       id
       name
       email
@@ -71,6 +72,7 @@ export const GET_COMPANIES = gql`
 export const GET_COMPANY_BY_ID = gql`
   query Company($id: ID) {
     company(id: $id) {
+      maintainer
       name
       logoURL
       website
