@@ -20,19 +20,17 @@ function App() {
       <Route path="/service-providers/:id">
         <Details />
       </Route>
-      {/* <Route path="/service-provider/add">
+      <Route path="/service-provider/add">
         <Form edit={false} />
       </Route>
       <Route path="/service-provider/edit/:id">
         <Form edit={true} />
       </Route>
-      <Route path="/admin/dashboard">
+      {/* <Route path="/admin/dashboard">
         <Dashboard />
       </Route> */}
 
       {/* PrivateRoute denies anyone from manually typing in urls like /admin/dashboard */}
-      <PrivateRoute path="/service-provider/add" edit={false} component={Form} />
-      <PrivateRoute path="/service-provider/edit/:id" edit={true} component={Form} />
       <PrivateRoute path="/admin/dashboard" component={Dashboard} />
     </div>
   );
