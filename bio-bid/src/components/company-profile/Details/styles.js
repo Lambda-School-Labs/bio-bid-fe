@@ -20,6 +20,11 @@ export const Details = styled.section`
             .company-name{
                 display: flex;
                 align-items: center;
+                .welcome{
+                    margin-left:20px;
+                    font-size:20px;
+                    color:${theme.colors.alabaster};
+                }
                 h2{
                     margin: 0;
                     margin-right: 10px;
