@@ -20,7 +20,7 @@ export default () => {
   useEffect(() => {
     authService.getUser().then(setUserInfo);
   }, [authService]);
-  console.log(userInfo);
+//   console.log(userInfo);
 
   return (
     <>
