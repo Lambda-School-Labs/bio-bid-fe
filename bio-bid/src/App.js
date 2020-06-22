@@ -3,9 +3,9 @@ import { Route } from "react-router-dom";
 
 // Component Imports
 import Bids from './components/bids';
-import Form from './components/company-profile/Form/Form';
 import Details from './components/company-profile/Details/Details';
 import List from './components/company-profile/List/List';
+import Form from './components/company-profile/Form/Form';
 
 import Dashboard from './components/admin/Dashboard/Dashboard';
 

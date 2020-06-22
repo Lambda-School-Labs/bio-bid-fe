@@ -78,6 +78,8 @@ export const GET_COMPANY_BY_ID = gql`
       overview
       headquarters
       companySize
+      email
+      phases
       regions {
         name
       }
@@ -123,8 +125,9 @@ export const GET_THERAPEUTICS = gql`
 
 export const GET_SPECIALTIES = gql`
   {
-    specialtyItems {
+    specialtyItems{
       name
     }
   }
 `;
+
