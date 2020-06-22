@@ -80,9 +80,6 @@ export default (props) => {
                         }).map(filtered => {
                             return <MenuItem value={filtered.name} key={filtered.name}>{filtered.name}</MenuItem>
                         })}
-                        {/* {props.specialtyData.specialtyItems.map(specialty => {
-                            return <MenuItem value={specialty.name} key={specialty.name}>{specialty.name}</MenuItem>         
-                        })} */}
                     </Select>
                 </FormControl>
             )}
