@@ -30,7 +30,7 @@ export default () => {
             <div className="company-name">
               <h2>Admin Dashboard</h2>
               <div className="welcome">
-                Welcome Back {userInfo.given_name} {userInfo.family_name}
+                Welcome Back {userInfo.given_name}
               </div>
             </div>
             <div className="btn-container">
@@ -50,7 +50,7 @@ export default () => {
         </header>
       </Details>
       <Dashboard>
-        <NavBar selected={selected} changeSelected={changeSelected} />
+        <NavBar userInfo={userInfo} selected={selected} changeSelected={changeSelected} />
         <div className="main">
           {selected === "0" ? (
             <div className="admin-container">
