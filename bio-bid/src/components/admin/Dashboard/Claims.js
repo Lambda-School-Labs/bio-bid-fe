@@ -6,7 +6,7 @@ import "./Claims.css";
 
 export default function Claims() {
   const [claims, setClaims] = useState();
-  const { loading, data, refetch } = useQuery(GET_CLAIMS);
+  const { data, refetch } = useQuery(GET_CLAIMS);
   const [denyClaim] = useMutation(DENY_CLAIM, {
     onCompleted: () => refetch(),
   });

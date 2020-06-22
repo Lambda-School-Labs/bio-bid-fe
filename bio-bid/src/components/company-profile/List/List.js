@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default (props) => {
+export default () => {
   const classes = useStyles();
   const history = useHistory();
   const [companyData, setCompanyData] = useState(null);

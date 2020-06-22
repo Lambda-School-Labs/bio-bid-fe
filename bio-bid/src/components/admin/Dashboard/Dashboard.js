@@ -6,7 +6,6 @@ import Admin from "./Admin.js";
 
 export default () => {
     const [selected, setSelected ] = useState('0');
-
     const changeSelected = num => {
         setSelected(num);
     }

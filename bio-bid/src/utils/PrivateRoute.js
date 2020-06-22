@@ -7,7 +7,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
   return (
     // Denies users from manually typing in url's to reach dashboard
-    // redirect the user to /signin page
     <Route
       {...rest}
       render={(props) =>
