@@ -10,6 +10,8 @@ You can find the deployed project at https://biobidlabs.com/.
 | [James Morris](https://github.com/)
 | [Emmanuelle Berda](https://github.com/)
 | [Josiah Roa](https://github.com/josiahroa18)
+| [Gavin Stahl](https://github.com/stahlgazer)
+| [Samet Mutevelli](https://github.com/sametweb)
 | [David Shestopal](https://github.com/DavidShestopal)
 | [Brandon Fulmer](https://github.com/nobro777)
 
