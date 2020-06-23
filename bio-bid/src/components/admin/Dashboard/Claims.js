@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./Claims.css";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Style } from "./Admin";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Claims() {
   const classes = useStyles();
   const [claims, setClaims] = useState();
-  const {loading, data, refetch } = useQuery(GET_CLAIMS);
+  const { loading, data, refetch } = useQuery(GET_CLAIMS);
   const [denyClaim] = useMutation(DENY_CLAIM, {
     onCompleted: () => refetch(),
   });
@@ -36,8 +37,8 @@ export default function Claims() {
   //   console.log("data in claims component", claims);
 
   return (
-    <div>
-      <h2 className="claimsHeader">Pending Claims</h2>
+    <Style>
+      <h1>Pending Claims</h1>
       <Backdrop className={classes.backdrop} open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -93,6 +94,6 @@ export default function Claims() {
             </div>
           );
         })}
-    </div>
+    </Style>
   );
 }

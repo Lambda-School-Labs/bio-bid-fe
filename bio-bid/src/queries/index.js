@@ -1,4 +1,15 @@
-import { gql } from 'apollo-boost';
+import { gql } from "apollo-boost";
+
+export const STATISTICS = gql`
+  {
+    statistics {
+      companyCount
+      pendingClaimCount
+      serviceCount
+      specialtyCount
+    }
+  }
+`;
 
 export const GET_CLAIMS = gql`
   {
@@ -127,9 +138,8 @@ export const GET_THERAPEUTICS = gql`
 
 export const GET_SPECIALTIES = gql`
   {
-    specialtyItems{
+    specialtyItems {
       name
     }
   }
 `;
-
