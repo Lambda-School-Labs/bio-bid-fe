@@ -63,6 +63,7 @@ export const CompanyCard = styled.div`
                 font-weight: bold;
             }
             .details{
+                max-width:500px;
                 margin-top: 10px;
                 p{
                     margin: 0;
