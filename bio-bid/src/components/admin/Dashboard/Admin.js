@@ -1,33 +1,112 @@
-import React from 'react';
+import React from "react";
+import { Card, CardTitle, CardGroup, CardBody, Spinner } from "reactstrap";
+import styled from "styled-components";
+import { useQuery } from "@apollo/react-hooks";
+import { ListItem, ListItemText, List, Grid } from "@material-ui/core";
+import { GET_CLAIMS, STATISTICS } from "../../../queries";
 
-export default () => {
-    return (
-        <div>
-                        <div style={{display:"Flex", justifyContent:"space-between", padding:"1% 5% 1% 1%", margin:"2% 2% 0 0"}}>
-                            <h2 className="welcome-user-name" style={{fontFamily:"PT Sans, sans-serif",}}>Dashboard</h2>
-                            <h1 style={{fontFamily:"PT Sans, sans-serif",}}> *Company Name*{}</h1>
-                            <h2 style={{fontFamily:"PT Sans, sans-serif",}}>Admin Page</h2>
-                        </div>
-                            <hr style={{width:"97%", display:"flex", justifyContent:"Center", textDecoration:"underline"}}></hr>
-                        <div style={{padding:"1%", margin:"2% 2% 0 0%"}}>
-                            <h3 style={{fontFamily:"PT Sans, sans-serif",padding:"1% 0 25% 1%",boxShadow: "8px 10px 16px rgba(0,0,0,0.1)"}}>Regions:</h3>
-                            <span style={{display:"flex",justifyContent:"space-between"}}>
-                                <button style={{padding:".5%", borderRadius:"5px", backgroundColor:"white"}}>Edit/Delete Regions</button>
-                                <button style={{padding:".5%", borderRadius:"5px", backgroundColor:"white"}}>Add Region</button>
-                            </span>
-                        </div>
-                        <div style={{padding:"1%", margin:"2% 2% 0 0"}}>
-                            <h3 style={{fontFamily:"PT Sans, sans-serif",padding:"1% 0 25% 1%",boxShadow: "8px 10px 16px rgba(0,0,0,0.1)"}}>Therapeutic Areas:</h3>
-                            <span style={{display:"flex", justifyContent:"space-between"}}>
-                                <button style={{padding:".5%", borderRadius:"5px", backgroundColor:"white"}}>Edit/Delete Therapeutic Areas</button>
-                                <button style={{padding:".5%", borderRadius:"5px", backgroundColor:"white"}}>Add Therapeutic Area</button>
-                            </span>
-                        </div>
-                        <hr style={{width:"97%", display:"flex", justifyContent:"Center", textDecoration:"underline", margin:"2% 0 2% 0%"}}></hr>
-                        <div style={{width:"96%", display:"flex", justifyContent:"space-between", padding:"1% 0% 1% 0%", margin:"1% 3% 0 1%"}}>
+function Admin() {
+  const { data } = useQuery(STATISTICS);
+  const { data: pendingClaims, loading: claimsLoading } = useQuery(GET_CLAIMS);
 
-                            <h4 style={{textDecoration:"underline",maxWidth:"100%", fontFamily:"PT Sans, sans-serif",boxShadow: "8px 10px 16px rgba(0,0,0,0.1)", padding:"5% 15% 20% 15%"}}>Services</h4>
-                            <h4 style={{textDecoration:"underline",maxWidth:"100%", fontFamily:"PT Sans, sans-serif",boxShadow: "8px 10px 16px rgba(0,0,0,0.1)", padding:"5% 15% 20% 15%"}}>Specialties</h4>
-                        </div>
-                    </div>
+  return (
+    <Style>
+      <h1>Statistics</h1>
+      <CardGroup style={{ marginTop: "-1.2rem" }}>
+        <Card className="card">
+          <CardBody className="cardBody">
+            <CardTitle className="CardTitle">App Statistics</CardTitle>
+            <Grid item xs={12} md={12}>
+              <List>
+                <ListItem>
+                  <ListItemText className="item" style={{ marginTop: "-8px" }}>
+                    Total Companies: {data?.statistics.companyCount}
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText className="item" style={{ marginTop: "-8px" }}>
+                    Total Pending Claims: {data?.statistics.pendingClaimCount}
+                  </ListItemText>
+                </ListItem>
+
+                <ListItem>
+                  <ListItemText className="item" style={{ marginTop: "-8px" }}>
+                    Total Services: {data?.statistics.serviceCount}
+                  </ListItemText>
+                </ListItem>
+
+                <ListItem>
+                  <ListItemText className="item" style={{ marginTop: "-8px" }}>
+                    Total Specialties: {data?.statistics.specialtyCount}
+                  </ListItemText>
+                </ListItem>
+              </List>
+            </Grid>
+          </CardBody>
+        </Card>
+        <Card className="card">
+          <CardBody className="cardBody">
+            <CardTitle className="CardTitle">Recent Pending Claims</CardTitle>
+            <Grid item xs={12} md={12}>
+              <List>
+                {claimsLoading ? (
+                  <Spinner type="grow" color="primary" />
+                ) : (
+                  pendingClaims?.pendingClaims.map((claim) => {
+                    return (
+                      <ListItem key={claim.id}>
+                        <ListItemText
+                          className="item"
+                          style={{ marginTop: "-8px" }}
+                        >
+                          {claim.company.name} is requested to claim by{" "}
+                          {claim.name} ({claim.email})
+                        </ListItemText>
+                      </ListItem>
+                    );
+                  })
                 )}
+              </List>
+            </Grid>
+          </CardBody>
+        </Card>
+      </CardGroup>
+    </Style>
+  );
+}
+
+export default Admin;
+
+export const Style = styled.div`
+  padding-right: 1rem;
+  margin-top: 1.5rem;
+
+  .CardTitle {
+    color: black;
+    font-size: 1.8rem;
+  }
+  .card {
+    margin: 1rem;
+  }
+
+  .cardBody {
+    border: 4px solid #096dd9;
+    border-radius: 3px;
+  }
+  h1 {
+    display: flex;
+    justify-content: center;
+    color: white;
+    border: 4px solid #096dd9;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 10px;
+    border-radius: 3px;
+    background: #096dd9;
+  }
+  .item {
+    border: solid lightgrey 1px;
+    padding: 8px;
+    border-radius: 3px;
+  }
+`;
