@@ -43,21 +43,21 @@ export const CompanyList = styled.section`
 `;
 
 export const CompanyCard = styled.div`
-    width: 80%;
+    width: 75%;
     height: 250px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid ${theme.colors.silver};
     img{
         width: 200px;
-        height: 200px;
+        height: 150px;
     }
     .content{
         display: flex;
         justify-content: space-between;
         width: 100%;
         .text{
-            margin-left: 20px;
+            margin-left: 100px;
             h3{
                 font: ${theme.fontStyling.header3};
                 font-weight: bold;
@@ -84,6 +84,7 @@ export const CompanyCard = styled.div`
             }
         }
         .overview{
+            margin-right:100px;
             width: 400px;
             .bold{
                 font: ${theme.fontStyling.text};
