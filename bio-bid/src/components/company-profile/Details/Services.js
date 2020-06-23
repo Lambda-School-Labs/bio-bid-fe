@@ -49,25 +49,14 @@ function Services({ services }) {
               onClick={() => handleToggle(specialty.name)}
             >
               <span>{specialty.name}</span>
-              {specialty.sub_specialties.length > 0 && (
-                <span>
-                  {open === specialty.name ? (
-                    <CaretUpOutlined />
-                  ) : (
-                    <CaretDownOutlined />
-                  )}
-                </span>
-              )}
             </li>
-            {open === specialty.name && (
-              <ul className={classes.subs}>
-                {specialty.sub_specialties.map((sub) => (
-                  <li key={sub.name} className={classes.subName}>
-                    {sub.name}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ul className={classes.subs}>
+              {specialty.sub_specialties.map((sub) => (
+                <li key={sub.name} className={classes.subName}>
+                  {sub.name}
+                </li>
+              ))}
+            </ul>
           </React.Fragment>
         ))}
       </ul>
