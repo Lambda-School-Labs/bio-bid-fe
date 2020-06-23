@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useOktaAuth } from "@okta/okta-react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Login from "../../Login/Login";
 import {
@@ -14,10 +16,17 @@ import { GET_COMPANY_BY_ID } from "../../../queries/index";
 import Bubble from "./Bubble";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Details, Button, Website, LinkedIn, Size, Location } from "./styles";
+import {
+  Details,
+  Button,
+  Website,
+  LinkedIn,
+  Size,
+  Location,
+  Email,
+} from "./styles";
 import logo from "../../../images/default-company-logo.png";
 import Services from "./Services";
-import { useOktaAuth } from "@okta/okta-react";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -237,6 +246,20 @@ export default () => {
                     <p>N/A</p>
                   )}
                 </div>
+                <div className="link">
+                  <Email />
+                  {data.company.email ? (
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`mailto:${data.company.email}`}
+                    >
+                      Contact Company
+                    </a>
+                  ) : (
+                    <p>N/A</p>
+                  )}
+                </div>
               </div>
               <div className="basic-info">
                 <div className="info">
@@ -272,6 +295,13 @@ export default () => {
                     <Bubble key={Math.random()} content={therapeutic.name} />
                   );
                 })}
+              </div>
+              <div className="bar" />
+              <div className="therapeutic-areas">
+                <h3>Phases</h3>
+                {data.company.phases.map((phase) => (
+                  <Bubble key={phase} content={phase} />
+                ))}
               </div>
               <div className="bar" />
               <div className="services">

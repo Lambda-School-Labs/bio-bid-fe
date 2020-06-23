@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { CaretDownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 
 const useStyles = makeStyles((theme) => ({
   serviceName: {
@@ -49,19 +49,14 @@ function Services({ services }) {
               onClick={() => handleToggle(specialty.name)}
             >
               <span>{specialty.name}</span>
-              <span>
-                <CaretDownOutlined />
-              </span>
             </li>
-            {open === specialty.name && (
-              <ul className={classes.subs}>
-                {specialty.sub_specialties.map((sub) => (
-                  <li key={sub.name} className={classes.subName}>
-                    {sub.name}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ul className={classes.subs}>
+              {specialty.sub_specialties.map((sub) => (
+                <li key={sub.name} className={classes.subName}>
+                  {sub.name}
+                </li>
+              ))}
+            </ul>
           </React.Fragment>
         ))}
       </ul>

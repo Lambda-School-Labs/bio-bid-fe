@@ -40,6 +40,26 @@ export default ({ company }) => {
                 {company.linkedin}
               </p>
             )}
+            {company.services.length > 0 && (
+              <p>
+                <span>Services offered: </span>
+                <small>
+                  {company.services
+                    .map((service, i) => {
+                      const specs = service.specialties;
+                      if (!specs.length) {
+                        return service.name;
+                      } else {
+                        const specsText = specs
+                          .map((spec) => spec.name)
+                          .join(", ");
+                        return `${service.name} (${specsText})`;
+                      }
+                    })
+                    .join(", ")}
+                </small>
+              </p>
+            )}
           </div>
           <div className="btn-container">
             <Link to={`/service-providers/${company.id}`}>
