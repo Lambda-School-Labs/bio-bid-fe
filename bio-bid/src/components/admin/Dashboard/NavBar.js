@@ -19,9 +19,10 @@ export default (props) => {
     <NavBar open={open}>
       <div className="top">
         <Arrow className="expand" onClick={toggleOpen} open={open} />
-        <img alt="avatar placeholder"
+        <img
+          alt="avatar placeholder"
           className="profile-img"
-          src="https://images.pexels.com/photos/1484794/pexels-photo-1484794.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+          src="https://www.kindpng.com/picc/m/24-248729_stockvader-predicted-adig-user-profile-image-png-transparent.png"
         />
         <p>
           {props.userInfo.given_name}
