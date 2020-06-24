@@ -44,7 +44,7 @@ export const CompanyList = styled.section`
 
 export const CompanyCard = styled.div`
     width: 75%;
-    height: 250px;
+    min-height: 300px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid ${theme.colors.silver};
