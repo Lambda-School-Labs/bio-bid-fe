@@ -78,7 +78,7 @@ Dependencies:
 - Styled-Icons
 - Typescript
 
-#### Front end deployed to `Heroku.com`
+#### Front end deployed to `AWS Amplify`
 
 #### [Back end](https://github.com/Lambda-School-Labs/bio-bid-fe/) built using:
 
@@ -110,13 +110,16 @@ In order for the app to function correctly, the user must set up their own envir
 | doodles.png    | Nicole Bennett   | [Creative Commons](https://www.toptal.com/designers/subtlepatterns/doodles/) |
 | rings.svg      | Sam Herbert      | [MIT](https://github.com/SamHerbert/SVG-Loaders)                             |
 
-# 4️⃣ Testing
+# Testing
 
-🚫Document what you used for testing and why
+For testing, we used react-testing-library with jest in order to test our project. Since we are using Apollo, we also needed to bring in MockedProvider from `@apollo/react-testing` in order to mock queries and mutations. For testing with routes, we also used Route and MemoryRouter from `react-router-dom`.
 
 # Installation Instructions
 
-🚫explain how to install the required dependencies to get this project up and running with yarn and NPM
+1. Clone this repository
+2. Run `yarn` in the bio-bid directory
+3. Set up your enviornment variables
+4. Run `yarn start` to run the local development
 
 ## Other Scripts
 
@@ -124,6 +127,7 @@ In order for the app to function correctly, the user must set up their own envir
     * start - starts the production server after a build is created
     * test - runs tests in **tests** directory
     * eject - copy the configuration files and dependencies into the project so you have full control over them
+    * coverage - runs tests and reports test coverage for project. (run in the bio-bid-fe directory)
 
 # Contributing
 
@@ -164,4 +168,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Backend Documentation](🚫*link to your backend readme here*) for details on the backend of our project.
+See [Backend Documentation](https://github.com/Lambda-School-Labs/bio-bid-be) for details on the backend of our project.
