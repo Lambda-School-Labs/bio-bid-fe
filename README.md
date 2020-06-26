@@ -93,9 +93,26 @@ Dependencies:
 
 ## 2️⃣ Authentication API here
 
-🚫Replace text below with a description of the API
+To handle Login/Registration we're using Okta/LinkedIn with the help of okta's library: https://www.npmjs.com/package/@okta/okta-react
 
-Water's like me. It's laaazy ... Boy, it always looks for the easiest way to do things A little happy sunlight shining through there. Let all these little things happen. Don't fight them. Learn to use them. Even the worst thing we can do here is good.
+Login/Logout is handled via the *Login* component
+
+Example/Walkthrough of using okta library to get user information (2nd page is done by back-end, no longer necessary)
+https://docs.google.com/document/d/1QR9Xv7UBpB-SxFRlbkioMLD0Z5B_OEXpQwsX7dcM1lI/edit?usp=sharing
+
+(I would suggest moving the user information to top level and passing props down or using redux because the current application pulls in user information into components separately where needed, and could use some re-factoring)
+
+Roles/Rendering is based on user's information under the profileUrl(profile) field: 
+- Blank/Null means the user is a regular user with no priviledges
+- A company id means the user is a maintainer for the company with the matching id
+- 'Admin' means the user is an admin and has full access to all functionality and the dashboard.
+
+In order to make yourself an admin you must follow these steps:
+1. Have logged into the app before and generated an account (biobidlabs.com).
+2. Go to the Okta developer dashboard and sign-in with the master account(biobiddevelopers@gmail.com).
+3. Click Users -> Select a User -> Select Profile Tab -> Edit -> Make Profile Url field = Admin
+
+Okta developer dashboard information is in the google doc, however you will need to create a new LinkedIn authentication server(app) if you want to make changes with the authorization server (we had to make our own that's connected to a personal account). You can continue using what we've built in place, but will not have access to linkedin's admin page where the authorization server is if you do.
 
 # Environment Variables
 
